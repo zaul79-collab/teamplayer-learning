@@ -200,6 +200,25 @@ body{
   transform:translateX(0);
   transition:transform .3s cubic-bezier(.22,.9,.3,1), visibility 0s linear 0s;
 }
+/* 소개 페이지 — 벤다이어그램 순차 등장 */
+.venn-c{opacity:0;transform-box:fill-box;transform-origin:center}
+.venn-label{opacity:0}
+.venn-ideal{opacity:0;transform-box:fill-box;transform-origin:center}
+#s-about.in .venn-c{animation:vennPop .6s cubic-bezier(.2,.85,.3,1) forwards}
+#s-about.in .venn-c1{animation-delay:.1s}
+#s-about.in .venn-c2{animation-delay:.4s}
+#s-about.in .venn-c3{animation-delay:.7s}
+#s-about.in .venn-label{animation:fadeIn .45s ease forwards;animation-delay:.95s}
+#s-about.in .venn-ideal{animation:idealPop .65s cubic-bezier(.2,.9,.3,1) forwards;animation-delay:1.25s}
+@keyframes vennPop{from{opacity:0;transform:scale(.55)}to{opacity:1;transform:scale(1)}}
+@keyframes idealPop{0%{opacity:0;transform:scale(.6)}60%{opacity:1;transform:scale(1.14)}100%{opacity:1;transform:scale(1)}}
+/* 소개 페이지 — 스크롤 시 순차 노출 */
+#s-about .reveal{opacity:0;transform:translateY(18px);transition:opacity .5s ease, transform .55s cubic-bezier(.2,.8,.3,1)}
+#s-about .reveal.show{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  .venn-c,.venn-label,.venn-ideal{opacity:1!important;animation:none!important}
+  #s-about .reveal{opacity:1;transform:none}
+}
 .md-head{
   position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;
   padding:14px 16px;background:rgba(244,241,234,.88);backdrop-filter:blur(14px);
@@ -449,24 +468,27 @@ body{
   </div>
 
   <!-- 벤다이어그램 -->
-  <div class="card" style="margin:18px 18px 0;padding:18px 16px 10px">
+  <div class="card" style="margin:18px 18px 0;padding:18px 16px 12px">
     <div class="cap" style="letter-spacing:.08em;text-align:center;margin-bottom:6px">VENN DIAGRAM</div>
-    <svg viewBox="0 0 340 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-      <circle cx="170" cy="110" r="90" fill="#F59E0B" fill-opacity=".17" stroke="#F59E0B" stroke-width="2"/>
-      <circle cx="120" cy="195" r="90" fill="#2563EB" fill-opacity=".15" stroke="#2563EB" stroke-width="2"/>
-      <circle cx="220" cy="195" r="90" fill="#16A34A" fill-opacity=".15" stroke="#16A34A" stroke-width="2"/>
-      <circle cx="170" cy="166" r="36" fill="#201D18" fill-opacity=".07"/>
-      <text x="170" y="52" text-anchor="middle" font-size="17" font-weight="800" fill="#8A5A00">겸손</text>
-      <text x="58" y="236" text-anchor="middle" font-size="17" font-weight="800" fill="#1E3A8A">갈망</text>
-      <text x="282" y="236" text-anchor="middle" font-size="17" font-weight="800" fill="#14532D">영리함</text>
-      <text x="170" y="161" text-anchor="middle" font-size="12.5" font-weight="800" fill="#201D18">이상적인</text>
-      <text x="170" y="178" text-anchor="middle" font-size="12.5" font-weight="800" fill="#201D18">팀 플레이어</text>
+    <svg viewBox="0 0 340 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+      <circle class="venn-c venn-c1" cx="170" cy="104" r="86" fill="#F59E0B" fill-opacity=".17" stroke="#F59E0B" stroke-width="2"/>
+      <circle class="venn-c venn-c2" cx="116" cy="200" r="86" fill="#2563EB" fill-opacity=".15" stroke="#2563EB" stroke-width="2"/>
+      <circle class="venn-c venn-c3" cx="224" cy="200" r="86" fill="#16A34A" fill-opacity=".15" stroke="#16A34A" stroke-width="2"/>
+      <g class="venn-label">
+        <text x="170" y="46" text-anchor="middle" font-size="17" font-weight="800" fill="#8A5A00">겸손</text>
+        <text x="90" y="250" text-anchor="middle" font-size="17" font-weight="800" fill="#1E3A8A">갈망</text>
+        <text x="250" y="250" text-anchor="middle" font-size="17" font-weight="800" fill="#14532D">영리함</text>
+      </g>
+      <g class="venn-ideal">
+        <text x="170" y="167" text-anchor="middle" font-size="15.5" font-weight="800" fill="#201D18" letter-spacing="-.3">이상적인</text>
+        <text x="170" y="187" text-anchor="middle" font-size="15.5" font-weight="800" fill="#201D18" letter-spacing="-.3">팀 플레이어</text>
+      </g>
     </svg>
-    <div class="cap" style="text-align:center;line-height:1.5;margin-top:4px">세 원이 모두 겹치는 가운데가<br>이상적인 팀 플레이어입니다</div>
+    <div class="cap" style="text-align:center;line-height:1.5;margin-top:6px">세 원이 모두 겹치는 가운데가<br>이상적인 팀 플레이어입니다</div>
   </div>
 
   <!-- 3 덕목 -->
-  <div style="padding:0 18px;margin-top:20px">
+  <div class="reveal" style="padding:0 18px;margin-top:20px">
     <div class="vsec-head"><div class="vsec-bar" style="background:var(--ink)"></div><span class="h2">세 가지 덕목</span></div>
     <div class="card" style="padding:15px 16px;margin-bottom:9px;border-left:3px solid var(--h)">
       <div style="font-size:14.5px;font-weight:800;color:var(--h-dark)">겸손 <span style="font-weight:600;color:var(--faint);font-size:12px">Humility</span></div>
@@ -483,17 +505,18 @@ body{
   </div>
 
   <!-- 7유형 -->
-  <div style="padding:0 18px;margin-top:24px">
+  <div class="reveal" style="padding:0 18px;margin-top:24px">
     <div class="vsec-head"><div class="vsec-bar" style="background:var(--ink)"></div><span class="h2">7가지 유형</span></div>
     <div class="cap" style="margin:-4px 2px 12px;line-height:1.5">한두 덕목만으로는 이상적인 팀 플레이어가 되지 못합니다. 덕목 조합에 따라 7가지 유형으로 나뉩니다.</div>
     <div id="about-types"></div>
-    <div class="card" style="padding:13px 15px;margin-top:4px;background:var(--wash);border-color:transparent">
-      <div style="font-size:12px;color:var(--sub);line-height:1.6">⚠ 유형 이름은 <b>자기인식·코칭용</b>입니다. 실재 동료에게 꼬리표로 붙이지 않습니다.</div>
+    <div style="display:flex;align-items:flex-start;gap:10px;padding:13px 15px;margin-top:4px;background:#E6DFCE;border-radius:var(--r-sm)">
+      <span style="flex-shrink:0;font-size:13px;line-height:1.5">⚠️</span>
+      <div style="font-size:12px;color:var(--sub);line-height:1.6">유형 이름은 <b>자기인식·코칭용</b>입니다. 실재 동료에게 꼬리표로 붙이지 않습니다.</div>
     </div>
   </div>
 
   <!-- 다섯 함정 연결 -->
-  <div style="padding:0 18px;margin-top:24px">
+  <div class="reveal" style="padding:0 18px;margin-top:24px">
     <div class="vsec-head"><div class="vsec-bar" style="background:var(--ink)"></div><span class="h2">세 덕목이 막는 다섯 함정</span></div>
     <div class="cap" style="margin:-4px 2px 12px;line-height:1.5">각 덕목은 팀이 빠지기 쉬운 함정을 하나씩 막아줍니다.</div>
     <div class="card" style="padding:14px 15px;margin-bottom:9px">
@@ -510,7 +533,7 @@ body{
     </div>
   </div>
 
-  <div style="padding:24px 18px 0">
+  <div class="reveal" style="padding:24px 18px 0">
     <button class="btn btn-ink" onclick="closeAbout();goTo('modules')">학습 모듈 보러가기 →</button>
   </div>
 </section>
@@ -709,12 +732,13 @@ const MODS=[
 
 const GATE_PASS = 5; // 통과 기준 (어드민 설정값 가정) — pass = score >= GATE_PASS
 
+/* 자기진단 18문항 — 05 퀴즈·진단 뱅크(정본) 공식 자기참조형 문장 */
 const SURVEY = {
- h:['팀 성과를 이야기할 때 "우리"라는 표현을 자연스럽게 사용한다','아이디어가 채택되지 않아도 팀 결정을 열심히 실행한다','동료의 성공을 진심으로 기뻐한다','칭찬을 받으면 팀이나 다른 사람과 공을 나눈다','실수를 인정하고 빠르게 사과한다','나보다 잘하는 사람에게 배우는 것을 즐긴다'],
- g:['일을 더 잘하고 싶다는 의욕이 자연스럽게 생긴다','업무 목표를 달성했을 때 다음 목표를 스스로 찾는다','어렵거나 도전적인 과제가 주어지면 의욕이 오른다','추가 책임이나 역할을 기꺼이 받아들인다','퇴근 후에도 업무 개선 아이디어가 떠오른다','현재 방식보다 더 나은 방법을 찾아 제안한다'],
- s:['상대방의 감정 상태를 빠르게 파악한다','대화 중 분위기가 어색해지면 자연스럽게 개입한다','내 말이나 행동이 상대에게 어떻게 느껴질지 미리 생각한다','실수한 동료가 당황하지 않도록 자연스럽게 돕는다','자신의 감정이 대화에 미치는 영향을 인식한다','갈등 상황에서 양측 입장 모두를 이해하려 한다']
+ h:['나는 망설임 없이 칭찬하고 감사해한다.','나는 내 실수를 순순히 인정한다.','나는 내 약점을 진심으로 인정한다.','나는 팀의 성취를 위해서라면 내 몫을 기꺼이 나눈다.','나는 팀의 성공을 위해서라면 힘든 일을 기꺼이 맡는다.','나는 정중하게 사과하고 품위 있게 사과를 받아들인다.'],
+ g:['나는 내 업무에서 요구되는 것 이상을 추구한다.','나는 맡은 바 책임 외에 내가 기여할 수 있는 기회를 찾는다.','나는 팀의 성공에 책임감을 느낀다.','나는 근무시간 외에도 기꺼이 일하려 하고, 일에 관해 고민한다.','나는 필요하다면 기꺼이 따분한 일을 맡으려 한다.','나는 팀의 업무에 열정을 가지고 있다.'],
+ s:['나는 회의나 대화 시 동료들의 감정을 잘 이해한다.','나는 팀 동료들에게 공감하는 모습을 나타낸다.','나는 팀 동료들의 삶에 관심을 보인다.','나는 경청을 잘한다.','나는 나의 행동이 팀 동료들에게 어떤 영향을 미치는지 잘 안다.','나는 나의 행동과 스타일을 대화나 관계의 성격에 맞게 고친다.']
 };
-const SCALE = [{v:3,t:'언제나'},{v:2,t:'때때로'},{v:1,t:'거의 안 함'}];
+const SCALE = [{v:3,t:'언제나'},{v:2,t:'때때로'},{v:1,t:'거의 아님'}];
 
 const RECERT = {
  7:{title:'Day+7 재인증', sub:'1차 확인 · 배운 것을 기억하고 있나요?',
@@ -769,7 +793,22 @@ function openModule(i){
   document.getElementById('s-module').scrollTo(0,0);
 }
 function goBackFromModule(){ document.getElementById('s-module').classList.remove('in'); }
-function openAbout(){ const el=document.getElementById('s-about'); el.classList.add('in'); el.scrollTo(0,0); }
+let aboutObs=null;
+function openAbout(){
+  const el=document.getElementById('s-about');
+  el.classList.add('in'); el.scrollTo(0,0);
+  const items=el.querySelectorAll('.reveal');
+  items.forEach(n=>n.classList.remove('show'));
+  if(aboutObs) aboutObs.disconnect();
+  if('IntersectionObserver' in window){
+    aboutObs=new IntersectionObserver(es=>{
+      es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('show'); aboutObs.unobserve(e.target); } });
+    },{root:el, rootMargin:'0px 0px -12% 0px', threshold:.12});
+    requestAnimationFrame(()=>items.forEach(n=>aboutObs.observe(n)));
+  } else {
+    items.forEach(n=>n.classList.add('show'));
+  }
+}
 function closeAbout(){ document.getElementById('s-about').classList.remove('in'); }
 function switchTab(t){
   document.querySelectorAll('#md-seg .seg-btn').forEach((b,bi)=>b.classList.toggle('on',['read','practice','gate'][bi]===t));
@@ -1159,25 +1198,31 @@ function submitDiag(){
 }
 function renderDiagResult(){
   const d=state.diag, fv=V[d.focus];
-  const fb=v=>v>=15?'강점으로 자리잡고 있어요':v>=11?'잘 자라고 있어요':'개발할 여지가 큽니다';
+  // 정본 해석 기준 — 16↑ 강점 / 13~15 점검 / 12↓ 개발 (덕목별 6문항·6~18점)
+  const band=v=> v>=16?{t:'강점이에요',c:'var(--ok)'} : v>=13?{t:'점검이 필요할 수 있어요',c:'var(--h-dark)'} : {t:'더 키울 영역이에요',c:'var(--bad)'};
   const recIdx=fv.mods.find(i=>!state.completed[i]);
+  const focusStrong=d[d.focus]>=16;
   document.getElementById('diag-body').innerHTML=`
     <div class="card" style="padding:22px 20px">
       <div class="eyebrow">My Snapshot</div>
       <div class="h2" style="margin:6px 0 2px">나의 팀플레이어 현황</div>
-      <div class="cap">지금 이 순간의 스냅샷입니다 · ${d.date}</div>
-      ${Object.entries(V).map(([vk,v])=>`
+      <div class="cap">덕목별 6문항 · 6~18점 · ${d.date}</div>
+      ${Object.entries(V).map(([vk,v])=>{const b=band(d[vk]);return `
         <div class="bar-row">
           <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700">
-            <span style="color:${v.color}">${v.label}</span><span>${d[vk]} / 18</span></div>
-          <div class="bar-track"><div class="bar-fill" style="width:${d[vk]/18*100}%;background:${v.color}"></div></div>
-          <div class="cap" style="margin-top:4px">${fb(d[vk])}</div>
-        </div>`).join('')}
+            <span style="color:${v.color}">${v.label}</span><span>${d[vk]} <span style="color:var(--faint);font-weight:600">/ 18</span></span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:${(d[vk]-6)/12*100}%;background:${v.color}"></div></div>
+          <div class="cap" style="margin-top:4px;color:${b.c};font-weight:700">${b.t}</div>
+        </div>`;}).join('')}
     </div>
     <div class="card" style="padding:18px;margin-top:12px;background:${fv.bg};border-color:transparent">
-      <div class="cap" style="color:${fv.dark};letter-spacing:.06em">집중 포인트</div>
-      <div style="font-size:16px;font-weight:800;color:${fv.dark};margin-top:4px">${fv.label}을(를) 먼저 키워보세요</div>
-      <div style="font-size:13px;color:${fv.dark};opacity:.8;margin-top:6px;line-height:1.6">점수가 낮다는 건 부족하다는 뜻이 아니라, 가장 크게 성장할 수 있는 영역이라는 뜻이에요.</div>
+      <div class="cap" style="color:${fv.dark};letter-spacing:.06em">개인 개발 초점</div>
+      <div style="font-size:16px;font-weight:800;color:${fv.dark};margin-top:4px">${focusStrong?'세 덕목이 고루 탄탄해요':`${fv.label}을(를) 먼저 키워보세요`}</div>
+      <div style="font-size:13px;color:${fv.dark};opacity:.85;margin-top:6px;line-height:1.6">${focusStrong?`그중 상대적으로 <b>${fv.label}</b>을(를) 한 단계 더 다듬어볼 수 있어요.`:'가장 낮은 점수가 아니라, <b>가장 크게 성장할 수 있는 영역</b>이라는 뜻이에요.'}</div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:10px;padding:13px 15px;margin-top:10px;background:#E6DFCE;border-radius:var(--r-sm)">
+      <span style="flex-shrink:0;font-size:13px;line-height:1.5">🪞</span>
+      <div style="font-size:12px;color:var(--sub);line-height:1.6">이 진단은 점수를 매기는 평가가 아니라 <b>스스로를 비춰보는 성찰 도구</b>입니다. 상대적으로 약한 한 가지를 개발 초점으로 삼는 데 쓰세요.</div>
     </div>
     <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
       <button class="btn btn-ink" onclick="diagToModule(${recIdx!==undefined?recIdx:'null'})">모듈 학습 시작하기 →</button>

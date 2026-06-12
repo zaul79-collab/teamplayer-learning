@@ -861,7 +861,7 @@ function showGateSheet(score,total,pass,saved){
   const failMsgs=[
     {main:'괜찮습니다. 한번 더 공부하고 다시 도전해봐요.',sub:'3회 실패 시 멘토에게 도움 메시지가 자동 발송될 예정입니다.'},
     {main:'학습에 어려움이 있으신가요? 자료를 한번 더 읽어보고 재도전 해봐요.',sub:'3회 실패 시 멘토에게 도움 메시지가 자동 발송될 예정입니다.'},
-    {main:'멘토와 함께 이 난관을 해쳐나가 보아요. 멘토에게 도움의 메시지가 자동 발송됩니다.',sub:'3회 실패 시 멘토에게 도움 메시지가 자동 발송될 예정입니다.'},
+    {main:'멘토와 함께 이 난관을 해쳐나가 보아요. 멘토에게 도움의 메시지가 자동 발송됩니다.',sub:null},
   ];
   const fm=!pass?failMsgs[Math.min(failCount,3)-1]:null;
   const wrong=m.gq.map((q,i)=>saved[i]!==q.ans
@@ -875,9 +875,9 @@ function showGateSheet(score,total,pass,saved){
       <div style="font-size:16px;font-weight:800;margin-top:12px">${pass?'모든 개념을 이해했습니다!':'조금 더 확인해볼까요'}</div>
       ${pass?`<div style="margin-top:13px;padding:14px 16px;background:var(--ok-bg);border:1px solid #BFE8CC;border-radius:var(--r-sm);font-size:13px;color:var(--s-dark);line-height:1.6;text-align:left">
         ${v.label}을(를) 향한 한 걸음을 내디뎠어요.<br>${m.title} 모듈이 완료 처리되었습니다.</div>`:''}
-      ${fm?`<div style="margin-top:14px;padding:14px 16px;background:var(--bad-bg);border:1px solid #F3C8C8;border-radius:var(--r-sm);text-align:left;line-height:1.65">
-        <div style="font-size:14px;font-weight:700;color:var(--ink)">${fm.main}</div>
-        <div style="font-size:11.5px;color:var(--faint);margin-top:6px">(${fm.sub})</div>
+      ${fm?`<div style="margin-top:14px;padding:16px;background:#fff;border:1px solid rgba(0,0,0,.08);border-radius:var(--r-sm);text-align:center;line-height:1.45">
+        <div style="font-size:15px;font-weight:700;color:var(--ink)">${fm.main}</div>
+        ${fm.sub?`<div style="font-size:11.5px;color:var(--faint);margin-top:7px">(${fm.sub})</div>`:''}
       </div>`:''}
     </div>
     ${!pass&&wrong?`<div style="margin-bottom:16px"><div class="cap" style="letter-spacing:.06em;margin-bottom:2px">틀린 문항</div>${wrong}</div>`:''}

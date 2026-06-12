@@ -93,6 +93,11 @@ body{
 /* 비활성 CTA — 효과·그림자 제거, 흐리게 */
 .btn:disabled{opacity:.38;cursor:not-allowed;animation:none;box-shadow:none}
 .btn:disabled::after{display:none}
+/* "다음 문항" 화살표 넛지 — 클릭 대기 시 시선 유도 */
+.nudge{display:inline-block;animation:nudge 1.05s ease-in-out infinite}
+@keyframes nudge{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+.btn:disabled .nudge{animation:none}
+@media (prefers-reduced-motion:reduce){.nudge{animation:none}}
 
 .badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;
   padding:4px 11px;border-radius:999px;letter-spacing:.02em}
@@ -827,7 +832,7 @@ function renderPQ(){
         <div class="exp" id="pq-exp-${qi}"></div>
         <div id="pq-next-${qi}" style="margin-top:14px;display:none">
           ${qi<m.pq.length-1
-            ?`<button class="btn btn-ink btn-sm" onclick="trackGoTo('pq-track',${qi+1})">다음 문항 →</button>`
+            ?`<button class="btn btn-ink btn-sm" onclick="trackGoTo('pq-track',${qi+1})">다음 문항 <span class="nudge">→</span></button>`
             :`<button class="btn ${v.btn} btn-sm" onclick="switchTab('gate')">게이트 도전하기 →</button>
                <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="retryPQ()">↺ 다시 풀기</button>`}
         </div></div></div>`).join('')}
@@ -877,7 +882,7 @@ function renderGate(){
         <div id="gq-ch-${qi}">${q.opts.map((o,ai)=>`
           <div class="choice" onclick="pickGate(${qi},${ai})"><span class="abc">${'ABCD'[ai]}</span><span>${o}</span></div>`).join('')}</div>
         <div style="margin-top:14px">${qi<m.gq.length-1
-          ?`<button class="btn btn-ink btn-sm" id="gq-next-${qi}" disabled onclick="trackGoTo('gq-track',${qi+2})">다음 문항 →</button>`
+          ?`<button class="btn btn-ink btn-sm" id="gq-next-${qi}" disabled onclick="trackGoTo('gq-track',${qi+2})">다음 문항 <span class="nudge">→</span></button>`
           :`<div class="cap" style="text-align:center">↓ 아래 버튼으로 채점하세요</div>`}</div>
       </div></div>`).join('')}
     </div>

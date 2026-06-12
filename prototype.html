@@ -128,8 +128,13 @@ body{
 .home-top{display:flex;justify-content:space-between;align-items:flex-start;margin:6px 2px 18px}
 .hero{
   position:relative;border-radius:26px;overflow:hidden;background:var(--ink);
-  color:#fff;padding:26px 22px;margin-bottom:14px;
+  color:#fff;padding:26px 22px;margin-bottom:14px;cursor:pointer;transition:transform .12s ease;
 }
+.hero:active{transform:scale(.985)}
+.hero-more{position:absolute;top:16px;right:16px;z-index:2;display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;font-weight:800;letter-spacing:.02em;color:#fff;
+  background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.22);
+  padding:6px 11px;border-radius:999px;backdrop-filter:blur(4px)}
 .hero .orb{position:absolute;border-radius:50%;filter:blur(34px);opacity:.5;pointer-events:none;will-change:transform}
 .hero .orb-1{animation:drift1 6s ease-in-out infinite}
 .hero .orb-2{animation:drift2 8s ease-in-out infinite}
@@ -183,14 +188,14 @@ body{
 .chev{color:var(--faint);font-size:16px;flex-shrink:0}
 
 /* ---------- 모듈 상세 (슬라이드인) ---------- */
-#s-module{
+#s-module,#s-about{
   visibility:hidden;pointer-events:none;
   position:fixed;inset:0;z-index:60;margin:0 auto;max-width:430px;
   background:var(--bg);transform:translateX(100%);
   transition:transform .3s cubic-bezier(.22,.9,.3,1), visibility 0s linear .3s;
   overflow-y:auto;padding:0 0 60px;
 }
-#s-module.in{
+#s-module.in,#s-about.in{
   visibility:visible;pointer-events:auto;
   transform:translateX(0);
   transition:transform .3s cubic-bezier(.22,.9,.3,1), visibility 0s linear 0s;
@@ -350,7 +355,8 @@ body{
     <span class="badge badge-line" id="home-date"></span>
   </div>
 
-  <div class="hero">
+  <div class="hero" onclick="openAbout()">
+    <span class="hero-more">모델 알아보기 →</span>
     <div class="orb orb-1" style="width:150px;height:150px;background:var(--h);top:-50px;right:-30px"></div>
     <div class="orb orb-2" style="width:130px;height:130px;background:var(--g);bottom:-55px;left:-25px"></div>
     <div class="orb orb-3" style="width:110px;height:110px;background:var(--s);bottom:-40px;right:70px"></div>
@@ -425,6 +431,88 @@ body{
   <div class="tabpane on" id="tab-read"></div>
   <div class="tabpane" id="tab-practice"></div>
   <div class="tabpane" id="tab-gate"></div>
+</section>
+
+<!-- ================= 모델 소개 (이상적인 팀 플레이어) ================= -->
+<section id="s-about">
+  <div class="md-head">
+    <button class="back-btn" onclick="closeAbout()">←</button>
+    <div style="font-size:13px;font-weight:800">이상적인 팀 플레이어</div>
+  </div>
+
+  <div class="md-hero">
+    <div class="eyebrow">The Ideal Team Player</div>
+    <div class="h1" style="margin-top:6px">세 덕목이<br>만나는 곳</div>
+    <div style="font-size:13.5px;color:var(--sub);margin-top:10px;line-height:1.65">
+      패트릭 렌시오니의 모델입니다. <b>겸손 · 갈망 · 영리함</b> 세 가지를 함께 갖춘 사람이 이상적인 팀 플레이어예요.
+      여기서 <b>'이상적'은 '완벽'이 아니라</b>, 세 덕목을 충분히 갖춰 함께 일하기 좋은 사람을 뜻합니다.</div>
+  </div>
+
+  <!-- 벤다이어그램 -->
+  <div class="card" style="margin:18px 18px 0;padding:18px 16px 10px">
+    <div class="cap" style="letter-spacing:.08em;text-align:center;margin-bottom:6px">VENN DIAGRAM</div>
+    <svg viewBox="0 0 340 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+      <circle cx="170" cy="110" r="90" fill="#F59E0B" fill-opacity=".17" stroke="#F59E0B" stroke-width="2"/>
+      <circle cx="120" cy="195" r="90" fill="#2563EB" fill-opacity=".15" stroke="#2563EB" stroke-width="2"/>
+      <circle cx="220" cy="195" r="90" fill="#16A34A" fill-opacity=".15" stroke="#16A34A" stroke-width="2"/>
+      <circle cx="170" cy="166" r="36" fill="#201D18" fill-opacity=".07"/>
+      <text x="170" y="52" text-anchor="middle" font-size="17" font-weight="800" fill="#8A5A00">겸손</text>
+      <text x="58" y="236" text-anchor="middle" font-size="17" font-weight="800" fill="#1E3A8A">갈망</text>
+      <text x="282" y="236" text-anchor="middle" font-size="17" font-weight="800" fill="#14532D">영리함</text>
+      <text x="170" y="161" text-anchor="middle" font-size="12.5" font-weight="800" fill="#201D18">이상적인</text>
+      <text x="170" y="178" text-anchor="middle" font-size="12.5" font-weight="800" fill="#201D18">팀 플레이어</text>
+    </svg>
+    <div class="cap" style="text-align:center;line-height:1.5;margin-top:4px">세 원이 모두 겹치는 가운데가<br>이상적인 팀 플레이어입니다</div>
+  </div>
+
+  <!-- 3 덕목 -->
+  <div style="padding:0 18px;margin-top:20px">
+    <div class="vsec-head"><div class="vsec-bar" style="background:var(--ink)"></div><span class="h2">세 가지 덕목</span></div>
+    <div class="card" style="padding:15px 16px;margin-bottom:9px;border-left:3px solid var(--h)">
+      <div style="font-size:14.5px;font-weight:800;color:var(--h-dark)">겸손 <span style="font-weight:600;color:var(--faint);font-size:12px">Humility</span></div>
+      <div style="font-size:13px;color:var(--sub);margin-top:5px;line-height:1.6">자신보다 팀을 앞에 두는 태도. <b>신뢰의 토대</b>이자 세 덕목 중 가장 근본입니다.</div>
+    </div>
+    <div class="card" style="padding:15px 16px;margin-bottom:9px;border-left:3px solid var(--g)">
+      <div style="font-size:14.5px;font-weight:800;color:var(--g-dark)">갈망 <span style="font-weight:600;color:var(--faint);font-size:12px">Hunger</span></div>
+      <div style="font-size:13px;color:var(--sub);margin-top:5px;line-height:1.6">시키지 않아도 더 잘하려는 <b>내적 의지</b>. 팀의 결과로 이어집니다. (세 덕목 중 변화가 가장 어려움)</div>
+    </div>
+    <div class="card" style="padding:15px 16px;border-left:3px solid var(--s)">
+      <div style="font-size:14.5px;font-weight:800;color:var(--s-dark)">영리함 <span style="font-weight:600;color:var(--faint);font-size:12px">Smarts</span></div>
+      <div style="font-size:13px;color:var(--sub);margin-top:5px;line-height:1.6">사람과 상황을 읽는 <b>대인관계 분별력</b>입니다. 지능지수(IQ)가 아니라 타인에 대한 상식이에요.</div>
+    </div>
+  </div>
+
+  <!-- 7유형 -->
+  <div style="padding:0 18px;margin-top:24px">
+    <div class="vsec-head"><div class="vsec-bar" style="background:var(--ink)"></div><span class="h2">7가지 유형</span></div>
+    <div class="cap" style="margin:-4px 2px 12px;line-height:1.5">한두 덕목만으로는 이상적인 팀 플레이어가 되지 못합니다. 덕목 조합에 따라 7가지 유형으로 나뉩니다.</div>
+    <div id="about-types"></div>
+    <div class="card" style="padding:13px 15px;margin-top:4px;background:var(--wash);border-color:transparent">
+      <div style="font-size:12px;color:var(--sub);line-height:1.6">⚠ 유형 이름은 <b>자기인식·코칭용</b>입니다. 실재 동료에게 꼬리표로 붙이지 않습니다.</div>
+    </div>
+  </div>
+
+  <!-- 다섯 함정 연결 -->
+  <div style="padding:0 18px;margin-top:24px">
+    <div class="vsec-head"><div class="vsec-bar" style="background:var(--ink)"></div><span class="h2">세 덕목이 막는 다섯 함정</span></div>
+    <div class="cap" style="margin:-4px 2px 12px;line-height:1.5">각 덕목은 팀이 빠지기 쉬운 함정을 하나씩 막아줍니다.</div>
+    <div class="card" style="padding:14px 15px;margin-bottom:9px">
+      <div style="font-size:13.5px;font-weight:800"><span style="color:var(--h-dark)">겸손</span> → 신뢰</div>
+      <div style="font-size:12.5px;color:var(--sub);margin-top:4px;line-height:1.5">마음을 열어 신뢰를 쌓아 <b>'신뢰의 결여'</b>를 막습니다.</div>
+    </div>
+    <div class="card" style="padding:14px 15px;margin-bottom:9px">
+      <div style="font-size:13.5px;font-weight:800"><span style="color:var(--s-dark)">영리함</span> → 건전한 갈등</div>
+      <div style="font-size:12.5px;color:var(--sub);margin-top:4px;line-height:1.5">타인을 읽고 말·행동을 조정해 <b>'갈등에 대한 두려움'</b>을 막습니다.</div>
+    </div>
+    <div class="card" style="padding:14px 15px">
+      <div style="font-size:13.5px;font-weight:800"><span style="color:var(--g-dark)">갈망</span> → 결과</div>
+      <div style="font-size:12.5px;color:var(--sub);margin-top:4px;line-height:1.5">팀 성과에 책임감을 느껴 <b>'결과에 대한 무관심'</b>을 막습니다.</div>
+    </div>
+  </div>
+
+  <div style="padding:24px 18px 0">
+    <button class="btn btn-ink" onclick="closeAbout();goTo('modules')">학습 모듈 보러가기 →</button>
+  </div>
 </section>
 
 <!-- ================= 자기진단 ================= -->
@@ -681,6 +769,8 @@ function openModule(i){
   document.getElementById('s-module').scrollTo(0,0);
 }
 function goBackFromModule(){ document.getElementById('s-module').classList.remove('in'); }
+function openAbout(){ const el=document.getElementById('s-about'); el.classList.add('in'); el.scrollTo(0,0); }
+function closeAbout(){ document.getElementById('s-about').classList.remove('in'); }
 function switchTab(t){
   document.querySelectorAll('#md-seg .seg-btn').forEach((b,bi)=>b.classList.toggle('on',['read','practice','gate'][bi]===t));
   ['read','practice','gate'].forEach(k=>document.getElementById('tab-'+k).classList.toggle('on',k===t));
@@ -1208,9 +1298,50 @@ function closeRecertSheet(e){ if(e&&e.target!==e.currentTarget)return; document.
 /* ============================================================
    init
    ============================================================ */
+/* ============================================================
+   모델 소개 — 7유형
+   ============================================================ */
+const TYPES=[
+  {name:'겸손한 졸',          v:[1,0,0], feat:'예의 바르나 성사 욕구·관계 구축이 부족, 풍파는 없음', risk:'낮음', lvl:0},
+  {name:'불도저',             v:[0,1,0], feat:'의지는 확고하나 타인의 영향을 무시, 팀을 빠르게 파괴', risk:'중간', lvl:1},
+  {name:'사랑받는 연예인',    v:[0,0,1], feat:'재미·호감을 주나 기여는 미미, 곧 호감을 잃음', risk:'중간', lvl:1},
+  {name:'돌발적인 사고뭉치',  v:[1,1,0], feat:'진심으로 기여하나 대인 영리함이 부족 (악의는 없음)', risk:'낮음', lvl:0},
+  {name:'사랑스러운 게으름뱅이', v:[1,0,1], feat:'동료를 배려하나 딱 요구받은 것만, 관리가 필요', risk:'중간', lvl:1},
+  {name:'노련한 정치가',      v:[0,1,1], feat:'개인 이득일 때만 분투, 겸손한 척 포장·조종', risk:'가장 위험', lvl:3},
+  {name:'이상적인 팀 플레이어', v:[1,1,1], feat:'세 덕목을 충분히 갖춤 ("이상적" ≠ "완벽")', risk:'목표', lvl:9},
+];
+function renderAbout(){
+  const chip=(has,idx)=>{
+    const m=[{l:'겸',bg:'var(--h-bg)',c:'var(--h-dark)',b:'#F0DEB4'},
+             {l:'갈',bg:'var(--g-bg)',c:'var(--g-dark)',b:'#C7D9F6'},
+             {l:'영',bg:'var(--s-bg)',c:'var(--s-dark)',b:'#C4E7CF'}][idx];
+    return has
+      ? `<span style="display:inline-flex;width:27px;height:27px;border-radius:8px;align-items:center;justify-content:center;font-size:11.5px;font-weight:800;background:${m.bg};color:${m.c};border:1px solid ${m.b}">${m.l}</span>`
+      : `<span style="display:inline-flex;width:27px;height:27px;border-radius:8px;align-items:center;justify-content:center;font-size:11.5px;font-weight:800;background:var(--wash);color:var(--faint)">${m.l}</span>`;
+  };
+  const riskBadge=(lvl,txt)=>{
+    if(lvl===3) return `<span class="badge" style="background:var(--bad-bg);color:var(--bad);border:1px solid #F3C8C8">⚠ ${txt}</span>`;
+    if(lvl===9) return `<span class="badge badge-ink">★ ${txt}</span>`;
+    if(lvl===1) return `<span class="badge" style="background:var(--h-bg);color:var(--h-dark);border:1px solid #F0DEB4">${txt}</span>`;
+    return `<span class="badge badge-line">${txt}</span>`;
+  };
+  document.getElementById('about-types').innerHTML=TYPES.map(t=>{
+    const hi=t.lvl===3?'border-color:#F3C8C8;background:#FFF8F7':t.lvl===9?'border-color:#E8D6A8;background:#FFFDF6':'';
+    return `<div class="card" style="padding:13px 14px;margin-bottom:9px;${hi}">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="font-size:14px;font-weight:800">${t.name}</div>
+        <span style="flex:1"></span>${riskBadge(t.lvl,t.risk)}
+      </div>
+      <div style="display:flex;gap:5px;margin:9px 0 8px">${t.v.map((h,i)=>chip(h,i)).join('')}</div>
+      <div style="font-size:12.5px;color:var(--sub);line-height:1.5">${t.feat}</div>
+    </div>`;
+  }).join('');
+}
+
 function renderAll(){ renderHome(); renderModules(); renderTimeline(); }
 load();
 renderAll();
+renderAbout();
 if(state.diag) renderDiagResult(); else renderSurvey();
 </script>
 </body>

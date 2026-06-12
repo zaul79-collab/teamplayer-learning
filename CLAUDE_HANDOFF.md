@@ -8,7 +8,8 @@
 ## 1. 프로젝트 개요
 
 Patrick Lencioni의 *The Ideal Team Player* 기반 **모바일 직원 학습 앱** 프로토타입.
-케이옥션 IT팀 내부용. 3덕목(겸손·갈망·영리함)을 7개 모듈로 학습하고, 자기진단과 착근기 재인증까지 연결되는 완성된 인터랙티브 프로토타입.
+케이옥션 IT팀 내부용. 3덕목(겸손·갈망·영리함)을 7개 모듈로 학습하고, 모델 소개·자기진단·착근기 재인증까지 연결되는 완성된 인터랙티브 프로토타입.
+모든 모듈(M1~M7)의 카드뉴스·연습퀴즈·게이트 콘텐츠와 진행 상태(localStorage)가 채워진 상태입니다.
 
 ---
 
@@ -16,7 +17,7 @@ Patrick Lencioni의 *The Ideal Team Player* 기반 **모바일 직원 학습 앱
 
 ```
 팀플레이어학습도구/
-├── prototype.html              ← ★ 메인 작업 파일 (단일 파일, 1537줄)
+├── prototype.html              ← ★ 메인 작업 파일 (단일 파일, 1421줄)
 │                                   HTML + CSS + JS 전부 포함
 ├── CLAUDE_HANDOFF.md           ← 이 문서
 ├── 화면기획서.md                ← 5개 화면 UX 명세 (11섹션)
@@ -73,146 +74,193 @@ Patrick Lencioni의 *The Ideal Team Player* 기반 **모바일 직원 학습 앱
 
 ---
 
-## 4. 화면 구조 (5개 스크린)
+## 4. 화면 구조 (4개 탭 + 2개 슬라이드인 패널)
 
 | 스크린 ID | 탭 | 설명 |
 |-----------|-----|------|
-| `s-home` | 홈 | 인사, 블롭 Venn, 진행 현황 카드 |
-| `s-modules` | 모듈 | 7개 모듈 목록, 덕목별 섹션 |
-| `s-module` | — | 모듈 상세 (풀스크린 슬라이드인) |
+| `s-home` | 홈 | 히어로 카드(블러 orb + "모델 알아보기 →" 칩), 진행 현황, 다음 모듈 |
+| `s-modules` | 모듈 | 7개 모듈 목록, 덕목별 섹션, 순차 개방(잠금) |
 | `s-diag` | 진단 | 18문항 자기진단, 결과 뷰 |
 | `s-timeline` | 여정 | 학습 타임라인, Day+7/+21 재인증 |
+| `s-module` | — | 모듈 상세 (우측 슬라이드인 패널, `.in`) |
+| `s-about` | — | 모델 소개 / 이상적인 팀 플레이어 (우측 슬라이드인 패널, `.in`) |
 
 ### 라우터
 
 ```js
-const screens = {
-  home:'s-home', modules:'s-modules', module:'s-module',
-  diag:'s-diag', timeline:'s-timeline'
-};
-goTo('home')   // 탭 전환
-openModule(0)  // 모듈 상세 슬라이드인
-goBackFromModule()  // 모듈 → 모듈 목록 슬라이드아웃
+const SCREENS = { home:'s-home', modules:'s-modules', diag:'s-diag', timeline:'s-timeline' };
+goTo('home')        // 탭 전환 (nav-item .on 토글)
+openModule(0)       // 모듈 상세 슬라이드인 (잠긴 모듈은 토스트 후 차단)
+goBackFromModule()  // 모듈 상세 → 슬라이드아웃 (.in 제거)
+openAbout()         // 모델 소개 패널 슬라이드인 + IntersectionObserver 순차 노출
+closeAbout()        // 모델 소개 패널 닫기
 ```
+
+> 모듈 상세·모델 소개는 별도 탭이 아니라 `.screen` 위에 겹쳐지는 패널로, `visibility + translateX` 전환을 씁니다.
+
+### 모델 소개 (`s-about`) 구성
+
+홈 히어로 카드 우상단 **"모델 알아보기 →"** 칩으로 진입. 모듈 상세와 동일한 우측 슬라이드인, 뒤로가기 버튼. 출처: source/06_도해 (01_벤다이어그램, 02_7유형_매트릭스, 05_다섯함정_연결도).
+
+1. **인트로** — 렌시오니 모델, '이상적' ≠ '완벽'
+2. **벤다이어그램** — 겸손·갈망·영리함 3원 교집합 = 이상적인 팀 플레이어 (원 순차 등장 + 이상적 문구 금색 반짝임 `idealShimmer`)
+3. **세 가지 덕목 카드**
+4. **7가지 유형** — 겸손한 졸 / 불도저 / 사랑받는 연예인 / 돌발적인 사고뭉치 / 사랑스러운 게으름뱅이 / 노련한 정치가(가장 위험) / 이상적인 팀 플레이어(목표). 덕목 칩 + 위험도 배지. (유형명은 자기인식·코칭용, 동료 꼬리표 금지)
+5. **세 덕목이 막는 다섯 함정** — ①신뢰의 결여 ~ ⑤결과에 대한 무관심 피라미드 + 겸손→신뢰 / 영리함→건전한 갈등 / 갈망→헌신·책임·결과
+6. **CTA** — "학습 모듈 보러가기"
 
 ---
 
-## 5. 핵심 JS 함수 목록 (33개)
+## 5. 핵심 JS 함수 목록 (48개)
 
-### 라우터
+### 상태 / 영속 (localStorage)
 | 함수 | 설명 |
 |------|------|
-| `goTo(name)` | 탭 전환 |
-| `goBackFromModule()` | 모듈 상세에서 뒤로 (슬라이드아웃) |
+| `load()` / `save()` | `tp2-state` 키로 state 복원·저장 |
+| `today()` | `YYYY.MM.DD` 문자열 |
+| `doneCount()` | 완료 모듈 수 |
+| `vDone(vk)` | 덕목별 완료 모듈 수 (`V[vk].mods` 기준) |
+| `isUnlocked(i)` | 순차 개방 — i===0 또는 이전 모듈 완료 시 true |
+| `nextModule()` | 다음에 풀 수 있는(잠금 해제+미완료) 모듈 인덱스 |
+| `resetAll()` | 전체 초기화 후 재렌더 |
 
-### 모듈
+### 라우터 / 패널
 | 함수 | 설명 |
 |------|------|
-| `openModule(idx)` | 모듈 상세 열기, 데이터 렌더 + 슬라이드인 |
-| `switchTab(t)` | 'read' / 'practice' / 'gate' 탭 전환 |
+| `goTo(name)` | 4개 탭 전환 |
+| `openModule(i)` | 잠금 확인 → 렌더 → 모듈 상세 슬라이드인 |
+| `goBackFromModule()` | 모듈 상세 닫기 |
+| `openAbout()` / `closeAbout()` | 모델 소개 패널 열기·닫기 (`aboutObs` IntersectionObserver로 `.reveal` 순차 노출) |
+| `switchTab(t)` | 모듈 상세 'read' / 'practice' / 'gate' 세그먼트 전환 |
 
-### 홈 Venn
+### 헬퍼
 | 함수 | 설명 |
 |------|------|
-| `initHomeVenn()` | 블롭 Venn 다이어그램 초기화 |
+| `toast(msg)` | 하단 토스트 (2.2초) |
+| `syncDots(trackId, dotsId)` | 캐러셀 스크롤 → dot indicator 동기화 |
+| `trackGoTo(trackId, i)` | 특정 슬라이드로 스무스 스크롤 |
 
-### 카드뉴스
+### 홈
 | 함수 | 설명 |
 |------|------|
-| `initCN()` | 현재 모듈 카드뉴스 캐러셀 초기화 |
-| `trackGoTo(trackId, idx)` | 특정 슬라이드로 스크롤 이동 |
-| `syncTrackDots(trackId, dotsId)` | 스크롤에 따라 dot indicator 동기화 |
+| `renderHome()` | 날짜·히어로 진행바·덕목 현황·다음 모듈 카드 렌더 |
+| `homeNextGo()` | 다음 모듈 열기, 없으면 여정 탭으로 |
+
+### 모듈 목록 / 상세
+| 함수 | 설명 |
+|------|------|
+| `renderModules()` | 덕목별 섹션 + 7개 모듈 카드(잠금 표시) |
+| `renderModule()` | 현재 모듈 헤더·세그먼트 + 3탭 콘텐츠 렌더 |
+| `renderRead()` | 카드뉴스 캐러셀 + 실천 체크리스트 렌더 |
+| `toggleCheck(i)` / `renderCkCta()` | 체크 토글 / 체크 진행 CTA 갱신 |
 
 ### 연습 퀴즈
 | 함수 | 설명 |
 |------|------|
-| `renderPQCarousel()` | 연습 퀴즈 3문항 캐러셀 렌더 |
-| `pickPQCard(qi, ai)` | 선택지 탭 → 즉시 정오답 표시 + 해설 |
-| `retryPQ()` | 연습 퀴즈 초기화 후 재렌더 |
+| `renderPQ()` | 현재 모듈 `MODS[cur].pq` 캐러셀 렌더 |
+| `pickPQ(qi, ai)` | 선택 → 즉시 정오답 + 해설 표시 |
+| `retryPQ()` | 다시 풀기 |
 
 ### 게이트 퀴즈
 | 함수 | 설명 |
 |------|------|
-| `renderGate()` | 인트로카드 + 5문항 캐러셀 렌더 |
-| `pickGate(qi, ai)` | 선택지 탭 → 선택 상태 저장 + 배지 업데이트 |
-| `submitGate()` | 미선택 검증 → 로딩 1.6초 → 채점 → 결과 바텀시트 |
-| `retryGate()` | 게이트 초기화 후 재도전 |
-| `closeGateSheet(e)` | 게이트 결과 바텀시트 닫기 |
+| `renderGate()` | 인트로카드 + `MODS[cur].gq` 캐러셀, 채점 버튼(`gq-submit`) disabled로 시작 |
+| `pickGate(qi, ai)` | 선택 저장 + 배지 → 해당 `gq-next-N` 활성, 전체 선택 시 `gq-submit` 활성 |
+| `submitGate()` | 미선택 검증 → 로딩 1.5초 → 채점 → 통과 시 `completeModule`, 미통과 시 `gateFails` +1 → 결과시트 |
+| `showGateSheet(score,total,pass,saved)` | 결과 바텀시트 — 통과 시 `launchConfetti()`, 미통과 시 실패 횟수별 멘토 안내 메시지 |
+| `closeGateSheet(e)` / `retryGate()` | 결과시트 닫기 / 다시 도전 |
+| `launchConfetti()` | 통과 축하 폭죽 캔버스 애니메이션 (내부 `draw()`) |
+| `completeModule(i)` | 완료 처리 + 날짜 기록, 7개 완료 시 `certifiedAt` 설정 |
 
 ### 자기진단
 | 함수 | 설명 |
 |------|------|
-| `renderSurvey()` | 18문항 동적 렌더, `window.svAnswers={}` 초기화 |
-| `pickSurvey(key, val, vk)` | 척도 선택 → sel-3/2/1 클래스 토글 |
-| `updateSvProgress()` | "N / 18 완료" 텍스트 업데이트 |
-| `submitDiag()` | 18문항 완성 검증 → 점수 계산 → 결과 렌더 |
-| `resetDiag()` | 진단 초기화 후 `renderSurvey()` 재호출 |
+| `renderSurvey()` | 공식 18문항(덕목별 6문항) 동적 렌더 |
+| `pickSv(k, val, vk)` | 3단계 척도 선택 → sel 상태 토글 |
+| `submitDiag()` | 18문항 검증 → 덕목 합산 → 최저 덕목 focus 저장 → 결과 |
+| `renderDiagResult()` | 6~18점 막대 + 해석 밴드 + 개인 개발 초점 + 학습 추천 CTA |
+| `diagToModule(i)` | 추천 모듈 열기(잠금 시 모듈 목록) |
+
+### 모델 소개
+| 함수 | 설명 |
+|------|------|
+| `renderAbout()` | `TYPES` 7유형 리스트 렌더 (덕목 칩 + 위험도 배지) |
 
 ### 착근기 재인증
 | 함수 | 설명 |
 |------|------|
-| `openRecert(day)` | Day+7/+21 바텀시트 열기, 3문항 + 체크리스트 렌더 |
-| `pickRecert(qi, ai, isSelfReport)` | 자기보고면 'selected', 아니면 correct/wrong |
-| `toggleRecertCheck(el, i)` | 체크리스트 항목 토글 |
-| `submitRecert(day)` | 완료 처리, 타임라인 dot 활성화 |
+| `openRecert(day)` | Day+7/+21 바텀시트, `RECERT[day]` 3문항 + 체크리스트 렌더 |
+| `pickRecert(day, qi, ai)` | `ans===null`(자기보고)이면 selected, 아니면 correct/wrong |
+| `toggleRecertCheck(i)` | 체크리스트 항목 토글 |
+| `submitRecert(day)` | 완료 처리, 타임라인 갱신 |
 | `closeRecertSheet(e)` | 재인증 바텀시트 닫기 |
-| `initRecertButtons()` | 프로토타입용: Day+7 버튼 활성화 |
 
-### init
+### init (script 최하단 실행 순서)
 ```js
-// script 최하단 실행 순서
-initHomeVenn();
-initCN();
-renderGate();
-renderSurvey();
-initRecertButtons();
+function renderAll(){ renderHome(); renderModules(); renderTimeline(); }
+load();
+renderAll();
+renderAbout();
+if(state.diag) renderDiagResult(); else renderSurvey();
 ```
 
 ---
 
 ## 6. 핵심 데이터 구조
 
-### MODS (모듈 7개)
+### V (덕목 메타)
+```js
+const V = {
+  h: { label:'겸손', en:'Humility', color, bg, dark, btn, badge, mods:[0,1,2] },
+  g: { label:'갈망', en:'Hunger',   ..., mods:[3,4] },
+  s: { label:'영리함', en:'Smarts', ..., mods:[5,6] }
+};
+```
+
+### MODS (모듈 7개 — 모든 콘텐츠 인라인 보유)
 ```js
 const MODS = [
-  { id, n, title, virtue, vLabel, emoji, desc, objectives[] }
-  // virtue: 'h' | 'g' | 's'
-  // objectives: 학습 목표 2~3개 ("~할 수 있다" 형식)
+  { n, title, v, emoji, desc,
+    obj[],       // 학습 목표 ("~할 수 있다")
+    cards[],     // 카드뉴스 {t, b}
+    check[],     // 실천 체크리스트
+    pq[],        // 연습 퀴즈 {q, opts[4], ans, exp}
+    gq[] }       // 게이트 퀴즈 {q, opts[4], ans} (해설 미표시)
+  // v: 'h' | 'g' | 's'
+];
+const GATE_PASS = 5; // 게이트 통과 기준 (5문항 정답)
+```
+> 퀴즈·카드뉴스가 모듈마다 `MODS[idx]`에 내장되어 있어 `openModule()` 시 자동 교체됩니다. (별도 PQ/GQ 전역 배열 없음)
+
+### SURVEY / SCALE (자기진단 — 정본 18문항)
+```js
+const SURVEY = { h:[6문장], g:[6문장], s:[6문장] };  // 렌시오니 자기참조형 "나는 ~"
+const SCALE  = [{v:3,t:'언제나'},{v:2,t:'때때로'},{v:1,t:'거의 아님'}];
+// 덕목별 6문항 · 6~18점, 해석: 16↑ 강점 / 13~15 점검 / 6~12 개발
+```
+
+### TYPES (모델 소개 — 7유형)
+```js
+const TYPES = [
+  { name, v:[h,g,s], feat, risk, lvl }
+  // v: 덕목 보유 여부(0/1), lvl: 0 낮음 / 1 중간 / 3 가장위험(정치가) / 9 목표(이상적)
 ];
 ```
 
-### PQ (연습 퀴즈 — 현재 M1 기준 3문항 고정)
+### RECERT (재인증)
 ```js
-const PQ = [
-  { q, opts[4], ans, exp }  // ans: 정답 인덱스(0-based), exp: 해설
-];
-```
-
-### GQ (게이트 퀴즈 — 현재 M1 기준 5문항 고정)
-```js
-const GQ = [
-  { q, opts[4], ans }  // exp 없음 (게이트는 해설 미표시)
-];
-```
-
-### SURVEY_DATA (자기진단)
-```js
-const SURVEY_DATA = {
-  h: { label, color, dark, bg, modRange, items[6] },
-  g: { ... },  // 갈망 6문항
-  s: { ... }   // 영리함 6문항
+const RECERT = {
+  7:  { title, sub, qs[3], practice[3] },
+  21: { title, sub, qs[3], practice[3] }
+  // qs[].ans === null 이면 자기보고 문항
 };
-// 척도: 언제나(3) / 때때로(2) / 거의 안 함(1)
-// 최대 18점/덕목, 총 54점
 ```
 
-### RECERT_DATA (재인증)
+### state (localStorage `tp2-state`)
 ```js
-const RECERT_DATA = {
-  7: { title, subtitle, questions[3], practiceItems[3] },
-  21: { title, subtitle, questions[3], practiceItems[3] }
-  // questions[].ans === null이면 자기보고 문항
-};
+let state = { completed:{}, dates:{}, checks:{}, certifiedAt:null,
+              recert:{}, recertDates:{}, diag:null, startDate:null,
+              gateFails:{} };  // gateFails[모듈] = 미통과 누적 횟수
 ```
 
 ---
@@ -221,15 +269,17 @@ const RECERT_DATA = {
 
 | 클래스 | 용도 |
 |--------|------|
-| `.screen.active` | 현재 표시 중인 화면 |
-| `.slide-in` / `.slide-out` | 모듈 상세 슬라이드 애니메이션 |
-| `.sheet-overlay.show` | 바텀시트 표시 (display:flex + pointer-events:auto) |
-| `.btn-primary` / `.btn-h` / `.btn-g` / `.btn-s` / `.btn-outline` | 버튼 변형 |
-| `.badge-h` / `.badge-g` / `.badge-s` / `.badge-common` | 덕목 배지 |
+| `.screen.active` | 현재 표시 중인 탭 화면 |
+| `#s-module.in` / `#s-about.in` | 모듈 상세·모델 소개 패널 슬라이드인 (visibility + translateX) |
+| `.reveal` / `.reveal.show` | 모델 소개 스크롤 순차 노출 (IntersectionObserver) |
+| `.sheet-overlay.show` (`gate-ovl`/`recert-ovl`) | 바텀시트 표시 |
+| `.btn-ink` / `.btn-h` / `.btn-g` / `.btn-s` / `.btn-ghost` / `.btn-line` | 버튼 변형 |
+| `.badge-h` / `.badge-g` / `.badge-s` / `.badge-ink` / `.badge-line` | 배지 |
 | `.choice.selected` / `.choice.correct` / `.choice.wrong` | 퀴즈 선택지 상태 |
-| `.cn-slide` | 캐러셀 슬라이드 단위 |
-| `.sv-opt.sel-3` / `.sel-2` / `.sel-1` | 자기진단 척도 선택 상태 |
+| `.cn-card` | 카드뉴스 캐러셀 카드 (덕목색 테두리 빛반사 `cardsheen`) |
+| `.sv-opt.sel` | 자기진단 척도 선택 상태 |
 | `.nav-item.on` | 활성 탭 |
+| `.nudge` | "다음 문항" 화살표 넛지 / `.btn:disabled` 효과·그림자 제거 |
 
 ### 바텀시트 열기/닫기 패턴
 ```js
@@ -246,81 +296,35 @@ document.getElementById('some-sheet').classList.remove('show');
 ## 8. 현재 구현 상태 & 다음 작업
 
 ### ✅ 완료된 기능
-- 5개 화면 라우터 + 슬라이드인/아웃 애니메이션
-- 홈: 블롭 Venn 다이어그램, 진행 현황 카드
-- 모듈 목록: 7개 모듈, 덕목별 섹션
-- 모듈 상세: 학습 목표 블록, 3탭(학습/연습퀴즈/게이트)
-- 카드뉴스 캐러셀 (scroll-snap-type: x mandatory)
-- 연습 퀴즈: 캐러셀 3문항, 즉시 정오답+해설, 다시 풀기
-- 게이트: 인트로카드+5문항 캐러셀, 전체 채점, 로딩+결과 바텀시트
-- 자기진단: 18문항 설문, 덕목별 그룹화, 점수 바차트+집중포인트
-- 착근기 재인증: Day+7/+21 바텀시트, 3문항+체크리스트
-
-### 🔴 High Priority (다음 세션 핵심 작업)
-
-**1. 모듈별 PQ/GQ 교체 로직**
-현재 PQ[]와 GQ[]가 M1 기준으로 고정되어 있음.
-`openModule(idx)` 호출 시 해당 모듈의 퀴즈 데이터로 교체되어야 함.
-
-방법 A: MODS 배열에 `pq[]`와 `gq[]` 필드 추가
-```js
-// MODS[idx].pq = [...3문항], MODS[idx].gq = [...5문항]
-// openModule() 내에서:
-// window._curPQ = MODS[idx].pq;
-// window._curGQ = MODS[idx].gq;
-// renderPQCarousel() / renderGate() 에서 PQ/GQ 대신 _curPQ/_curGQ 참조
-```
-
-방법 B: 별도 QUIZ_DATA 객체로 관리
-```js
-const QUIZ_DATA = {
-  0: { pq: [...], gq: [...] },  // M1
-  1: { pq: [...], gq: [...] },  // M2
-  ...
-};
-```
-
-**2. M2~M7 카드뉴스 콘텐츠 작성**
-현재 `initCN()`이 M1 콘텐츠만 하드코딩됨.
-MODS 배열 또는 별도 CARDS_DATA에 각 모듈 카드 데이터 추가 필요.
-
-**3. 홈 진행 현황 연동**
-현재 `겸손 1/3, 갈망 0/2, 영리함 0/2` 하드코딩.
-모듈 완료 상태를 저장하고 실시간 반영해야 함.
-
-```js
-// 모듈 완료 상태 저장 예시 (localStorage 또는 JS 상태)
-const moduleCompleted = { 0:false, 1:false, ... , 6:false };
-function completeModule(idx) {
-  moduleCompleted[idx] = true;
-  updateHomeProgress();
-}
-function updateHomeProgress() {
-  const hDone = [0,1,2].filter(i => moduleCompleted[i]).length;
-  const gDone = [3,4].filter(i => moduleCompleted[i]).length;
-  const sDone = [5,6].filter(i => moduleCompleted[i]).length;
-  // DOM 업데이트
-}
-```
+- 4개 탭 라우터 + 모듈 상세·모델 소개 슬라이드인 패널
+- 홈: 히어로 카드(블러 orb 유기적 루프 + "모델 알아보기 →" 칩), 실시간 진행 현황, 다음 모듈 카드
+- 모델 소개(`s-about`): 인트로 → 벤다이어그램(순차 등장+금색 반짝임) → 세 덕목 카드 → 7유형 → 다섯 함정 → CTA, 스크롤 순차 노출
+- 모듈 목록: 7개 모듈, 덕목별 섹션, **순차 개방(잠금)** — 이전 모듈 완료 시 다음 모듈 해제
+- 모듈 상세: 학습 목표, 3탭(학습/연습퀴즈/게이트), 아이콘 타일·덕목 칩 테두리 대비
+- 카드뉴스 캐러셀 (모듈별 콘텐츠, 덕목색 테두리 빛반사 회전)
+- 연습 퀴즈: 모듈별 캐러셀, 즉시 정오답+해설, 다시 풀기
+- 게이트: 인트로카드+5문항 캐러셀, 단계별 버튼 활성(다음 문항/채점), 로딩 1.5초, **통과 시 폭죽**, 결과 바텀시트
+- **게이트 미통과 → 멘토 알림**: `gateFails` 누적, 1·2·3회별 안내 메시지(3회 시 이메일 자동 발송)
+- 자기진단: 정본 18문항(덕목별 6), 6~18점 막대 + 해석 밴드 + 개인 개발 초점(성찰 도구)
+- 착근기 재인증: Day+7/+21 바텀시트, 3문항(자기보고 포함)+체크리스트
+- localStorage 영속(`tp2-state`): 완료/날짜/체크/진단/재인증/실패횟수
+- 디자인 모션: CTA 광택 스윕·그림자 호흡, 벤다이어그램·카드 빛반사, `prefers-reduced-motion` 대응
 
 ### 🟡 Medium Priority
 
 | 항목 | 설명 |
 |------|------|
-| 게이트 통과 → 다음 모듈 연결 | 통과 시 실제 다음 모듈 CTA 동작 |
-| 타임라인 완료 처리 시각화 | 완료 항목 녹색 체크 배지 + 날짜 표시 |
-| 자기진단 결과 → 학습 추천 연동 | 집중 포인트 덕목의 첫 모듈 CTA |
+| 멘토 알림 실제 발송 | 현재는 안내 메시지만. 3회 실패 시 이메일 단일 채널로 실제 발송 연동 (카카오워크 미사용) |
 | 다크 모드 | `prefers-color-scheme: dark` 분기 |
-| 게이트 통과 축하 | 통과 시 pulse 또는 confetti 애니메이션 |
+| 모델 소개 출처 도해 | source/06_도해(벤다이어그램·7유형 매트릭스·다섯함정 연결도)와 시각 정합성 추가 점검 |
 
 ### 🟢 Low Priority (추가 기능)
 
 | 항목 | 설명 |
 |------|------|
-| 온보딩 플로우 | 최초 진입 시 3단계 온보딩 (서비스 소개 → 자기진단 유도 → 모듈 목록) |
+| 온보딩 플로우 | 최초 진입 시 3단계 온보딩 (모델 소개 → 자기진단 유도 → 모듈 목록) |
 | 성취 배지 시스템 | 덕목별/전체 완료 시 배지 발급 |
 | 학습 스트릭 | 연속 학습일 표시 (홈 화면) |
-| 모듈 잠금 UI | 이전 미완료 시 locked 스타일 |
 
 ---
 
@@ -338,35 +342,35 @@ function updateHomeProgress() {
 
 ## 10. 알려진 제약사항
 
-- prototype.html 단일 파일 아키텍처 유지 (CSS, JS 분리 금지)
-- `localStorage`는 프로토타입 전용. 실제 서비스 전환 시 서버 API로 교체 예정
-- max-width: 430px 모바일 기준 설계. 데스크탑 레이아웃 고려 불필요
-- 현재 PQ/GQ 데이터는 M1(겸손) 기준. M2~M7 콘텐츠 미작성
+- prototype.html 단일 파일 아키텍처 유지 (CSS, JS 분리 금지). `<!DOCTYPE html>` + 노치 safe-area-inset 적용
+- `localStorage`(`tp2-state`)는 프로토타입 전용. 실제 서비스 전환 시 서버 API로 교체 예정
+- max-width 모바일 기준 설계. 데스크탑 레이아웃 고려 불필요
+- 멘토 알림은 이메일 단일 채널 가정(카카오워크 미사용), 현재는 안내 문구만 표시
+- 유형명(7유형)은 자기인식·코칭용 — 동료를 꼬리표 붙이는 용도로 쓰지 않음
 
 ---
 
 ## 11. 세션 시작 명령 예시
 
-### 모듈별 퀴즈 교체 로직 구현
+### 멘토 알림 실제 발송 연동
 ```
 팀플레이어학습도구/prototype.html 작업합니다.
 CLAUDE_HANDOFF.md를 읽어 컨텍스트 파악 후 시작해주세요.
 
 오늘 작업:
-1. MODS 배열에 각 모듈별 pq(연습퀴즈 3문항)와 gq(게이트 5문항) 데이터 추가
-2. openModule()에서 해당 모듈 퀴즈 데이터로 교체되도록 renderPQCarousel(), renderGate() 수정
-3. M2~M3 연습퀴즈 문항 직접 작성 (겸손 덕목 관련)
+showGateSheet()의 3회 실패 분기에서 멘토 이메일 자동 발송이 실제로 트리거되도록 연동
+(현재는 안내 문구만 표시. 채널은 이메일 단일)
 ```
 
-### 홈 진행 현황 연동
+### 다크 모드 추가
 ```
 팀플레이어학습도구/prototype.html 작업합니다.
 CLAUDE_HANDOFF.md 먼저 읽어주세요.
 
 오늘 작업:
-모듈 완료 상태를 JS 상태로 관리하고, 게이트 통과 시 홈 화면 현황 카드(겸손 N/3, 갈망 N/2, 영리함 N/2)에 실시간 반영되도록 구현
+:root CSS 변수에 prefers-color-scheme: dark 분기를 추가해 다크 모드 지원
 ```
 
 ---
 
-*최종 업데이트: 2026-06-12 · 케이옥션 IT팀 서비스기획파트*
+*최종 업데이트: 2026-06-12 · prototype.html 1421줄 / JS 48함수 기준 · 케이옥션 IT팀 서비스기획파트*

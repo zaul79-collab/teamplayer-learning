@@ -1098,7 +1098,7 @@ function showGateSheet(score,total,pass,saved){
   const failMsgs=[
     {main:'괜찮습니다. 한번 더 공부하고 다시 도전해봐요.',sub:'3회 실패 시 멘토에게 도움 메시지가 자동 발송될 예정입니다.'},
     {main:'학습에 어려움이 있으신가요? 자료를 한번 더 읽어보고 재도전 해봐요.',sub:'3회 실패 시 멘토에게 도움 메시지가 자동 발송될 예정입니다.'},
-    {main:'멘토와 함께 이 난관을 해쳐나가 보아요. 멘토에게 도움의 메시지가 자동 발송됩니다.',sub:null},
+    {main:'멘토와 함께 이 난관을 헤쳐나가 보아요. 멘토에게 도움의 메시지가 자동 발송됩니다.',sub:null},
   ];
   const fm=!pass?failMsgs[Math.min(failCount,3)-1]:null;
   const wrong=m.gq.map((q,i)=>saved[i]!==q.ans

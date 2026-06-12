@@ -70,9 +70,9 @@ body{
 
 .badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;
   padding:4px 11px;border-radius:999px;letter-spacing:.02em}
-.badge-h{background:var(--h-bg);color:var(--h-dark)}
-.badge-g{background:var(--g-bg);color:var(--g-dark)}
-.badge-s{background:var(--s-bg);color:var(--s-dark)}
+.badge-h{background:var(--h-bg);color:var(--h-dark);border:1px solid #F0DEB4}
+.badge-g{background:var(--g-bg);color:var(--g-dark);border:1px solid #C7D9F6}
+.badge-s{background:var(--s-bg);color:var(--s-dark);border:1px solid #C4E7CF}
 .badge-ink{background:var(--ink);color:#fff}
 .badge-line{background:transparent;border:1px solid var(--line);color:var(--faint)}
 
@@ -99,7 +99,31 @@ body{
   position:relative;border-radius:26px;overflow:hidden;background:var(--ink);
   color:#fff;padding:26px 22px;margin-bottom:14px;
 }
-.hero .orb{position:absolute;border-radius:50%;filter:blur(34px);opacity:.5;pointer-events:none}
+.hero .orb{position:absolute;border-radius:50%;filter:blur(34px);opacity:.5;pointer-events:none;will-change:transform}
+.hero .orb-1{animation:drift1 13s ease-in-out infinite}
+.hero .orb-2{animation:drift2 17s ease-in-out infinite}
+.hero .orb-3{animation:drift3 11s ease-in-out infinite}
+@keyframes drift1{
+  0%{transform:translate(0,0) scale(1)}
+  33%{transform:translate(-26px,22px) scale(1.18)}
+  66%{transform:translate(18px,30px) scale(.9)}
+  100%{transform:translate(0,0) scale(1)}
+}
+@keyframes drift2{
+  0%{transform:translate(0,0) scale(1)}
+  30%{transform:translate(30px,-20px) scale(1.22)}
+  60%{transform:translate(-22px,-14px) scale(.88)}
+  100%{transform:translate(0,0) scale(1)}
+}
+@keyframes drift3{
+  0%{transform:translate(0,0) scale(1)}
+  40%{transform:translate(-30px,-26px) scale(1.15)}
+  70%{transform:translate(24px,16px) scale(.92)}
+  100%{transform:translate(0,0) scale(1)}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero .orb-1,.hero .orb-2,.hero .orb-3{animation:none}
+}
 .hero-num{font-size:46px;font-weight:900;letter-spacing:-.03em;line-height:1}
 .hero-bar{height:6px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:16px;overflow:hidden}
 .hero-bar i{display:block;height:100%;border-radius:99px;background:#fff;transition:width .5s cubic-bezier(.22,.9,.3,1)}
@@ -148,7 +172,8 @@ body{
 .back-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);
   display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--ink);flex-shrink:0}
 .md-hero{padding:24px 20px 4px}
-.md-hero-emoji{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:13px}
+.md-hero-emoji{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:13px;
+  border:1px solid rgba(32,29,24,.07);box-shadow:0 6px 18px -8px rgba(32,29,24,.28)}
 .obj-card{margin:16px 18px 0;padding:16px 17px}
 .obj-item{display:flex;gap:9px;font-size:13.5px;color:var(--sub);margin-top:8px;line-height:1.5}
 .obj-item b{color:inherit}
@@ -278,9 +303,9 @@ body{
   </div>
 
   <div class="hero">
-    <div class="orb" style="width:150px;height:150px;background:var(--h);top:-50px;right:-30px"></div>
-    <div class="orb" style="width:130px;height:130px;background:var(--g);bottom:-55px;left:-25px"></div>
-    <div class="orb" style="width:110px;height:110px;background:var(--s);bottom:-40px;right:70px"></div>
+    <div class="orb orb-1" style="width:150px;height:150px;background:var(--h);top:-50px;right:-30px"></div>
+    <div class="orb orb-2" style="width:130px;height:130px;background:var(--g);bottom:-55px;left:-25px"></div>
+    <div class="orb orb-3" style="width:110px;height:110px;background:var(--s);bottom:-40px;right:70px"></div>
     <div style="position:relative">
       <div class="eyebrow" style="color:rgba(255,255,255,.55)">이상적인 팀플레이어로 가는 길</div>
       <div style="display:flex;align-items:flex-end;gap:8px;margin-top:12px">

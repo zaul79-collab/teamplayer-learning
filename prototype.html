@@ -890,9 +890,49 @@ function showGateSheet(score,total,pass,saved){
       <button class="btn btn-ghost" onclick="closeGateSheet();switchTab('read')">학습 내용 다시 보기</button>
     </div>`;
   document.getElementById('gate-ovl').classList.add('show');
+  if(pass) setTimeout(launchConfetti, 200);
 }
 function closeGateSheet(e){ if(e&&e.target.id!=='gate-ovl'&&e.type==='click'&&e.currentTarget.id==='gate-ovl'&&e.target!==e.currentTarget)return; document.getElementById('gate-ovl').classList.remove('show'); }
 function retryGate(){ renderGate(); trackGoTo('gq-track',0); }
+
+function launchConfetti(){
+  const canvas=document.createElement('canvas');
+  canvas.style.cssText='position:fixed;inset:0;z-index:999;pointer-events:none';
+  canvas.width=window.innerWidth; canvas.height=window.innerHeight;
+  document.body.appendChild(canvas);
+  const ctx=canvas.getContext('2d');
+  const COLORS=['#F59E0B','#2563EB','#16A34A','#EF4444','#EC4899','#8B5CF6','#fff'];
+  const pieces=Array.from({length:120},()=>({
+    x:Math.random()*canvas.width,
+    y:-10-Math.random()*canvas.height*0.4,
+    w:7+Math.random()*6, h:4+Math.random()*4,
+    r:Math.random()*Math.PI*2,
+    vx:(Math.random()-0.5)*3,
+    vy:2.5+Math.random()*3,
+    vr:(Math.random()-0.5)*0.18,
+    color:COLORS[Math.floor(Math.random()*COLORS.length)],
+    opacity:1
+  }));
+  let frame=0;
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    pieces.forEach(p=>{
+      p.x+=p.vx; p.y+=p.vy; p.r+=p.vr;
+      if(frame>90) p.opacity=Math.max(0,p.opacity-0.018);
+      ctx.save();
+      ctx.globalAlpha=p.opacity;
+      ctx.translate(p.x,p.y);
+      ctx.rotate(p.r);
+      ctx.fillStyle=p.color;
+      ctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+      ctx.restore();
+    });
+    frame++;
+    if(frame<160) requestAnimationFrame(draw);
+    else canvas.remove();
+  }
+  draw();
+}
 
 function completeModule(i){
   state.completed[i]=true; state.dates[i]=today();

@@ -204,14 +204,15 @@ body{
 .venn-c{opacity:0;transform-box:fill-box;transform-origin:center}
 .venn-label{opacity:0}
 .venn-ideal{opacity:0;transform-box:fill-box;transform-origin:center}
-#s-about.in .venn-c{animation:vennPop .6s cubic-bezier(.2,.85,.3,1) forwards}
-#s-about.in .venn-c1{animation-delay:.1s}
-#s-about.in .venn-c2{animation-delay:.4s}
-#s-about.in .venn-c3{animation-delay:.7s}
-#s-about.in .venn-label{animation:fadeIn .45s ease forwards;animation-delay:.95s}
-#s-about.in .venn-ideal{animation:idealPop .65s cubic-bezier(.2,.9,.3,1) forwards;animation-delay:1.25s}
+#s-about.in .venn-c{animation:vennPop .62s cubic-bezier(.2,.85,.3,1) forwards}
+#s-about.in .venn-c1{animation-delay:0s}
+#s-about.in .venn-c2{animation-delay:.22s}
+#s-about.in .venn-c3{animation-delay:.44s}
+#s-about.in .venn-label{animation:fadeIn .45s ease .72s forwards}
+#s-about.in .venn-ideal{animation:idealPop .6s cubic-bezier(.2,.9,.3,1) .92s forwards, idealShimmer 2.4s ease-in-out 1.7s infinite}
 @keyframes vennPop{from{opacity:0;transform:scale(.55)}to{opacity:1;transform:scale(1)}}
-@keyframes idealPop{0%{opacity:0;transform:scale(.6)}60%{opacity:1;transform:scale(1.14)}100%{opacity:1;transform:scale(1)}}
+@keyframes idealPop{0%{opacity:0;transform:scale(.62)}60%{opacity:1;transform:scale(1.12)}100%{opacity:1;transform:scale(1)}}
+@keyframes idealShimmer{0%,100%{filter:drop-shadow(0 0 0 rgba(245,158,11,0))}50%{filter:drop-shadow(0 0 7px rgba(245,158,11,.6))}}
 /* 소개 페이지 — 스크롤 시 순차 노출 */
 #s-about .reveal{opacity:0;transform:translateY(18px);transition:opacity .5s ease, transform .55s cubic-bezier(.2,.8,.3,1)}
 #s-about .reveal.show{opacity:1;transform:none}
@@ -470,18 +471,18 @@ body{
   <!-- 벤다이어그램 -->
   <div class="card" style="margin:18px 18px 0;padding:18px 16px 12px">
     <div class="cap" style="letter-spacing:.08em;text-align:center;margin-bottom:6px">VENN DIAGRAM</div>
-    <svg viewBox="0 0 340 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
-      <circle class="venn-c venn-c1" cx="170" cy="104" r="86" fill="#F59E0B" fill-opacity=".17" stroke="#F59E0B" stroke-width="2"/>
-      <circle class="venn-c venn-c2" cx="116" cy="200" r="86" fill="#2563EB" fill-opacity=".15" stroke="#2563EB" stroke-width="2"/>
-      <circle class="venn-c venn-c3" cx="224" cy="200" r="86" fill="#16A34A" fill-opacity=".15" stroke="#16A34A" stroke-width="2"/>
+    <svg viewBox="0 0 340 312" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;display:block">
+      <circle class="venn-c venn-c1" cx="170" cy="124" r="84" fill="#F59E0B" fill-opacity=".17" stroke="#F59E0B" stroke-width="2"/>
+      <circle class="venn-c venn-c2" cx="130" cy="198" r="84" fill="#2563EB" fill-opacity=".15" stroke="#2563EB" stroke-width="2"/>
+      <circle class="venn-c venn-c3" cx="210" cy="198" r="84" fill="#16A34A" fill-opacity=".15" stroke="#16A34A" stroke-width="2"/>
       <g class="venn-label">
-        <text x="170" y="46" text-anchor="middle" font-size="17" font-weight="800" fill="#8A5A00">겸손</text>
-        <text x="90" y="250" text-anchor="middle" font-size="17" font-weight="800" fill="#1E3A8A">갈망</text>
-        <text x="250" y="250" text-anchor="middle" font-size="17" font-weight="800" fill="#14532D">영리함</text>
+        <text x="170" y="58" text-anchor="middle" font-size="17" font-weight="800" fill="#8A5A00">겸손</text>
+        <text x="92" y="252" text-anchor="middle" font-size="17" font-weight="800" fill="#1E3A8A">갈망</text>
+        <text x="248" y="252" text-anchor="middle" font-size="17" font-weight="800" fill="#14532D">영리함</text>
       </g>
       <g class="venn-ideal">
-        <text x="170" y="167" text-anchor="middle" font-size="15.5" font-weight="800" fill="#201D18" letter-spacing="-.3">이상적인</text>
-        <text x="170" y="187" text-anchor="middle" font-size="15.5" font-weight="800" fill="#201D18" letter-spacing="-.3">팀 플레이어</text>
+        <text x="170" y="164" text-anchor="middle" font-size="15.5" font-weight="800" fill="#201D18" letter-spacing="-.3">이상적인</text>
+        <text x="170" y="184" text-anchor="middle" font-size="15.5" font-weight="800" fill="#201D18" letter-spacing="-.3">팀 플레이어</text>
       </g>
     </svg>
     <div class="cap" style="text-align:center;line-height:1.5;margin-top:6px">세 원이 모두 겹치는 가운데가<br>이상적인 팀 플레이어입니다</div>
@@ -518,18 +519,46 @@ body{
   <!-- 다섯 함정 연결 -->
   <div class="reveal" style="padding:0 18px;margin-top:24px">
     <div class="vsec-head"><div class="vsec-bar" style="background:var(--ink)"></div><span class="h2">세 덕목이 막는 다섯 함정</span></div>
-    <div class="cap" style="margin:-4px 2px 12px;line-height:1.5">각 덕목은 팀이 빠지기 쉬운 함정을 하나씩 막아줍니다.</div>
-    <div class="card" style="padding:14px 15px;margin-bottom:9px">
-      <div style="font-size:13.5px;font-weight:800"><span style="color:var(--h-dark)">겸손</span> → 신뢰</div>
-      <div style="font-size:12.5px;color:var(--sub);margin-top:4px;line-height:1.5">마음을 열어 신뢰를 쌓아 <b>'신뢰의 결여'</b>를 막습니다.</div>
+    <div class="cap" style="margin:-4px 2px 12px;line-height:1.6">렌시오니의 또 다른 모델 <b>'팀의 다섯 가지 함정'</b>은 아래에서부터 차곡차곡 쌓입니다. 아래 단계가 무너지면 위 단계도 무너져요. 개인의 <b>세 덕목</b>이 이 함정들을 막는 토대가 됩니다.</div>
+
+    <!-- 다섯 함정 (1→5, 아래에서 위로) -->
+    <div class="card" style="padding:6px 6px;margin-bottom:14px">
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border-radius:10px;background:var(--h-bg)">
+          <span style="flex-shrink:0;width:22px;height:22px;border-radius:7px;background:var(--g);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center">5</span>
+          <div><div style="font-size:13px;font-weight:800">결과에 대한 무관심</div><div style="font-size:12px;color:var(--sub);line-height:1.5;margin-top:2px">팀 성과보다 개인의 목표·지위·체면을 앞세웁니다.</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border-radius:10px;background:var(--wash)">
+          <span style="flex-shrink:0;width:22px;height:22px;border-radius:7px;background:#6E8CB0;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center">4</span>
+          <div><div style="font-size:13px;font-weight:800">책임감의 회피</div><div style="font-size:12px;color:var(--sub);line-height:1.5;margin-top:2px">동료의 낮은 기준이나 어긋난 행동을 서로 짚어주지 못합니다.</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border-radius:10px;background:var(--wash)">
+          <span style="flex-shrink:0;width:22px;height:22px;border-radius:7px;background:#3C6FA0;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center">3</span>
+          <div><div style="font-size:13px;font-weight:800">헌신의 결여</div><div style="font-size:12px;color:var(--sub);line-height:1.5;margin-top:2px">방향이 모호해 결정에 진짜로 동의하지도, 실행하지도 못합니다.</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border-radius:10px;background:var(--s-bg)">
+          <span style="flex-shrink:0;width:22px;height:22px;border-radius:7px;background:#2E5A88;color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center">2</span>
+          <div><div style="font-size:13px;font-weight:800">갈등에 대한 두려움</div><div style="font-size:12px;color:var(--sub);line-height:1.5;margin-top:2px">솔직한 토론을 피하고 겉으로만 화목한 '인위적 화합'에 머뭅니다.</div></div>
+        </div>
+        <div style="display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border-radius:10px;background:var(--h-bg)">
+          <span style="flex-shrink:0;width:22px;height:22px;border-radius:7px;background:var(--ink);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center">1</span>
+          <div><div style="font-size:13px;font-weight:800">신뢰의 결여 <span class="cap" style="font-weight:600">· 모든 함정의 뿌리</span></div><div style="font-size:12px;color:var(--sub);line-height:1.5;margin-top:2px">약점·실수를 숨기고 서로에게 취약한 모습을 드러내지 못합니다.</div></div>
+        </div>
+      </div>
     </div>
-    <div class="card" style="padding:14px 15px;margin-bottom:9px">
+
+    <div class="cap" style="margin:0 2px 10px;line-height:1.5">그리고 세 덕목이 이 함정들을 이렇게 막아줍니다 👇</div>
+    <div class="card" style="padding:14px 15px;margin-bottom:9px;border-left:3px solid var(--h)">
+      <div style="font-size:13.5px;font-weight:800"><span style="color:var(--h-dark)">겸손</span> → 신뢰의 토대</div>
+      <div style="font-size:12.5px;color:var(--sub);margin-top:5px;line-height:1.6">약점을 솔직히 인정하는 겸손이 <b>취약성에 기반한 신뢰</b>를 만듭니다. 1번 함정이 풀리면 나머지를 넘어설 발판이 생깁니다.</div>
+    </div>
+    <div class="card" style="padding:14px 15px;margin-bottom:9px;border-left:3px solid var(--s)">
       <div style="font-size:13.5px;font-weight:800"><span style="color:var(--s-dark)">영리함</span> → 건전한 갈등</div>
-      <div style="font-size:12.5px;color:var(--sub);margin-top:4px;line-height:1.5">타인을 읽고 말·행동을 조정해 <b>'갈등에 대한 두려움'</b>을 막습니다.</div>
+      <div style="font-size:12.5px;color:var(--sub);margin-top:5px;line-height:1.6">타인을 읽고 말·행동을 조정하는 영리함이 <b>감정 상하지 않는 솔직한 토론</b>을 가능케 해 2번 함정을 막습니다.</div>
     </div>
-    <div class="card" style="padding:14px 15px">
-      <div style="font-size:13.5px;font-weight:800"><span style="color:var(--g-dark)">갈망</span> → 결과</div>
-      <div style="font-size:12.5px;color:var(--sub);margin-top:4px;line-height:1.5">팀 성과에 책임감을 느껴 <b>'결과에 대한 무관심'</b>을 막습니다.</div>
+    <div class="card" style="padding:14px 15px;border-left:3px solid var(--g)">
+      <div style="font-size:13.5px;font-weight:800"><span style="color:var(--g-dark)">갈망</span> → 헌신·책임·결과</div>
+      <div style="font-size:12.5px;color:var(--sub);margin-top:5px;line-height:1.6">팀 성과에 책임감을 느끼는 갈망이 <b>분명한 헌신과 상호 책임, 결과 집중</b>으로 이어져 3·4·5번 함정을 막습니다.</div>
     </div>
   </div>
 

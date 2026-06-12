@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 560" font-family="Noto Sans CJK KR, Malgun Gothic, sans-serif">
+<defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+<path d="M0,0 L8,3 L0,6 Z" fill="#44546A"/></marker></defs>
+<rect width="940" height="560" fill="#FFFFFF"/>
+<rect width="940" height="60" fill="#1F3864"/>
+<text x="30" y="38" fill="#FFFFFF" font-size="24" font-weight="700">화면 개념도 — Forms 퀴즈 문항·섹션</text>
+<text x="910" y="37" fill="#C9D3E6" font-size="13" text-anchor="end">STEP 4: 연습/게이트/인증 분리 · 정답·점수</text>
+<text x="30" y="96" fill="#8A93A6" font-size="12" font-weight="400" text-anchor="start">※ 위치 개념도입니다. ‘퀴즈’ 기능으로 정답·점수를 설정합니다.</text>
+<rect x="30" y="120" width="560" height="250" rx="12" fill="#FFFFFF" stroke="#D5D9E0" stroke-width="1.5"/>
+<text x="52" y="154" fill="#1F3864" font-size="13" font-weight="700" text-anchor="start">문항 (객관식)</text>
+<text x="52" y="182" fill="#222222" font-size="13" font-weight="400" text-anchor="start">다음 행동이 가장 잘 보여주는 덕목은? — “…”</text>
+<circle cx="68" cy="205" r="8" fill="#FFFFFF" stroke="#44546A" stroke-width="1.5"/>
+<text x="86" y="209" fill="#222222" font-size="12.5" font-weight="400" text-anchor="start">겸손</text>
+<text x="160" y="209" fill="#2E7D5B" font-size="12" font-weight="700" text-anchor="start">✓ 정답으로 표시</text>
+<circle cx="68" cy="239" r="8" fill="#FFFFFF" stroke="#44546A" stroke-width="1.5"/>
+<text x="86" y="243" fill="#222222" font-size="12.5" font-weight="400" text-anchor="start">갈망</text>
+<circle cx="68" cy="273" r="8" fill="#FFFFFF" stroke="#44546A" stroke-width="1.5"/>
+<text x="86" y="277" fill="#222222" font-size="12.5" font-weight="400" text-anchor="start">영리함</text>
+<rect x="52" y="307" width="490" height="40" rx="8" fill="#FAFBFD" stroke="#D5D9E0" stroke-width="1"/>
+<text x="66" y="332" fill="#44546A" font-size="12" font-weight="400" text-anchor="start">점수: 1   ·   필수: 켜기   ·   (보기 순서 섞기 가능)</text>
+<rect x="30" y="392" width="560" height="128" rx="12" fill="#F2F4F8"/>
+<text x="52" y="422" fill="#1F3864" font-size="14" font-weight="700" text-anchor="start">섹션으로 풀 나누기</text>
+<text x="52" y="452" fill="#222222" font-size="12.5" font-weight="400" text-anchor="start">· 폼/섹션 A = 연습(점수 안 보이게, 무제한)</text>
+<text x="52" y="474" fill="#222222" font-size="12.5" font-weight="400" text-anchor="start">· 폼/섹션 B = 게이트(채점·통과 기준, 다른 변형)</text>
+<text x="52" y="496" fill="#222222" font-size="12.5" font-weight="400" text-anchor="start">· 폼/섹션 C = 인증(캡스톤 연계)</text>
+<rect x="615" y="120" width="295" height="400" rx="12" fill="#F2F4F8"/>
+<text x="635" y="152" fill="#1F3864" font-size="14.5" font-weight="700" text-anchor="start">체크리스트</text>
+<text x="635" y="182" fill="#222222" font-size="12" font-weight="400" text-anchor="start">□ 설정에서 ‘퀴즈’ 켜기</text>
+<text x="635" y="204" fill="#222222" font-size="12" font-weight="400" text-anchor="start">□ 각 문항 정답 표시</text>
+<text x="635" y="226" fill="#222222" font-size="12" font-weight="400" text-anchor="start">□ 점수 입력(보통 1점)</text>
+<text x="635" y="248" fill="#222222" font-size="12" font-weight="400" text-anchor="start">□ 게이트는 정답 화면 숨김</text>
+<text x="635" y="270" fill="#222222" font-size="12" font-weight="400" text-anchor="start">□ 게이트=연습과 다른 변형</text>
+<text x="635" y="292" fill="#222222" font-size="12" font-weight="400" text-anchor="start">□ 자기진단 폼은 ‘퀴즈’ 끄기</text>
+<text x="635" y="314" fill="#222222" font-size="12" font-weight="400" text-anchor="start">   (정답·점수 없음)</text>
+<text x="635" y="336" fill="#222222" font-size="12" font-weight="400" text-anchor="start"></text>
+<text x="635" y="358" fill="#222222" font-size="12" font-weight="400" text-anchor="start">□ 게이트/인증 폼은</text>
+<text x="635" y="380" fill="#222222" font-size="12" font-weight="400" text-anchor="start">   STEP 5 흐름에 연결</text>
+<text x="635" y="402" fill="#222222" font-size="12" font-weight="400" text-anchor="start"></text>
+<text x="635" y="424" fill="#B5343B" font-size="12" font-weight="700" text-anchor="start">주의: Forms는 02 마스터와</text>
+<text x="635" y="446" fill="#222222" font-size="12" font-weight="400" text-anchor="start">자동 동기화되지 않음 —</text>
+<text x="635" y="468" fill="#222222" font-size="12" font-weight="400" text-anchor="start">문항 변경 시 수동 반영.</text>
+</svg>

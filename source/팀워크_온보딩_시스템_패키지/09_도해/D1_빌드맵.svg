@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 640" font-family="Noto Sans CJK KR, Malgun Gothic, sans-serif">
+<defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+<path d="M0,0 L8,3 L0,6 Z" fill="#44546A"/></marker></defs>
+<rect width="1040" height="640" fill="#FFFFFF"/>
+<rect width="1040" height="60" fill="#1F3864"/>
+<text x="30" y="38" fill="#FFFFFF" font-size="24" font-weight="700">전체 빌드 맵 — 린 스타트 순서</text>
+<text x="1010" y="37" fill="#C9D3E6" font-size="13" text-anchor="end">STEP 1 → 7 + 게이트 판정 규칙</text>
+<rect x="24" y="110" width="232" height="96" rx="12" fill="#F2F4F8"/>
+<rect x="24" y="110" width="232" height="30" rx="12" fill="#1F3864"/>
+<rect x="24" y="128" width="232" height="12" fill="#1F3864"/>
+<text x="38" y="131" fill="#FFFFFF" font-size="14" font-weight="700" text-anchor="start">STEP 1</text>
+<text x="38" y="168" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">팀 사이트</text>
+<text x="38" y="192" fill="#44546A" font-size="12.5" font-weight="400" text-anchor="start">SharePoint</text>
+<rect x="274" y="110" width="232" height="96" rx="12" fill="#F2F4F8"/>
+<rect x="274" y="110" width="232" height="30" rx="12" fill="#1F3864"/>
+<rect x="274" y="128" width="232" height="12" fill="#1F3864"/>
+<text x="288" y="131" fill="#FFFFFF" font-size="14" font-weight="700" text-anchor="start">STEP 2</text>
+<text x="288" y="168" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">모델 마스터 → Lists</text>
+<text x="288" y="192" fill="#44546A" font-size="12.5" font-weight="400" text-anchor="start">Microsoft Lists</text>
+<rect x="524" y="110" width="232" height="96" rx="12" fill="#F2F4F8"/>
+<rect x="524" y="110" width="232" height="30" rx="12" fill="#1F3864"/>
+<rect x="524" y="128" width="232" height="12" fill="#1F3864"/>
+<text x="538" y="131" fill="#FFFFFF" font-size="14" font-weight="700" text-anchor="start">STEP 3</text>
+<text x="538" y="168" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">핸드북·도해 페이지</text>
+<text x="538" y="192" fill="#44546A" font-size="12.5" font-weight="400" text-anchor="start">SharePoint 페이지</text>
+<rect x="774" y="110" width="232" height="96" rx="12" fill="#F2F4F8"/>
+<rect x="774" y="110" width="232" height="30" rx="12" fill="#B8943F"/>
+<rect x="774" y="128" width="232" height="12" fill="#B8943F"/>
+<text x="788" y="131" fill="#FFFFFF" font-size="14" font-weight="700" text-anchor="start">STEP 4</text>
+<text x="788" y="168" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">퀴즈·자기진단</text>
+<text x="788" y="192" fill="#44546A" font-size="12.5" font-weight="400" text-anchor="start">Forms</text>
+<rect x="24" y="300" width="232" height="96" rx="12" fill="#F2F4F8"/>
+<rect x="24" y="300" width="232" height="30" rx="12" fill="#B8943F"/>
+<rect x="24" y="318" width="232" height="12" fill="#B8943F"/>
+<text x="38" y="321" fill="#FFFFFF" font-size="14" font-weight="700" text-anchor="start">STEP 5</text>
+<text x="38" y="358" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">게이트 자동 판정</text>
+<text x="38" y="382" fill="#44546A" font-size="12.5" font-weight="400" text-anchor="start">Power Automate</text>
+<rect x="274" y="300" width="232" height="96" rx="12" fill="#F2F4F8"/>
+<rect x="274" y="300" width="232" height="30" rx="12" fill="#2E5A88"/>
+<rect x="274" y="318" width="232" height="12" fill="#2E5A88"/>
+<text x="288" y="321" fill="#FFFFFF" font-size="14" font-weight="700" text-anchor="start">STEP 6</text>
+<text x="288" y="358" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">과정 묶기</text>
+<text x="288" y="382" fill="#44546A" font-size="12.5" font-weight="400" text-anchor="start">Viva Learning</text>
+<rect x="524" y="300" width="232" height="96" rx="12" fill="#F2F4F8"/>
+<rect x="524" y="300" width="232" height="30" rx="12" fill="#2E5A88"/>
+<rect x="524" y="318" width="232" height="12" fill="#2E5A88"/>
+<text x="538" y="321" fill="#FFFFFF" font-size="14" font-weight="700" text-anchor="start">STEP 7</text>
+<text x="538" y="358" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">대시보드</text>
+<text x="538" y="382" fill="#44546A" font-size="12.5" font-weight="400" text-anchor="start">Power BI</text>
+<line x1="256" y1="158.0" x2="274" y2="158.0" stroke="#44546A" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="506" y1="158.0" x2="524" y2="158.0" stroke="#44546A" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="756" y1="158.0" x2="774" y2="158.0" stroke="#44546A" stroke-width="2" marker-end="url(#arr)"/>
+<path d="M 890.0 206 L 890.0 234 L 140.0 234 L 140.0 300" fill="none" stroke="#44546A" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="256" y1="348.0" x2="274" y2="348.0" stroke="#44546A" stroke-width="2" marker-end="url(#arr)"/>
+<line x1="506" y1="348.0" x2="524" y2="348.0" stroke="#44546A" stroke-width="2" marker-end="url(#arr)"/>
+
+<rect x="24" y="430" width="1010" height="58" rx="12" fill="#FBF4E6" stroke="#B8943F" stroke-width="1.2"/>
+<text x="46" y="456" fill="#B8943F" font-size="14" font-weight="700" text-anchor="start">먼저(MVP):</text>
+<text x="150" y="456" fill="#222222" font-size="13" font-weight="400" text-anchor="start">STEP 1~4 + 게이트 핵심(겸손·7유형) → 파일럿. 그 다음 STEP 5 자동화·6 과정·7 대시보드로 확장.</text>
+<rect x="24" y="506" width="1010" height="96" rx="12" fill="#F2F4F8"/>
+<text x="46" y="534" fill="#1F3864" font-size="14" font-weight="700" text-anchor="start">게이트 판정(STEP 5에서 구현)</text>
+<text x="46" y="562" fill="#222222" font-size="13" font-weight="400" text-anchor="start">· 일반 모듈 80% 통과 · 핵심 모듈(겸손·7유형 분류)과 윤리 핵심 문항 100% · 연습/게이트/인증 풀 분리(다른 변형)</text>
+<text x="46" y="586" fill="#222222" font-size="13" font-weight="400" text-anchor="start">· 자기진단(18문장)은 채점하지 않음 · 사람의 '겸손/인성 점수' 산출 금지(측정의 한계)</text>
+</svg>

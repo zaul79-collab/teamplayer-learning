@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 760" font-family="Noto Sans CJK KR, Malgun Gothic, sans-serif">
+<rect x="0" y="0" width="1000" height="760" fill="#FFFFFF"/>
+<rect x="0" y="0" width="1000" height="64" fill="#1F3864"/>
+<text x="34" y="41" fill="#FFFFFF" font-size="26" font-weight="700">이상적인 팀 플레이어 모델 — 벤다이어그램</text>
+<text x="966" y="40" fill="#C9D3E6" font-size="14" text-anchor="end">겸손 · 갈망 · 영리함</text>
+<circle cx="500" cy="290" r="205" fill="#1F3864" opacity="0.20" stroke="#1F3864" stroke-width="2.5"/>
+<circle cx="380" cy="500" r="205" fill="#B8943F" opacity="0.22" stroke="#B8943F" stroke-width="2.5"/>
+<circle cx="620" cy="500" r="205" fill="#2E5A88" opacity="0.20" stroke="#2E5A88" stroke-width="2.5"/>
+<circle cx="500" cy="430" r="60" fill="#B8943F" opacity="0.30"/>
+<text x="500" y="196" fill="#222222" font-size="16" font-weight="700" text-anchor="middle">겸손</text><text x="500" y="218" fill="#44546A" font-size="13" font-weight="400" text-anchor="middle"></text>
+<text x="500" y="230" fill="#44546A" font-size="14" font-weight="600" text-anchor="middle">졸</text>
+<text x="262" y="512" fill="#222222" font-size="16" font-weight="700" text-anchor="middle">갈망</text><text x="262" y="534" fill="#44546A" font-size="13" font-weight="400" text-anchor="middle"></text>
+<text x="262" y="546" fill="#44546A" font-size="14" font-weight="600" text-anchor="middle">불도저</text>
+<text x="738" y="512" fill="#222222" font-size="16" font-weight="700" text-anchor="middle">영리함</text><text x="738" y="534" fill="#44546A" font-size="13" font-weight="400" text-anchor="middle"></text>
+<text x="738" y="546" fill="#44546A" font-size="14" font-weight="600" text-anchor="middle">연예인</text>
+<text x="360" y="388" fill="#222222" font-size="16" font-weight="700" text-anchor="middle">돌발적인</text><text x="360" y="410" fill="#44546A" font-size="13" font-weight="400" text-anchor="middle">사고뭉치</text>
+<text x="640" y="388" fill="#222222" font-size="16" font-weight="700" text-anchor="middle">사랑스러운</text><text x="640" y="410" fill="#44546A" font-size="13" font-weight="400" text-anchor="middle">게으름뱅이</text>
+<text x="500" y="576" fill="#B5343B" font-size="15" font-weight="700" text-anchor="middle">노련한 정치가</text>
+<text x="500" y="597" fill="#B5343B" font-size="12" font-weight="600" text-anchor="middle">⚠ 가장 위험</text>
+<text x="500" y="424" fill="#1F3864" font-size="15" font-weight="700" text-anchor="middle">이상적인</text>
+<text x="500" y="446" fill="#1F3864" font-size="15" font-weight="700" text-anchor="middle">팀 플레이어</text>
+<rect x="34" y="672" width="932" height="62" rx="10" fill="#F2F4F8"/>
+<text x="54" y="700" fill="#44546A" font-size="14" font-weight="400" text-anchor="start">· 영리함 = 대인관계 영리함(타인에 대한 상식). 지적 능력(IQ)이 아니다.</text>
+<text x="54" y="722" fill="#44546A" font-size="14" font-weight="400" text-anchor="start">· 세 덕목 중 겸손이 가장 근본. 갈망+영리함이되 겸손이 없으면 '노련한 정치가'로 가장 위험해진다.</text>
+</svg>

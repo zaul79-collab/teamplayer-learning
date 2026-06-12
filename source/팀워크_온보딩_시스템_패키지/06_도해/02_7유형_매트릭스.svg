@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1040 720" font-family="Noto Sans CJK KR, Malgun Gothic, sans-serif">
+<rect x="0" y="0" width="1040" height="720" fill="#FFFFFF"/>
+<rect x="0" y="0" width="1040" height="64" fill="#1F3864"/>
+<text x="34" y="41" fill="#FFFFFF" font-size="26" font-weight="700">7유형 매트릭스</text>
+<text x="1006" y="40" fill="#C9D3E6" font-size="14" text-anchor="end">겸손(겸) · 갈망(갈) · 영리함(영)</text>
+<rect x="24" y="96" width="986" height="40" rx="8" fill="#1F3864"/>
+<text x="129.0" y="122" fill="#FFFFFF" font-size="15" font-weight="700" text-anchor="middle">유형</text>
+<text x="260.0" y="122" fill="#FFFFFF" font-size="15" font-weight="700" text-anchor="middle">겸</text>
+<text x="312.0" y="122" fill="#FFFFFF" font-size="15" font-weight="700" text-anchor="middle">갈</text>
+<text x="364.0" y="122" fill="#FFFFFF" font-size="15" font-weight="700" text-anchor="middle">영</text>
+<text x="625.0" y="122" fill="#FFFFFF" font-size="15" font-weight="700" text-anchor="middle">핵심 특징</text>
+<text x="935.0" y="122" fill="#FFFFFF" font-size="15" font-weight="700" text-anchor="middle">위험도</text>
+<rect x="24" y="136" width="986" height="78" rx="0" fill="#FFFFFF" stroke="#D5D9E0" stroke-width="1"/>
+<text x="36" y="180.0" fill="#222222" font-size="15" font-weight="700" text-anchor="start">졸</text>
+<text x="260.0" y="181.0" fill="#1F3864" font-size="18" font-weight="700" text-anchor="middle">O</text>
+<text x="312.0" y="181.0" fill="#BBBBBB" font-size="18" font-weight="400" text-anchor="middle">·</text>
+<text x="364.0" y="181.0" fill="#BBBBBB" font-size="18" font-weight="400" text-anchor="middle">·</text>
+<text x="402" y="180.0" fill="#44546A" font-size="13.5" font-weight="400" text-anchor="start">예의 바르나 성사 욕구·관계 구축이 부족, 풍파 없음</text>
+<text x="935.0" y="180.0" fill="#44546A" font-size="14" font-weight="700" text-anchor="middle">낮음</text>
+<rect x="24" y="214" width="986" height="78" rx="0" fill="#F2F4F8" stroke="#D5D9E0" stroke-width="1"/>
+<text x="36" y="258.0" fill="#222222" font-size="15" font-weight="700" text-anchor="start">불도저</text>
+<text x="260.0" y="259.0" fill="#BBBBBB" font-size="18" font-weight="400" text-anchor="middle">·</text>
+<text x="312.0" y="259.0" fill="#1F3864" font-size="18" font-weight="700" text-anchor="middle">O</text>
+<text x="364.0" y="259.0" fill="#BBBBBB" font-size="18" font-weight="400" text-anchor="middle">·</text>
+<text x="402" y="258.0" fill="#44546A" font-size="13.5" font-weight="400" text-anchor="start">의지는 확고하나 타인 영향 무시, 팀을 빠르게 파괴</text>
+<text x="935.0" y="258.0" fill="#44546A" font-size="14" font-weight="700" text-anchor="middle">중</text>
+<rect x="24" y="292" width="986" height="78" rx="0" fill="#FFFFFF" stroke="#D5D9E0" stroke-width="1"/>
+<text x="36" y="336.0" fill="#222222" font-size="15" font-weight="700" text-anchor="start">연예인</text>
+<text x="260.0" y="337.0" fill="#BBBBBB" font-size="18" font-weight="400" text-anchor="middle">·</text>
+<text x="312.0" y="337.0" fill="#BBBBBB" font-size="18" font-weight="400" text-anchor="middle">·</text>
+<text x="364.0" y="337.0" fill="#1F3864" font-size="18" font-weight="700" text-anchor="middle">O</text>
+<text x="402" y="336.0" fill="#44546A" font-size="13.5" font-weight="400" text-anchor="start">재미·호감 주나 기여 무시할 수준, 곧 호감 상실</text>
+<text x="935.0" y="336.0" fill="#44546A" font-size="14" font-weight="700" text-anchor="middle">중</text>
+<rect x="24" y="370" width="986" height="78" rx="0" fill="#F2F4F8" stroke="#D5D9E0" stroke-width="1"/>
+<text x="36" y="414.0" fill="#222222" font-size="15" font-weight="700" text-anchor="start">돌발적인 사고뭉치</text>
+<text x="260.0" y="415.0" fill="#1F3864" font-size="18" font-weight="700" text-anchor="middle">O</text>
+<text x="312.0" y="415.0" fill="#1F3864" font-size="18" font-weight="700" text-anchor="middle">O</text>
+<text x="364.0" y="415.0" fill="#BBBBBB" font-size="18" font-weight="400" text-anchor="middle">·</text>
+<text x="402" y="414.0" fill="#44546A" font-size="13.5" font-weight="400" text-anchor="start">진심으로 기여하나 대인 영리함 부족(악의 없음)</text>
+<text x="935.0" y="414.0" fill="#44546A" font-size="14" font-weight="700" text-anchor="middle">낮음</text>
+<rect x="24" y="448" width="986" height="78" rx="0" fill="#FFFFFF" stroke="#D5D9E0" stroke-width="1"/>
+<text x="36" y="492.0" fill="#222222" font-size="15" font-weight="700" text-anchor="start">사랑스러운 게으름뱅이</text>
+<text x="260.0" y="493.0" fill="#1F3864" font-size="18" font-weight="700" text-anchor="middle">O</text>
+<text x="312.0" y="493.0" fill="#BBBBBB" font-size="18" font-weight="400" text-anchor="middle">·</text>
+<text x="364.0" y="493.0" fill="#1F3864" font-size="18" font-weight="700" text-anchor="middle">O</text>
+<text x="402" y="492.0" fill="#44546A" font-size="13.5" font-weight="400" text-anchor="start">동료 배려하나 딱 요구받은 것만, 관리 필요</text>
+<text x="935.0" y="492.0" fill="#44546A" font-size="14" font-weight="700" text-anchor="middle">중</text>
+<rect x="24" y="526" width="986" height="78" rx="0" fill="#FBEFEF" stroke="#D5D9E0" stroke-width="1"/>
+<text x="36" y="570.0" fill="#222222" font-size="15" font-weight="700" text-anchor="start">노련한 정치가</text>
+<text x="260.0" y="571.0" fill="#BBBBBB" font-size="18" font-weight="400" text-anchor="middle">·</text>
+<text x="312.0" y="571.0" fill="#1F3864" font-size="18" font-weight="700" text-anchor="middle">O</text>
+<text x="364.0" y="571.0" fill="#1F3864" font-size="18" font-weight="700" text-anchor="middle">O</text>
+<text x="402" y="570.0" fill="#44546A" font-size="13.5" font-weight="400" text-anchor="start">개인 이득 시에만 분투, 겸손한 척 포장·조종</text>
+<text x="935.0" y="570.0" fill="#B5343B" font-size="14" font-weight="700" text-anchor="middle">가장 위험</text>
+<rect x="24" y="604" width="986" height="78" rx="0" fill="#FBF4E6" stroke="#D5D9E0" stroke-width="1"/>
+<text x="36" y="648.0" fill="#222222" font-size="15" font-weight="700" text-anchor="start">이상적인 팀 플레이어</text>
+<text x="260.0" y="649.0" fill="#1F3864" font-size="18" font-weight="700" text-anchor="middle">O</text>
+<text x="312.0" y="649.0" fill="#1F3864" font-size="18" font-weight="700" text-anchor="middle">O</text>
+<text x="364.0" y="649.0" fill="#1F3864" font-size="18" font-weight="700" text-anchor="middle">O</text>
+<text x="402" y="648.0" fill="#44546A" font-size="13.5" font-weight="400" text-anchor="start">세 덕목을 충분히 갖춤('이상적'≠'완벽')</text>
+<text x="935.0" y="648.0" fill="#B8943F" font-size="14" font-weight="700" text-anchor="middle">목표</text>
+<text x="24" y="712" fill="#44546A" font-size="13" font-weight="400" text-anchor="start">O = 갖춤 · · = 부족.  단일 덕목·2덕목 결핍 유형 이름은 자기인식·코칭용이며 실재 동료에게 붙이지 않는다.</text>
+</svg>

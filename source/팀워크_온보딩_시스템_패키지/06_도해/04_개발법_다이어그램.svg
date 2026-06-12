@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 700" font-family="Noto Sans CJK KR, Malgun Gothic, sans-serif">
+<rect x="0" y="0" width="1080" height="700" fill="#FFFFFF"/>
+<rect x="0" y="0" width="1080" height="64" fill="#1F3864"/>
+<text x="34" y="41" fill="#FFFFFF" font-size="26" font-weight="700">덕목별 개발법</text>
+<text x="1046" y="40" fill="#C9D3E6" font-size="14" text-anchor="end">핵심: 겸손한 듯 행동하기 · 엄격한 사랑 · 애정 어린 마음으로 즉시</text>
+<rect x="24" y="92" width="336" height="46" rx="10" fill="#1F3864"/>
+<text x="192.0" y="122" fill="#FFFFFF" font-size="20" font-weight="700" text-anchor="middle">겸손</text>
+<rect x="24" y="150" width="336" height="86" rx="10" fill="#F2F4F8"/>
+<circle cx="46" cy="180" r="7" fill="#1F3864"/>
+<text x="64" y="185" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">근본 원인 규명</text>
+<text x="46" y="216" fill="#44546A" font-size="13" font-weight="400" text-anchor="start">불안감 이해(심리치료 아님)</text>
+<rect x="24" y="246" width="336" height="86" rx="10" fill="#F2F4F8"/>
+<circle cx="46" cy="276" r="7" fill="#1F3864"/>
+<text x="64" y="281" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">노출 치료</text>
+<text x="46" y="312" fill="#44546A" font-size="13" font-weight="400" text-anchor="start">'겸손한 듯 행동하기' 반복 실천</text>
+<rect x="24" y="342" width="336" height="86" rx="10" fill="#F2F4F8"/>
+<circle cx="46" cy="372" r="7" fill="#1F3864"/>
+<text x="64" y="377" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">동료 코칭</text>
+<text x="46" y="408" fill="#44546A" font-size="13" font-weight="400" text-anchor="start">즉각·친절한 피드백(옵트인)</text>
+<rect x="24" y="438" width="336" height="86" rx="10" fill="#F2F4F8"/>
+<circle cx="46" cy="468" r="7" fill="#1F3864"/>
+<text x="64" y="473" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">리더의 롤모델링</text>
+<text x="46" y="504" fill="#44546A" font-size="13" font-weight="400" text-anchor="start">담당자가 솔직히 인정·모범</text>
+<rect x="378" y="92" width="336" height="46" rx="10" fill="#B8943F"/>
+<text x="546.0" y="122" fill="#FFFFFF" font-size="20" font-weight="700" text-anchor="middle">갈망</text>
+<rect x="378" y="150" width="336" height="86" rx="10" fill="#F2F4F8"/>
+<circle cx="400" cy="180" r="7" fill="#B8943F"/>
+<text x="418" y="185" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">미션·팀 연결</text>
+<text x="400" y="216" fill="#44546A" font-size="13" font-weight="400" text-anchor="start">'하나의 팀' 관점·전염</text>
+<rect x="378" y="246" width="336" height="86" rx="10" fill="#F2F4F8"/>
+<circle cx="400" cy="276" r="7" fill="#B8943F"/>
+<text x="418" y="281" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">명확한 기대</text>
+<text x="400" y="312" fill="#44546A" font-size="13" font-weight="400" text-anchor="start">요구 행동을 구체화</text>
+<rect x="378" y="342" width="336" height="86" rx="10" fill="#F2F4F8"/>
+<circle cx="400" cy="372" r="7" fill="#B8943F"/>
+<text x="418" y="377" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">강하게 채근</text>
+<text x="400" y="408" fill="#44546A" font-size="13" font-weight="400" text-anchor="start">'엄격한 사랑'(즉각·분명)</text>
+<rect x="378" y="438" width="336" height="86" rx="10" fill="#F2F4F8"/>
+<circle cx="400" cy="468" r="7" fill="#B8943F"/>
+<text x="418" y="473" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">격려</text>
+<text x="400" y="504" fill="#44546A" font-size="13" font-weight="400" text-anchor="start">징후 보이면 공개 칭찬</text>
+<rect x="378" y="534" width="336" height="86" rx="10" fill="#F2F4F8"/>
+<circle cx="400" cy="564" r="7" fill="#B8943F"/>
+<text x="418" y="569" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">리더의 롤모델링</text>
+<text x="400" y="600" fill="#44546A" font-size="13" font-weight="400" text-anchor="start">갈망하려 노력하는 모습</text>
+<rect x="732" y="92" width="336" height="46" rx="10" fill="#2E5A88"/>
+<text x="900.0" y="122" fill="#FFFFFF" font-size="20" font-weight="700" text-anchor="middle">영리함</text>
+<rect x="732" y="150" width="336" height="86" rx="10" fill="#F2F4F8"/>
+<circle cx="754" cy="180" r="7" fill="#2E5A88"/>
+<text x="772" y="185" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">의도 아님 명확화</text>
+<text x="754" y="216" fill="#44546A" font-size="13" font-weight="400" text-anchor="start">원해서 생긴 결함 아님</text>
+<rect x="732" y="246" width="336" height="86" rx="10" fill="#F2F4F8"/>
+<circle cx="754" cy="276" r="7" fill="#2E5A88"/>
+<text x="772" y="281" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">기본 훈련</text>
+<text x="754" y="312" fill="#44546A" font-size="13" font-weight="400" text-anchor="start">'애정 어린 마음으로 즉시' 교정</text>
+<rect x="732" y="342" width="336" height="86" rx="10" fill="#F2F4F8"/>
+<circle cx="754" cy="372" r="7" fill="#2E5A88"/>
+<text x="772" y="377" fill="#222222" font-size="15.5" font-weight="700" text-anchor="start">행동 영향 인식</text>
+<text x="754" y="408" fill="#44546A" font-size="13" font-weight="400" text-anchor="start">말·행동의 영향 상기</text>
+<text x="24" y="678" fill="#44546A" font-size="13" font-weight="400" text-anchor="start">갈망은 세 덕목 중 변화가 가장 어렵다. 모든 개발은 행동 연습 수준이며, 트라우마·자기 라벨링을 요구하지 않는다.</text>
+</svg>

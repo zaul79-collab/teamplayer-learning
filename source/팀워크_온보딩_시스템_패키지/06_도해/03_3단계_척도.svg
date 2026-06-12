@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" font-family="Noto Sans CJK KR, Malgun Gothic, sans-serif">
+<rect x="0" y="0" width="1000" height="600" fill="#FFFFFF"/>
+<rect x="0" y="0" width="1000" height="64" fill="#1F3864"/>
+<text x="34" y="41" fill="#FFFFFF" font-size="26" font-weight="700">3단계 척도</text>
+<text x="966" y="40" fill="#C9D3E6" font-size="14" text-anchor="end">관리자 평가 · 자기진단 공통</text>
+<rect x="70" y="130" width="280" height="108" rx="14" fill="#1F3864"/>
+<text x="210.0" y="192" fill="#FFFFFF" font-size="22" font-weight="700" text-anchor="middle">언제나 그렇다</text>
+<rect x="70" y="250" width="280" height="72" rx="12" fill="#F2F4F8"/>
+<text x="210.0" y="292" fill="#44546A" font-size="13" font-weight="400" text-anchor="middle">이상적 팀 플레이어가 대개 보이는 수준</text>
+<rect x="370" y="130" width="280" height="108" rx="14" fill="#2E5A88"/>
+<text x="510.0" y="192" fill="#FFFFFF" font-size="22" font-weight="700" text-anchor="middle">때때로 그렇다</text>
+<rect x="370" y="250" width="280" height="72" rx="12" fill="#F2F4F8"/>
+<text x="510.0" y="292" fill="#44546A" font-size="13" font-weight="400" text-anchor="middle">이보다 낮게 나오는 경우는 드묾</text>
+<rect x="670" y="130" width="280" height="108" rx="14" fill="#B8943F"/>
+<text x="810.0" y="192" fill="#FFFFFF" font-size="22" font-weight="700" text-anchor="middle">거의 그렇지 않다</text>
+<rect x="670" y="250" width="280" height="72" rx="12" fill="#F2F4F8"/>
+<text x="810.0" y="292" fill="#44546A" font-size="13" font-weight="400" text-anchor="middle">개인 개발 초점 후보(비교·등수 아님)</text>
+<text x="70" y="358" fill="#44546A" font-size="13" font-weight="600" text-anchor="start">← 빈도·강함 높음</text>
+<text x="950" y="358" fill="#44546A" font-size="13" font-weight="600" text-anchor="end">낮음 →</text>
+<rect x="70" y="390" width="880" height="118" rx="12" fill="#FBF4E6" stroke="#B8943F" stroke-width="1.5"/>
+<text x="94" y="428" fill="#B8943F" font-size="16" font-weight="700" text-anchor="start">측정의 한계 (정직 고지)</text>
+<text x="94" y="460" fill="#222222" font-size="13.5" font-weight="400" text-anchor="start">덕목은 정량화되지 않는다. 자기진단(18 자기참조 문장)은 정·오답이 없으며 점수화하지 않고 성찰만 기록한다.</text>
+<text x="94" y="486" fill="#222222" font-size="13.5" font-weight="400" text-anchor="start">대시보드·진도는 참여·지식·인식·자가 실천만 측정하며, 사람의 '겸손/인성 점수'를 산출하지 않는다.</text>
+</svg>

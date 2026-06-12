@@ -1,0 +1,1079 @@
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>팀플레이어 — 학습 도구 V2</title>
+<style>
+/* ============================================================
+   팀플레이어 학습 도구 V2 — Warm Editorial
+   2026-06-12 전면 리디자인 · 케이옥션 IT팀
+   ============================================================ */
+:root{
+  /* 뉴트럴 — 웜 페이퍼 */
+  --bg:#F4F1EA;
+  --card:#FFFFFF;
+  --ink:#201D18;        /* 본문 강조 + Primary 버튼 */
+  --sub:#6F6A5F;        /* 보조 본문 */
+  --faint:#A8A294;      /* 캡션/레이블 */
+  --line:#E6E1D5;       /* 테두리 */
+  --wash:#ECE8DE;       /* 세그먼트/스케일 베이스 */
+
+  /* 덕목 — 겸손(h) · 갈망(g) · 영리함(s) : 시맨틱 색상 유지 */
+  --h:#F59E0B;  --h-bg:#FBF3E2;  --h-dark:#8A5A00;
+  --g:#2563EB;  --g-bg:#E9F0FD;  --g-dark:#1E3A8A;
+  --s:#16A34A;  --s-bg:#E8F6EC;  --s-dark:#14532D;
+
+  /* 상태 */
+  --ok:#16A34A; --ok-bg:#E8F6EC;
+  --bad:#DC2626; --bad-bg:#FDEDED;
+
+  /* 형태 */
+  --r:20px; --r-sm:12px;
+  --shadow:0 1px 2px rgba(32,29,24,.04), 0 8px 28px -10px rgba(32,29,24,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{
+  font-family:Pretendard,-apple-system,"Apple SD Gothic Neo","맑은 고딕",sans-serif;
+  background:#E9E5DC; color:var(--ink); line-height:1.55;
+  display:flex; justify-content:center; min-height:100vh;
+}
+.app{
+  width:100%; max-width:430px; min-height:100vh; position:relative;
+  background:var(--bg); overflow-x:hidden;
+  box-shadow:0 0 60px rgba(32,29,24,.12);
+}
+
+/* ---------- 공통 ---------- */
+.screen{display:none; padding:20px 18px 120px; animation:fadeIn .22s ease}
+.screen.active{display:block}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.eyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--faint);text-transform:uppercase}
+.h1{font-size:24px;font-weight:800;letter-spacing:-.02em;line-height:1.25}
+.h2{font-size:17px;font-weight:800;letter-spacing:-.01em}
+.cap{font-size:12px;color:var(--faint);font-weight:600}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;
+  padding:15px 18px;border:none;border-radius:999px;font-family:inherit;
+  font-size:15px;font-weight:700;cursor:pointer;transition:transform .12s ease,opacity .15s}
+.btn:active{transform:scale(.97)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn-h{background:var(--h);color:#fff}
+.btn-g{background:var(--g);color:#fff}
+.btn-s{background:var(--s);color:#fff}
+.btn-sm{padding:11px 16px;font-size:13.5px}
+
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;
+  padding:4px 11px;border-radius:999px;letter-spacing:.02em}
+.badge-h{background:var(--h-bg);color:var(--h-dark)}
+.badge-g{background:var(--g-bg);color:var(--g-dark)}
+.badge-s{background:var(--s-bg);color:var(--s-dark)}
+.badge-ink{background:var(--ink);color:#fff}
+.badge-line{background:transparent;border:1px solid var(--line);color:var(--faint)}
+
+/* ---------- 바텀 내비 (플로팅 필) ---------- */
+.nav{
+  position:fixed;bottom:14px;left:50%;transform:translateX(-50%);
+  width:calc(100% - 36px);max-width:394px;z-index:40;
+  display:flex;justify-content:space-between;padding:7px;
+  background:rgba(255,255,255,.82);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border:1px solid rgba(230,225,213,.9);border-radius:999px;
+  box-shadow:0 10px 34px -8px rgba(32,29,24,.22);
+}
+.nav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:8px 0;border-radius:999px;cursor:pointer;color:var(--faint);
+  font-size:10px;font-weight:700;transition:all .18s ease;
+}
+.nav-item svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.nav-item.on{background:var(--ink);color:#fff}
+
+/* ---------- 홈 ---------- */
+.home-top{display:flex;justify-content:space-between;align-items:flex-start;margin:6px 2px 18px}
+.hero{
+  position:relative;border-radius:26px;overflow:hidden;background:var(--ink);
+  color:#fff;padding:26px 22px;margin-bottom:14px;
+}
+.hero .orb{position:absolute;border-radius:50%;filter:blur(34px);opacity:.5;pointer-events:none}
+.hero-num{font-size:46px;font-weight:900;letter-spacing:-.03em;line-height:1}
+.hero-bar{height:6px;background:rgba(255,255,255,.16);border-radius:99px;margin-top:16px;overflow:hidden}
+.hero-bar i{display:block;height:100%;border-radius:99px;background:#fff;transition:width .5s cubic-bezier(.22,.9,.3,1)}
+.vrow{display:flex;gap:10px;margin-bottom:14px}
+.vstat{flex:1;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 13px}
+.vstat .n{font-size:21px;font-weight:900;letter-spacing:-.02em}
+.vstat .bar{height:4px;border-radius:99px;background:var(--wash);margin-top:9px;overflow:hidden}
+.vstat .bar i{display:block;height:100%;border-radius:99px;transition:width .5s}
+.next-card{display:flex;align-items:center;gap:14px;padding:17px 18px;cursor:pointer}
+.next-emoji{width:48px;height:48px;border-radius:15px;display:flex;align-items:center;justify-content:center;font-size:23px;flex-shrink:0}
+.reset-link{display:block;text-align:center;margin-top:26px;font-size:12px;color:var(--faint);
+  background:none;border:none;font-family:inherit;cursor:pointer;text-decoration:underline;width:100%}
+
+/* ---------- 모듈 목록 ---------- */
+.vsec{margin-bottom:22px}
+.vsec-head{display:flex;align-items:center;gap:9px;margin:0 2px 10px}
+.vsec-bar{width:4px;height:16px;border-radius:99px}
+.mod-card{display:flex;align-items:center;gap:13px;padding:15px 16px;margin-bottom:9px;cursor:pointer;transition:transform .12s}
+.mod-card:active{transform:scale(.98)}
+.mod-card.locked{opacity:.45}
+.mod-emoji{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.mod-meta{flex:1;min-width:0}
+.mod-n{font-size:10.5px;font-weight:800;letter-spacing:.1em;color:var(--faint)}
+.mod-t{font-size:14.5px;font-weight:700;letter-spacing:-.01em;margin-top:1px}
+.mod-state{font-size:11px;font-weight:700;margin-top:3px}
+.chev{color:var(--faint);font-size:16px;flex-shrink:0}
+
+/* ---------- 모듈 상세 (슬라이드인) ---------- */
+#s-module{
+  display:block;position:fixed;inset:0;z-index:60;margin:0 auto;max-width:430px;
+  background:var(--bg);transform:translateX(102%);transition:transform .3s cubic-bezier(.22,.9,.3,1);
+  overflow-y:auto;padding:0 0 60px;
+}
+#s-module.in{transform:translateX(0)}
+.md-head{
+  position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:10px;
+  padding:14px 16px;background:rgba(244,241,234,.88);backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.back-btn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);
+  display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--ink);flex-shrink:0}
+.md-hero{padding:24px 20px 4px}
+.md-hero-emoji{width:58px;height:58px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:13px}
+.obj-card{margin:16px 18px 0;padding:16px 17px}
+.obj-item{display:flex;gap:9px;font-size:13.5px;color:var(--sub);margin-top:8px;line-height:1.5}
+.obj-item b{color:inherit}
+.obj-check{flex-shrink:0;font-weight:900}
+
+/* 세그먼트 탭 */
+.seg{display:flex;background:var(--wash);border-radius:999px;padding:4px;margin:18px 18px 16px;
+  position:sticky;top:64px;z-index:4}
+.seg-btn{flex:1;padding:10px 0;border:none;border-radius:999px;background:transparent;font-family:inherit;
+  font-size:13px;font-weight:700;color:var(--sub);cursor:pointer;transition:all .18s}
+.seg-btn.on{background:var(--card);color:var(--ink);box-shadow:0 2px 8px rgba(32,29,24,.1)}
+.tabpane{display:none;padding:0 18px}
+.tabpane.on{display:block;animation:fadeIn .2s}
+
+/* 캐러셀 */
+.track{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;
+  scrollbar-width:none;padding:2px 2px 6px;margin:0 -2px}
+.track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:center;min-width:0}
+.dots{display:flex;gap:6px;justify-content:center;margin:10px 0 4px}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--line);transition:all .2s}
+.dot.on{width:18px;border-radius:99px;background:var(--ink)}
+
+.cn-card{padding:22px 20px;min-height:230px;display:flex;flex-direction:column}
+.cn-no{font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--faint);margin-bottom:10px}
+.cn-t{font-size:18px;font-weight:800;letter-spacing:-.015em;margin-bottom:10px;line-height:1.3}
+.cn-b{font-size:14px;color:var(--sub);line-height:1.7}
+
+/* 체크리스트 */
+.ck-item{display:flex;align-items:flex-start;gap:11px;padding:13px 14px;border:1.5px solid var(--line);
+  border-radius:var(--r-sm);margin-top:9px;cursor:pointer;transition:all .15s;font-size:13.5px;line-height:1.5}
+.ck-box{width:21px;height:21px;border-radius:7px;border:1.5px solid var(--line);flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:12px;color:#fff;font-weight:900;margin-top:1px}
+.ck-item.done{background:var(--ok-bg);border-color:var(--ok)}
+.ck-item.done .ck-box{background:var(--ok);border-color:var(--ok)}
+
+/* 퀴즈 */
+.q-card{padding:20px 18px}
+.q-no{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
+.q-text{font-size:15px;font-weight:700;line-height:1.5;margin-bottom:14px;letter-spacing:-.01em}
+.choice{display:flex;align-items:flex-start;gap:10px;padding:13px 14px;border:1.5px solid var(--line);
+  border-radius:var(--r-sm);margin-top:8px;cursor:pointer;font-size:13.5px;line-height:1.5;transition:all .15s;background:var(--card)}
+.choice .abc{font-weight:800;color:var(--faint);flex-shrink:0}
+.choice.selected{border-color:var(--ink);background:#FAF8F3}
+.choice.selected .abc{color:var(--ink)}
+.choice.correct{border-color:var(--ok);background:var(--ok-bg)}
+.choice.correct .abc{color:var(--ok)}
+.choice.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.choice.wrong .abc{color:var(--bad)}
+.choice.dim{opacity:.5;pointer-events:none}
+.exp{margin-top:12px;padding:13px 14px;border-radius:var(--r-sm);background:var(--wash);
+  font-size:13px;color:var(--sub);line-height:1.65;display:none}
+.exp.show{display:block;animation:fadeIn .25s}
+.exp b{color:var(--ink)}
+
+/* 게이트 */
+.gate-intro{padding:24px 20px;text-align:center}
+.gate-rule{display:flex;gap:9px;text-align:left;font-size:13px;color:var(--sub);margin-top:9px;line-height:1.5}
+.gate-foot{margin:18px 0 0;padding-top:16px;border-top:1px solid var(--line)}
+
+/* 로딩 오버레이 */
+.loading{position:fixed;inset:0;z-index:80;background:rgba(244,241,234,.92);backdrop-filter:blur(8px);
+  display:none;flex-direction:column;align-items:center;justify-content:center;gap:16px}
+.loading.show{display:flex}
+.spin{width:38px;height:38px;border-radius:50%;border:3.5px solid var(--line);border-top-color:var(--ink);animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* 바텀시트 */
+.ovl{position:fixed;inset:0;z-index:90;background:rgba(32,29,24,.45);
+  display:flex;align-items:flex-end;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .25s}
+.ovl.show{opacity:1;pointer-events:auto}
+.sheet{width:100%;max-width:430px;max-height:86vh;overflow-y:auto;background:var(--bg);
+  border-radius:26px 26px 0 0;padding:10px 20px 28px;
+  transform:translateY(100%);transition:transform .38s cubic-bezier(.22,.9,.3,1)}
+.ovl.show .sheet{transform:translateY(0)}
+.grab{width:40px;height:4px;border-radius:99px;background:var(--line);margin:6px auto 18px}
+
+/* ---------- 자기진단 ---------- */
+.sv-banner{padding:18px;border-radius:var(--r);background:var(--ink);color:#fff;margin-bottom:14px}
+.sv-prog{position:sticky;top:10px;z-index:5;display:inline-flex;margin-bottom:12px;
+  background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border:1px solid var(--line);
+  border-radius:999px;padding:7px 15px;font-size:12px;font-weight:800}
+.sv-group{margin-bottom:18px}
+.sv-item{padding:15px 15px 13px;margin-top:9px}
+.sv-q{font-size:13.5px;font-weight:600;line-height:1.5;margin-bottom:11px}
+.sv-opts{display:flex;gap:7px}
+.sv-opt{flex:1;padding:9px 0;border:1.5px solid var(--line);border-radius:999px;background:var(--card);
+  font-family:inherit;font-size:12px;font-weight:700;color:var(--sub);cursor:pointer;transition:all .15s}
+.sv-opt.sel{color:#fff}
+.bar-row{margin-top:14px}
+.bar-track{height:8px;border-radius:99px;background:var(--wash);overflow:hidden;margin-top:6px}
+.bar-fill{height:100%;border-radius:99px;transition:width .7s cubic-bezier(.22,.9,.3,1)}
+
+/* ---------- 타임라인 ---------- */
+.tl{position:relative;margin:6px 0 0 6px;padding-left:24px}
+.tl::before{content:'';position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--line)}
+.tl-item{position:relative;padding:11px 0}
+.tl-dot{position:absolute;left:-24px;top:15px;width:14px;height:14px;border-radius:50%;
+  background:var(--bg);border:2.5px solid var(--line)}
+.tl-item.done .tl-dot{background:var(--ink);border-color:var(--ink)}
+.tl-item.mile .tl-dot{width:16px;height:16px;left:-25px}
+.tl-text{font-size:14px;font-weight:600}
+.tl-item:not(.done) .tl-text{color:var(--faint);font-weight:500}
+.tl-date{font-size:11px;color:var(--faint);margin-top:1px}
+.tl-item.wait{opacity:.55}
+.recert-card{margin-top:8px;padding:14px 15px}
+
+/* 토스트 */
+.toast{position:fixed;top:18px;left:50%;transform:translateX(-50%) translateY(-80px);z-index:100;
+  background:var(--ink);color:#fff;font-size:13px;font-weight:600;padding:11px 20px;border-radius:999px;
+  box-shadow:0 10px 30px rgba(32,29,24,.3);transition:transform .3s cubic-bezier(.22,.9,.3,1);max-width:86%;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ================= 홈 ================= -->
+<section class="screen active" id="s-home">
+  <div class="home-top">
+    <div>
+      <div class="eyebrow">Team Player</div>
+      <div class="h1" style="margin-top:5px">안녕하세요,<br>원철님 👋</div>
+    </div>
+    <span class="badge badge-line" id="home-date"></span>
+  </div>
+
+  <div class="hero">
+    <div class="orb" style="width:150px;height:150px;background:var(--h);top:-50px;right:-30px"></div>
+    <div class="orb" style="width:130px;height:130px;background:var(--g);bottom:-55px;left:-25px"></div>
+    <div class="orb" style="width:110px;height:110px;background:var(--s);bottom:-40px;right:70px"></div>
+    <div style="position:relative">
+      <div class="eyebrow" style="color:rgba(255,255,255,.55)">이상적인 팀플레이어로 가는 길</div>
+      <div style="display:flex;align-items:flex-end;gap:8px;margin-top:12px">
+        <div class="hero-num" id="hero-done">0</div>
+        <div style="font-size:15px;font-weight:700;color:rgba(255,255,255,.55);padding-bottom:7px">/ 7 모듈 완료</div>
+      </div>
+      <div class="hero-bar"><i id="hero-bar" style="width:0%"></i></div>
+    </div>
+  </div>
+
+  <div class="vrow" id="home-vrow"><!-- 덕목별 스탯 (JS 렌더) --></div>
+
+  <div class="card next-card" id="home-next" onclick="homeNextGo()"><!-- 이어서 학습 (JS 렌더) --></div>
+
+  <div class="card next-card" id="home-diag" style="margin-top:10px" onclick="goTo('diag')">
+    <div class="next-emoji" style="background:var(--wash)">🧭</div>
+    <div style="flex:1">
+      <div class="cap" id="home-diag-cap">학습 전 추천</div>
+      <div style="font-size:14.5px;font-weight:700;margin-top:1px" id="home-diag-t">자기진단으로 시작하기</div>
+    </div>
+    <span class="chev">→</span>
+  </div>
+
+  <button class="reset-link" onclick="resetAll()">프로토타입 데이터 초기화</button>
+</section>
+
+<!-- ================= 모듈 목록 ================= -->
+<section class="screen" id="s-modules">
+  <div style="margin:6px 2px 20px;display:flex;justify-content:space-between;align-items:flex-end">
+    <div>
+      <div class="eyebrow">Modules</div>
+      <div class="h1" style="margin-top:5px">학습 모듈</div>
+    </div>
+    <span class="badge badge-ink" id="mods-count">0 / 7 완료</span>
+  </div>
+  <div id="mods-list"><!-- JS 렌더 --></div>
+
+  <div class="vsec">
+    <div class="vsec-head">
+      <div class="vsec-bar" style="background:var(--ink)"></div>
+      <span class="h2">캡스톤</span>
+    </div>
+    <div class="card mod-card" id="capstone-card">
+      <div class="mod-emoji" style="background:var(--wash)">🏅</div>
+      <div class="mod-meta">
+        <div class="mod-n">CAPSTONE</div>
+        <div class="mod-t">세 덕목의 통합 인증</div>
+        <div class="mod-state" id="capstone-state" style="color:var(--faint)">7개 모듈 완료 후 해제</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= 모듈 상세 ================= -->
+<section id="s-module">
+  <div class="md-head">
+    <button class="back-btn" onclick="goBackFromModule()">←</button>
+    <div style="font-size:13px;font-weight:800" id="md-head-t"></div>
+  </div>
+  <div class="md-hero" id="md-hero"><!-- JS 렌더 --></div>
+  <div class="card obj-card" id="md-obj"><!-- JS 렌더 --></div>
+
+  <div class="seg" id="md-seg">
+    <button class="seg-btn on" onclick="switchTab('read')">학습</button>
+    <button class="seg-btn" onclick="switchTab('practice')">연습 퀴즈</button>
+    <button class="seg-btn" onclick="switchTab('gate')">게이트</button>
+  </div>
+
+  <div class="tabpane on" id="tab-read"></div>
+  <div class="tabpane" id="tab-practice"></div>
+  <div class="tabpane" id="tab-gate"></div>
+</section>
+
+<!-- ================= 자기진단 ================= -->
+<section class="screen" id="s-diag">
+  <div style="margin:6px 2px 18px">
+    <div class="eyebrow">Self Check</div>
+    <div class="h1" style="margin-top:5px">자기진단</div>
+  </div>
+  <div id="diag-body"><!-- JS 렌더 (설문 or 결과) --></div>
+</section>
+
+<!-- ================= 나의 여정 ================= -->
+<section class="screen" id="s-timeline">
+  <div style="margin:6px 2px 18px">
+    <div class="eyebrow">Journey</div>
+    <div class="h1" style="margin-top:5px">나의 여정</div>
+  </div>
+  <div class="vrow" id="tl-vrow"></div>
+  <div class="card" style="padding:20px 22px">
+    <div class="tl" id="tl-list"></div>
+  </div>
+</section>
+
+<!-- ================= 바텀 내비 ================= -->
+<nav class="nav" id="nav">
+  <div class="nav-item on" data-go="home" onclick="goTo('home')">
+    <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/><path d="M10 21v-6h4v6"/></svg>홈
+  </div>
+  <div class="nav-item" data-go="modules" onclick="goTo('modules')">
+    <svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/></svg>모듈
+  </div>
+  <div class="nav-item" data-go="diag" onclick="goTo('diag')">
+    <svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4.5V3h6v1.5"/><path d="m9 13 2 2 4-4"/></svg>진단
+  </div>
+  <div class="nav-item" data-go="timeline" onclick="goTo('timeline')">
+    <svg viewBox="0 0 24 24"><circle cx="6" cy="5" r="2"/><circle cx="6" cy="12" r="2"/><circle cx="6" cy="19" r="2"/><path d="M11 5h8M11 12h8M11 19h8"/></svg>여정
+  </div>
+</nav>
+
+<!-- 로딩 / 시트 / 토스트 -->
+<div class="loading" id="gate-loading">
+  <div class="spin"></div>
+  <div style="font-size:14px;font-weight:700">채점하고 있어요…</div>
+</div>
+<div class="ovl" id="gate-ovl" onclick="closeGateSheet(event)"><div class="sheet" id="gate-sheet" onclick="event.stopPropagation()"></div></div>
+<div class="ovl" id="recert-ovl" onclick="closeRecertSheet(event)"><div class="sheet" id="recert-sheet" onclick="event.stopPropagation()"></div></div>
+<div class="toast" id="toast"></div>
+
+</div>
+<script>
+/* ============================================================
+   데이터 — 모듈 7개 (콘텐츠·연습퀴즈 3·게이트 5 전 모듈 작성)
+   ============================================================ */
+const V = {
+  h:{label:'겸손', en:'Humility', color:'var(--h)', bg:'var(--h-bg)', dark:'var(--h-dark)', btn:'btn-h', badge:'badge-h', mods:[0,1,2]},
+  g:{label:'갈망', en:'Hunger',   color:'var(--g)', bg:'var(--g-bg)', dark:'var(--g-dark)', btn:'btn-g', badge:'badge-g', mods:[3,4]},
+  s:{label:'영리함', en:'Smarts', color:'var(--s)', bg:'var(--s-bg)', dark:'var(--s-dark)', btn:'btn-s', badge:'badge-s', mods:[5,6]}
+};
+
+const MODS=[
+{n:'M1',title:'겸손의 의미와 중요성',v:'h',emoji:'🌱',
+ desc:'팀플레이어의 첫 번째 덕목, 겸손이 무엇인지부터 시작합니다.',
+ obj:['겸손의 정의를 내 언어로 설명할 수 있다','겸손이 왜 첫 번째 덕목인지 말할 수 있다'],
+ cards:[
+  {t:'겸손이란 무엇일까요',b:'겸손은 자신을 낮추는 것이 아니라, <b>자신에 대한 생각을 줄이는 것</b>입니다. 팀의 성공을 개인의 성공보다 앞에 두는 태도이며, 자신의 기여를 정확히 알되 과시하지 않는 상태입니다.'},
+  {t:'왜 첫 번째 덕목일까요',b:'재능이 아무리 뛰어나도 겸손이 없으면 팀은 분열됩니다. 공을 독차지하는 사람 곁에서 동료는 마음을 닫습니다. <b>겸손은 신뢰의 출발점</b>이고, 신뢰는 모든 협업의 토대입니다.'},
+  {t:'겸손 부족의 두 얼굴',b:'겸손 부족은 오만으로만 나타나지 않습니다. 자신의 기여를 지나치게 깎아내리는 <b>자신감 결핍</b>도 겸손 부족의 다른 모습입니다. 두 경우 모두 생각의 중심이 "나"에 묶여 있다는 공통점이 있습니다.'}],
+ check:['팀 성과를 말할 때 "우리"로 시작하기','오늘 동료의 기여 한 가지를 소리 내어 인정하기','이번 주 내 실수 한 가지를 먼저 공유하기'],
+ pq:[
+  {q:'겸손에 대한 설명으로 가장 적절한 것은?',opts:['자신의 의견을 내지 않는 것','자신에 대한 생각을 줄이고 팀을 앞에 두는 것','칭찬을 무조건 사양하는 것','성과를 절대 드러내지 않는 것'],ans:1,exp:'겸손은 자기 비하가 아니라 <b>관심의 방향을 "나"에서 "팀"으로 옮기는 태도</b>입니다. 자기 기여를 정확히 알되 과시하지 않는 것이 핵심입니다.'},
+  {q:'겸손이 세 덕목 중 첫 번째인 이유는?',opts:['가장 배우기 쉬워서','신뢰가 자라는 토대이기 때문','회사 규정이기 때문','다른 덕목보다 측정이 쉬워서'],ans:1,exp:'겸손은 동료가 마음을 여는 조건, 즉 <b>신뢰의 출발점</b>입니다. 신뢰 없이는 갈망도 영리함도 팀에 보탬이 되기 어렵습니다.'},
+  {q:'다음 중 겸손 부족의 모습이 <u>아닌</u> 것은?',opts:['성과의 공을 독차지한다','동료의 기여를 무시한다','자신의 기여를 정확히 인정한다','자신을 지나치게 깎아내린다'],ans:2,exp:'자기 기여를 <b>정확히 인정하는 것은 건강한 겸손</b>입니다. 과장도 과소도 아닌, 사실 그대로 보는 태도가 겸손의 기준입니다.'}],
+ gq:[
+  {q:'겸손의 정의로 가장 옳은 것은?',opts:['자기 생각을 숨기는 태도','팀의 성공을 개인의 성공보다 앞에 두는 태도','윗사람에게 순종하는 태도','경쟁을 피하는 태도'],ans:1},
+  {q:'회의에서 내 아이디어가 채택되지 않았을 때 겸손한 행동은?',opts:['결정된 안의 문제점을 계속 지적한다','내 아이디어가 나았다고 따로 말하고 다닌다','팀의 결정을 받아들이고 실행에 최선을 다한다','실행에서 한 발 뺀다'],ans:2},
+  {q:'지나친 자기 비하가 겸손이 아닌 이유는?',opts:['평가에 불리해서','여전히 생각의 중심이 "나"에 있기 때문','동료가 불편해해서','성과가 낮아져서'],ans:1},
+  {q:'칭찬을 받았을 때 가장 겸손한 반응은?',opts:['"아닙니다, 저는 한 게 없어요"라며 부정한다','함께한 동료의 기여를 구체적으로 언급한다','다음 성과 목표를 바로 이야기한다','말없이 화제를 돌린다'],ans:1},
+  {q:'겸손과 신뢰의 관계로 옳은 것은?',opts:['겸손은 신뢰와 무관하다','겸손은 신뢰가 자라는 토대다','신뢰가 먼저 있어야 겸손해진다','겸손하면 신뢰를 잃는다'],ans:1}]},
+
+{n:'M2',title:'겸손한 사람의 특징',v:'h',emoji:'🪞',
+ desc:'겸손은 태도이기 전에 행동입니다. 겸손한 사람의 세 가지 행동 특징을 봅니다.',
+ obj:['겸손한 사람의 행동 특징 3가지를 말할 수 있다','내 일상에서 해당 행동을 찾아낼 수 있다'],
+ cards:[
+  {t:'공을 나눕니다',b:'성과가 났을 때 겸손한 사람은 "제가요"보다 <b>"함께요"</b>를 먼저 말합니다. 기여한 동료의 이름을 구체적으로 언급하는 것이 특징입니다.'},
+  {t:'실수를 빠르게 인정합니다',b:'변명에 시간을 쓰지 않고 사실을 인정한 뒤 해결로 넘어갑니다. 실수 인정은 약점 노출이 아니라 <b>신뢰 적립</b>입니다. 정직한 동료는 예측 가능한 동료입니다.'},
+  {t:'기꺼이 배우고 실행합니다',b:'자신의 아이디어가 아니어도 더 나은 의견이면 기쁘게 채택하고 실행합니다. <b>"누구의 답인가"보다 "무엇이 좋은 답인가"</b>를 묻습니다.'}],
+ check:['오늘 받은 칭찬 한 번을 동료에게 돌려주기','작은 실수 한 가지를 변명 없이 인정하기','동료 의견에 "그게 낫네요" 한 번 말하기'],
+ pq:[
+  {q:'겸손한 사람의 특징이 <u>아닌</u> 것은?',opts:['공을 동료와 나눈다','실수를 빠르게 인정한다','자기 아이디어만 고집한다','동료에게 배우려 한다'],ans:2,exp:'겸손한 사람은 <b>"누구의 답인가"보다 "무엇이 좋은 답인가"</b>를 묻습니다. 자기 아이디어에 대한 집착은 겸손 부족의 신호입니다.'},
+  {q:'실수 인정이 신뢰를 높이는 이유는?',opts:['평가에서 감점을 피할 수 있어서','정직하고 예측 가능한 동료로 인식되기 때문','실수가 줄어들기 때문','상사가 좋아하기 때문'],ans:1,exp:'실수를 숨기는 동료보다 인정하는 동료가 <b>예측 가능</b>합니다. 예측 가능성은 신뢰의 핵심 재료입니다.'},
+  {q:'칭찬을 받았을 때 공을 나누는 반응으로 가장 적절한 것은?',opts:['"운이 좋았습니다"','"OO님이 같이 해서 가능했어요"','"별것 아니었어요"','"다음엔 더 잘하겠습니다"'],ans:1,exp:'막연한 겸양보다 <b>기여자를 구체적으로 언급</b>하는 것이 진짜 공 나누기입니다. 동료의 기여가 가시화됩니다.'}],
+ gq:[
+  {q:'성과 발표에서 겸손한 사람이 가장 먼저 하는 말은?',opts:['자신의 노력 과정','함께한 동료들의 기여','다음 분기 목표','경쟁 부서와의 비교'],ans:1},
+  {q:'실수가 드러났을 때 겸손한 대응 순서는?',opts:['원인 분석 → 변명 → 사과','인정 → 사과 → 해결책','침묵 → 상황 관망 → 해명','책임 소재 확인 → 보고'],ans:1},
+  {q:'동료의 의견이 내 것보다 나을 때 겸손한 행동은?',opts:['내 의견과 절충안을 만든다','기쁘게 채택하고 실행을 돕는다','일단 보류하자고 한다','내 의견의 장점을 더 설명한다'],ans:1},
+  {q:'다음 중 "공 나누기"의 올바른 예는?',opts:['"팀워크 덕분이죠" (구체성 없음)','"데이터 정리는 김OO님 덕분에 빨랐어요"','"제가 운이 좋았습니다"','"모두가 잘했습니다"'],ans:1},
+  {q:'겸손한 사람이 배움을 대하는 태도는?',opts:['모르는 것을 들키지 않으려 한다','나보다 잘하는 사람에게 묻는 것을 즐긴다','검증된 방법만 따른다','배움보다 실행이 우선이다'],ans:1}]},
+
+{n:'M3',title:'겸손 실천하기',v:'h',emoji:'🤝',
+ desc:'아는 것에서 하는 것으로. 일상 업무에서 겸손을 연습하는 세 가지 루틴입니다.',
+ obj:['겸손 실천 루틴 3가지를 일상에 적용할 수 있다','변명 없는 사과를 연습할 수 있다'],
+ cards:[
+  {t:'칭찬은 구체적으로, 즉시',b:'"수고했어요"보다 <b>"어제 정리해준 자료 덕분에 회의가 빨랐어요"</b>가 힘이 셉니다. 구체적인 칭찬은 동료의 기여를 가시화하고, 미루지 않은 칭찬은 진심으로 들립니다.'},
+  {t:'사과는 짧고 변명 없이',b:'사과 뒤에 "그런데"가 붙는 순간 사과가 아니게 됩니다. <b>"미안해요. 다음엔 이렇게 할게요."</b> — 인정과 다음 행동만 남기는 것이 변명 없는 사과입니다.'},
+  {t:'질문으로 배우기',b:'모르는 것을 묻는 일은 겸손의 가장 쉬운 실천입니다. <b>"이건 어떻게 하신 거예요?"</b>라는 질문 하나가 상대를 인정하고 나를 성장시킵니다.'}],
+ check:['구체적인 칭찬 한 번 건네기','"그런데" 없는 사과 한 번 연습하기','동료에게 배움 질문 한 가지 던지기'],
+ pq:[
+  {q:'효과적인 칭찬의 조건은?',opts:['길고 자세하게','구체적으로, 미루지 않고','공개적인 자리에서만','성과가 클 때만'],ans:1,exp:'<b>구체성</b>은 칭찬을 사실로 만들고, <b>즉시성</b>은 칭찬을 진심으로 만듭니다.'},
+  {q:'다음 중 변명 없는 사과는?',opts:['"미안해요, 그런데 시간이 너무 없었어요"','"미안해요. 다음엔 하루 먼저 공유할게요"','"오해가 있었던 것 같네요"','"제 잘못이라기보다는…"'],ans:1,exp:'변명 없는 사과는 <b>인정 + 다음 행동</b> 두 가지만 남깁니다. "그런데"가 붙으면 사과의 효력이 사라집니다.'},
+  {q:'질문으로 배우기가 겸손의 실천인 이유는?',opts:['대화 시간이 늘어나서','상대의 전문성을 인정하는 행동이기 때문','상사에게 잘 보여서','회의록에 남아서'],ans:1,exp:'"어떻게 하신 거예요?"라는 질문은 <b>상대를 인정</b>하는 동시에 나의 모름을 드러내는, 이중의 겸손 실천입니다.'}],
+ gq:[
+  {q:'"수고했어요"보다 좋은 칭찬은?',opts:['"역시 에이스네요"','"어제 자료 정리 덕분에 회의가 빨랐어요"','"다들 본받으세요"','"최고예요"'],ans:1},
+  {q:'사과에 "그런데"가 붙으면 안 되는 이유는?',opts:['문장이 길어져서','인정이 변명으로 바뀌기 때문','상대가 화를 내서','기록에 남아서'],ans:1},
+  {q:'겸손 실천 루틴이 아닌 것은?',opts:['구체적 칭찬','변명 없는 사과','배움 질문','성과 어필 연습'],ans:3},
+  {q:'칭찬을 "즉시" 해야 하는 이유는?',opts:['잊어버리기 전에 해야 해서','미룬 칭찬은 진심으로 들리지 않기 때문','평가 시즌과 겹치면 안 돼서','짧게 끝낼 수 있어서'],ans:1},
+  {q:'모르는 것을 질문하는 행동의 효과로 옳은 것은?',opts:['전문성이 없어 보인다','상대를 인정하고 나를 성장시킨다','업무 속도가 느려진다','책임이 상대에게 넘어간다'],ans:1}]},
+
+{n:'M4',title:'내적 갈망의 힘',v:'g',emoji:'🔥',
+ desc:'두 번째 덕목, 갈망. 시키지 않아도 움직이는 힘이 어디서 오는지 봅니다.',
+ obj:['갈망의 정의를 설명할 수 있다','건강한 갈망과 일중독을 구분할 수 있다'],
+ cards:[
+  {t:'갈망이란 무엇일까요',b:'갈망은 보상이나 지시가 없어도 <b>스스로 더 잘하고 싶어 하는 내적 의지</b>입니다. 일과 팀에 대한 건강한 열정이며, 외부 자극 없이도 꺼지지 않는 동력입니다.'},
+  {t:'건강한 갈망 vs 일중독',b:'둘은 방향이 다릅니다. 건강한 갈망은 <b>일의 질과 팀</b>을 향하고, 일중독은 <b>불안과 인정 욕구</b>에서 출발합니다. 갈망은 지속 가능하지만 일중독은 소진으로 끝납니다.'},
+  {t:'갈망이 식었다는 신호',b:'시키는 일만 하기, 최소한만 하기, 마감 직전에만 움직이기. 누구에게나 올 수 있는 신호입니다. <b>신호를 알아차리는 것</b>이 회복의 시작입니다.'}],
+ check:['오늘 시키지 않은 개선 한 가지 해보기','내 일에서 "더 잘하고 싶은 부분" 한 가지 적어보기','이번 주 내 갈망 온도를 스스로 점검하기'],
+ pq:[
+  {q:'갈망의 정의로 가장 적절한 것은?',opts:['야근을 마다하지 않는 태도','스스로 더 잘하려는 내적 의지','승진을 향한 경쟁심','상사의 기대에 부응하려는 노력'],ans:1,exp:'갈망의 핵심은 <b>"내적"</b>입니다. 보상·지시·경쟁 같은 외부 자극이 아니라 일 자체와 팀을 향한 의지에서 나옵니다.'},
+  {q:'건강한 갈망과 일중독의 차이는?',opts:['근무 시간의 길이','동기의 방향 — 일의 질·팀 vs 불안·인정 욕구','성과의 크기','직급의 높낮이'],ans:1,exp:'겉모습은 비슷해도 <b>출발점이 다릅니다</b>. 갈망은 일과 팀을 향하고, 일중독은 불안을 잠재우려는 행동이라 소진으로 이어집니다.'},
+  {q:'갈망이 식었다는 신호가 <u>아닌</u> 것은?',opts:['시키는 일만 한다','마감 직전에만 움직인다','더 나은 방법을 스스로 찾는다','최소한만 한다'],ans:2,exp:'더 나은 방법을 스스로 찾는 것은 <b>갈망이 살아 있다는 신호</b>입니다. 나머지는 갈망이 식어가는 대표 신호들입니다.'}],
+ gq:[
+  {q:'갈망의 동력이 나오는 곳은?',opts:['외부 보상','경쟁 상대','내적 의지','평가 제도'],ans:2},
+  {q:'일중독이 지속 가능하지 않은 이유는?',opts:['업무량이 많아서','불안에서 출발해 소진으로 끝나기 때문','회사가 막아서','동료가 싫어해서'],ans:1},
+  {q:'갈망이 있는 팀원의 행동으로 옳은 것은?',opts:['지시를 기다린다','마감 직전에 몰아서 한다','시키지 않아도 개선점을 찾는다','일을 늘리지 않으려 한다'],ans:2},
+  {q:'갈망이 식었을 때 가장 먼저 할 일은?',opts:['휴직을 신청한다','신호를 알아차리고 스스로 점검한다','더 바쁘게 일한다','부서 이동을 요청한다'],ans:1},
+  {q:'건강한 갈망이 향하는 곳은?',opts:['인정과 보상','일의 질과 팀','경쟁에서의 승리','개인 브랜딩'],ans:1}]},
+
+{n:'M5',title:'자기동기부여',v:'g',emoji:'⚡',
+ desc:'갈망을 행동으로 바꾸는 세 가지 습관 — 스스로 목표 찾기, 제안하기, 책임 맡기.',
+ obj:['자기동기부여 행동 3가지를 말할 수 있다','내 업무에서 스스로 다음 목표를 정할 수 있다'],
+ cards:[
+  {t:'다음 목표는 스스로',b:'목표를 달성한 뒤 지시를 기다리지 않고 <b>다음 개선 지점을 스스로 찾습니다</b>. "끝났는데 뭐 하지?"가 아니라 "다음은 여기를 좋게 만들자"가 갈망 있는 사람의 기본값입니다.'},
+  {t:'더 나은 방법을 제안하기',b:'"원래 이렇게 했어요"에 머물지 않습니다. 작은 개선이라도 <b>가볍게 제안</b>하는 습관이 팀의 방식을 갱신합니다. 제안이 채택되지 않아도 제안 자체가 팀을 깨웁니다.'},
+  {t:'책임을 기꺼이 맡기',b:'역할의 경계에서 "그건 제 일이 아닌데요" 대신 <b>"제가 볼게요"</b>. 갈망 있는 사람은 공백을 발견하면 먼저 손을 듭니다.'}],
+ check:['끝난 일에서 다음 개선 지점 한 가지 정하기','작은 개선 제안 한 가지 가볍게 꺼내기','역할 경계의 일 한 가지에 "제가 볼게요" 하기'],
+ pq:[
+  {q:'목표 달성 후 자기동기부여된 사람의 행동은?',opts:['다음 지시를 기다린다','다음 개선 지점을 스스로 찾는다','충분히 쉰다','성과를 보고서로 정리한다'],ans:1,exp:'자기동기부여의 핵심은 <b>"다음"을 스스로 정하는 것</b>입니다. 지시 대기 상태가 길어지면 갈망은 식습니다.'},
+  {q:'"원래 이렇게 했어요"라는 말의 문제는?',opts:['예의가 없어서','개선의 가능성을 닫아버리기 때문','역사적으로 틀려서','신입에게 불친절해서'],ans:1,exp:'관행은 한때의 최선일 뿐입니다. 갈망 있는 팀원은 <b>"지금도 최선인가?"</b>를 묻고 가볍게 제안합니다.'},
+  {q:'역할 경계의 일을 발견했을 때 갈망 있는 반응은?',opts:['"그건 제 일이 아닌데요"','"제가 볼게요"','"담당자를 정해주세요"','"나중에 논의하시죠"'],ans:1,exp:'공백을 발견하면 먼저 손을 드는 것 — <b>"제가 볼게요"</b>가 갈망의 언어입니다.'}],
+ gq:[
+  {q:'자기동기부여 행동이 아닌 것은?',opts:['스스로 다음 목표 정하기','개선 제안하기','지시가 올 때까지 대기하기','공백에 먼저 손들기'],ans:2},
+  {q:'제안이 채택되지 않아도 가치가 있는 이유는?',opts:['기록이 남아서','제안 자체가 팀의 사고를 깨우기 때문','평가에 반영돼서','다음에 채택될 수 있어서'],ans:1},
+  {q:'"제가 볼게요"라는 말이 의미하는 것은?',opts:['모든 일을 떠안겠다','공백을 발견하면 먼저 움직이겠다','책임자가 되겠다','야근을 하겠다'],ans:1},
+  {q:'갈망 있는 사람의 "기본값"은?',opts:['"끝났는데 뭐 하지?"','"다음은 여기를 좋게 만들자"','"시키는 것만 잘하자"','"문제 생기면 그때 보자"'],ans:1},
+  {q:'팀의 방식을 갱신하는 습관은?',opts:['관행 준수','작은 개선의 가벼운 제안','회의 시간 연장','보고 체계 강화'],ans:1}]},
+
+{n:'M6',title:'대인관계 영리함',v:'s',emoji:'💬',
+ desc:'세 번째 덕목, 영리함. IQ가 아니라 사람과 상황을 읽는 분별력입니다.',
+ obj:['영리함이 IQ가 아닌 이유를 설명할 수 있다','말하기 전에 상대의 반응을 예상하는 습관을 시작할 수 있다'],
+ cards:[
+  {t:'영리함은 IQ가 아닙니다',b:'팀플레이어의 영리함은 <b>사람과 상황에 대한 분별력</b>, 일상적인 의미의 공감 지능입니다. 내 말과 행동이 상대에게 어떤 영향을 미칠지 아는 능력입니다.'},
+  {t:'감정 읽기',b:'대화에서 말의 내용만 듣지 않습니다. <b>표정·말투·맥락</b>을 함께 읽으면 같은 문장도 다르게 들립니다. "괜찮아요"가 정말 괜찮다는 뜻이 아닐 때를 알아차리는 것.'},
+  {t:'말하기 전에 한 박자',b:'<b>"이 말이 상대에게 어떻게 들릴까?"</b> 발화 전 1초의 점검이 관계의 사고를 막습니다. 솔직함과 무신경함은 다릅니다.'}],
+ check:['오늘 대화 한 번에서 표정·말투까지 읽어보기','말하기 전 "어떻게 들릴까" 한 박자 점검하기','동료의 "괜찮아요" 뒤의 진심 한 번 살펴보기'],
+ pq:[
+  {q:'팀플레이어의 "영리함"이 가리키는 것은?',opts:['높은 지능지수','사람과 상황에 대한 분별력','업무 처리 속도','풍부한 전문지식'],ans:1,exp:'Smart는 머리가 아니라 <b>사람에 대한 감각</b>입니다. 내 말과 행동의 영향을 아는 능력이 팀에서의 영리함입니다.'},
+  {q:'감정 읽기에 해당하는 행동은?',opts:['말의 내용을 정확히 기록한다','표정·말투·맥락을 함께 읽는다','감정을 배제하고 사실만 본다','내 감정을 먼저 표현한다'],ans:1,exp:'같은 "괜찮아요"도 표정과 말투에 따라 다른 뜻입니다. <b>내용 + 비언어 신호</b>를 함께 읽어야 진짜 메시지가 보입니다.'},
+  {q:'"말하기 전에 한 박자"가 막아주는 것은?',opts:['회의 시간 초과','관계의 사고 — 무신경한 발언','발언 기회 상실','논리적 오류'],ans:1,exp:'솔직함과 무신경함은 다릅니다. <b>"어떻게 들릴까?" 1초 점검</b>이 솔직함을 안전하게 만듭니다.'}],
+ gq:[
+  {q:'영리함(Smart)이 IQ와 다른 점은?',opts:['측정 방법이 다르다','대상이 문제가 아니라 사람이다','타고나는 것이다','업무와 무관하다'],ans:1},
+  {q:'동료가 어두운 표정으로 "괜찮아요"라고 할 때 영리한 대응은?',opts:['말 그대로 받아들인다','표정과 맥락을 살피고 한 번 더 마음을 살핀다','못 본 척한다','다른 동료에게 무슨 일인지 묻는다'],ans:1},
+  {q:'솔직함과 무신경함의 차이는?',opts:['내용의 차이','상대에게 어떻게 들릴지 고려했는가의 차이','목소리 크기의 차이','관계의 친밀도 차이'],ans:1},
+  {q:'발화 전 점검 질문으로 가장 적절한 것은?',opts:['"이 말이 논리적인가?"','"이 말이 상대에게 어떻게 들릴까?"','"이 말이 짧은가?"','"이 말이 기록에 남는가?"'],ans:1},
+  {q:'대인관계 영리함이 부족할 때 생기는 일은?',opts:['업무 지식 부족','의도와 다르게 전달되는 말로 인한 관계 마찰','보고 누락','일정 지연'],ans:1}]},
+
+{n:'M7',title:'팀 내 소통 영리함',v:'s',emoji:'🧠',
+ desc:'갈등·어색함·피드백. 팀의 까다로운 순간을 영리하게 다루는 법입니다.',
+ obj:['갈등에서 양쪽 입장을 정리해 말할 수 있다','피드백을 방어 없이 받는 연습을 시작할 수 있다'],
+ cards:[
+  {t:'갈등에서 양쪽 입장 보기',b:'갈등의 대부분은 악의가 아니라 <b>관점의 차이</b>에서 옵니다. 영리한 팀원은 양쪽 입장을 각자의 언어로 정리해봅니다. 정리되는 순간 갈등의 절반은 풀립니다.'},
+  {t:'어색한 순간에 개입하기',b:'회의가 얼어붙을 때 자연스럽게 분위기를 풀어주는 사람이 팀을 지킵니다. 거창할 필요 없습니다. <b>"잠깐 정리해볼까요?"</b> 한마디면 충분할 때가 많습니다.'},
+  {t:'피드백 주고받기',b:'줄 때는 사람이 아니라 <b>행동에 대해 구체적으로</b>. 받을 때는 방어 대신 <b>질문으로</b> — "어떤 부분에서 그렇게 느끼셨어요?" 피드백이 오가는 팀이 성장하는 팀입니다.'}],
+ check:['최근 갈등 하나를 양쪽 입장으로 정리해보기','어색한 순간에 "잠깐 정리해볼까요?" 시도하기','피드백을 받으면 방어 대신 질문 하나 하기'],
+ pq:[
+  {q:'팀 갈등의 대부분이 비롯되는 곳은?',opts:['악의','관점의 차이','성격 차이','업무량 차이'],ans:1,exp:'상대가 나쁜 게 아니라 <b>보는 자리가 다른 경우</b>가 대부분입니다. 양쪽 입장을 정리하는 순간 갈등의 절반이 풀립니다.'},
+  {q:'회의가 얼어붙었을 때 영리한 개입은?',opts:['침묵을 지킨다','"잠깐 정리해볼까요?"라고 가볍게 흐름을 연다','회의를 종료하자고 한다','분위기 메이커에게 신호를 보낸다'],ans:1,exp:'거창한 중재가 아니라 <b>가벼운 한마디</b>가 어색함을 풉니다. 누군가 흐름을 열면 팀은 다시 움직입니다.'},
+  {q:'피드백을 받을 때 영리한 반응은?',opts:['"그건 오해십니다"라고 바로잡는다','"어떤 부분에서 그렇게 느끼셨어요?"라고 묻는다','일단 사과부터 한다','기록해두고 넘어간다'],ans:1,exp:'방어는 피드백의 문을 닫고, <b>질문은 문을 엽니다</b>. 질문으로 받으면 피드백이 정보가 됩니다.'}],
+ gq:[
+  {q:'좋은 피드백의 조건은?',opts:['사람의 성향에 대해 말한다','행동에 대해 구체적으로 말한다','여러 사람 앞에서 말한다','평가 시즌에 모아서 말한다'],ans:1},
+  {q:'갈등 상황에서 영리한 첫 행동은?',opts:['옳은 쪽을 판정한다','양쪽 입장을 각자의 언어로 정리해본다','제3자에게 중재를 맡긴다','시간이 해결하게 둔다'],ans:1},
+  {q:'"잠깐 정리해볼까요?"라는 말의 기능은?',opts:['회의 단축','얼어붙은 흐름을 다시 여는 것','발언권 확보','논점 전환'],ans:1},
+  {q:'피드백에 방어로 반응하면 생기는 일은?',opts:['피드백이 더 정교해진다','상대가 다음부터 피드백을 닫는다','갈등이 즉시 해소된다','기록이 남는다'],ans:1},
+  {q:'피드백이 오가는 팀의 특징은?',opts:['갈등이 많다','서로의 성장 속도가 빠르다','회의가 길다','위계가 약하다'],ans:1}]}
+];
+
+const GATE_PASS = 5; // 통과 기준 (어드민 설정값 가정) — pass = score >= GATE_PASS
+
+const SURVEY = {
+ h:['팀 성과를 이야기할 때 "우리"라는 표현을 자연스럽게 사용한다','아이디어가 채택되지 않아도 팀 결정을 열심히 실행한다','동료의 성공을 진심으로 기뻐한다','칭찬을 받으면 팀이나 다른 사람과 공을 나눈다','실수를 인정하고 빠르게 사과한다','나보다 잘하는 사람에게 배우는 것을 즐긴다'],
+ g:['일을 더 잘하고 싶다는 의욕이 자연스럽게 생긴다','업무 목표를 달성했을 때 다음 목표를 스스로 찾는다','어렵거나 도전적인 과제가 주어지면 의욕이 오른다','추가 책임이나 역할을 기꺼이 받아들인다','퇴근 후에도 업무 개선 아이디어가 떠오른다','현재 방식보다 더 나은 방법을 찾아 제안한다'],
+ s:['상대방의 감정 상태를 빠르게 파악한다','대화 중 분위기가 어색해지면 자연스럽게 개입한다','내 말이나 행동이 상대에게 어떻게 느껴질지 미리 생각한다','실수한 동료가 당황하지 않도록 자연스럽게 돕는다','자신의 감정이 대화에 미치는 영향을 인식한다','갈등 상황에서 양측 입장 모두를 이해하려 한다']
+};
+const SCALE = [{v:3,t:'언제나'},{v:2,t:'때때로'},{v:1,t:'거의 안 함'}];
+
+const RECERT = {
+ 7:{title:'Day+7 재인증', sub:'1차 확인 · 배운 것을 기억하고 있나요?',
+   qs:[
+    {q:'겸손의 핵심 정의는?',opts:['자신을 낮추는 것','자신에 대한 생각을 줄이고 팀을 앞에 두는 것','의견을 내지 않는 것','칭찬을 사양하는 것'],ans:1},
+    {q:'갈망의 동력이 나오는 곳은?',opts:['보상과 평가','내적 의지','경쟁심','상사의 기대'],ans:1},
+    {q:'지난 7일간, "우리"로 시작하는 말을 의식적으로 사용해봤나요?',opts:['자주 사용했다','한두 번 사용했다','거의 사용하지 못했다','기억나지 않는다'],ans:null}],
+   practice:['이번 주 동료의 기여 한 가지를 소리 내어 인정했다','변명 없는 사과 또는 배움 질문을 한 번 이상 했다','시키지 않은 개선 한 가지를 시도했다']},
+ 21:{title:'Day+21 재인증', sub:'2차 확인 · 행동이 습관으로 자리잡았나요?',
+   qs:[
+    {q:'영리함(Smart)의 핵심은?',opts:['높은 지능','사람과 상황에 대한 분별력','빠른 일처리','전문지식'],ans:1},
+    {q:'세 덕목이 모두 겹칠 때 만들어지는 것은?',opts:['높은 평가','이상적인 팀플레이어','빠른 승진','완벽한 결과물'],ans:1},
+    {q:'지난 3주간, 세 덕목 중 한 가지라도 의식적으로 실천한 순간이 있었나요?',opts:['주 3회 이상 있었다','주 1~2회 있었다','거의 없었다','모르겠다'],ans:null}],
+   practice:['피드백을 방어 대신 질문으로 받은 적이 있다','갈등이나 어색한 순간에 한 번 이상 개입해봤다','21일간의 변화를 한 문장으로 회고했다']}
+};
+
+/* ============================================================
+   상태 — localStorage 영속 (프로토타입 전용, 실서비스 시 서버 API)
+   ============================================================ */
+const SKEY='tp2-state';
+let state = {completed:{}, dates:{}, checks:{}, certifiedAt:null, recert:{}, recertDates:{}, diag:null, startDate:null};
+function load(){ try{ const s=localStorage.getItem(SKEY); if(s) state={...state, ...JSON.parse(s)}; }catch(e){} if(!state.startDate){state.startDate=today(); save();} }
+function save(){ try{ localStorage.setItem(SKEY, JSON.stringify(state)); }catch(e){} }
+function today(){ const d=new Date(); return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`; }
+function doneCount(){ return MODS.filter((_,i)=>state.completed[i]).length; }
+function vDone(vk){ return V[vk].mods.filter(i=>state.completed[i]).length; }
+function isUnlocked(i){ return i===0 || !!state.completed[i-1]; } // 순차 개방 (기본값)
+function nextModule(){ for(let i=0;i<MODS.length;i++){ if(!state.completed[i] && isUnlocked(i)) return i; } return null; }
+
+function resetAll(){
+  if(!confirm('프로토타입 데이터를 모두 초기화할까요?')) return;
+  localStorage.removeItem(SKEY);
+  state={completed:{},dates:{},checks:{},certifiedAt:null,recert:{},recertDates:{},diag:null,startDate:today()};
+  save(); renderAll(); renderSurvey(); goTo('home'); toast('초기화했어요');
+}
+
+/* ============================================================
+   라우터
+   ============================================================ */
+const SCREENS={home:'s-home',modules:'s-modules',diag:'s-diag',timeline:'s-timeline'};
+function goTo(name){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(SCREENS[name]).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.toggle('on', n.dataset.go===name));
+  window.scrollTo(0,0);
+}
+let cur=0;
+function openModule(i){
+  if(!isUnlocked(i)){ toast('이전 모듈을 먼저 완료해주세요'); return; }
+  cur=i; renderModule();
+  document.getElementById('s-module').classList.add('in');
+  document.getElementById('s-module').scrollTo(0,0);
+}
+function goBackFromModule(){ document.getElementById('s-module').classList.remove('in'); }
+function switchTab(t){
+  document.querySelectorAll('#md-seg .seg-btn').forEach((b,bi)=>b.classList.toggle('on',['read','practice','gate'][bi]===t));
+  ['read','practice','gate'].forEach(k=>document.getElementById('tab-'+k).classList.toggle('on',k===t));
+}
+
+/* ============================================================
+   토스트 / 캐러셀 헬퍼
+   ============================================================ */
+let toastT=null;
+function toast(msg){
+  const el=document.getElementById('toast'); el.textContent=msg; el.classList.add('show');
+  clearTimeout(toastT); toastT=setTimeout(()=>el.classList.remove('show'),2200);
+}
+function syncDots(trackId,dotsId){
+  const tr=document.getElementById(trackId), dots=document.getElementById(dotsId);
+  if(!tr||!dots) return;
+  tr.onscroll=()=>{
+    const i=Math.round(tr.scrollLeft/tr.clientWidth);
+    [...dots.children].forEach((d,di)=>d.classList.toggle('on',di===i));
+  };
+}
+function trackGoTo(trackId,i){
+  const tr=document.getElementById(trackId);
+  tr.scrollTo({left:i*tr.clientWidth,behavior:'smooth'});
+}
+
+/* ============================================================
+   홈
+   ============================================================ */
+function renderHome(){
+  document.getElementById('home-date').textContent=today();
+  const dn=doneCount();
+  document.getElementById('hero-done').textContent=dn;
+  document.getElementById('hero-bar').style.width=(dn/7*100)+'%';
+
+  document.getElementById('home-vrow').innerHTML=Object.entries(V).map(([vk,v])=>{
+    const d=vDone(vk),t=v.mods.length;
+    return `<div class="vstat">
+      <div class="cap" style="color:${v.color}">${v.label}</div>
+      <div class="n">${d}<span style="font-size:13px;color:var(--faint);font-weight:700"> / ${t}</span></div>
+      <div class="bar"><i style="width:${d/t*100}%;background:${v.color}"></i></div>
+    </div>`;
+  }).join('');
+
+  const nx=nextModule(), nc=document.getElementById('home-next');
+  if(nx!==null){
+    const m=MODS[nx],v=V[m.v];
+    nc.innerHTML=`<div class="next-emoji" style="background:${v.bg}">${m.emoji}</div>
+      <div style="flex:1;min-width:0">
+        <div class="cap">${state.dates[nx-1]?'이어서 학습하기':'학습 시작하기'} · ${m.n}</div>
+        <div style="font-size:14.5px;font-weight:700;margin-top:1px">${m.title}</div>
+      </div><span class="chev">→</span>`;
+  } else {
+    nc.innerHTML=`<div class="next-emoji" style="background:var(--ok-bg)">🏅</div>
+      <div style="flex:1"><div class="cap">전 모듈 완료!</div>
+      <div style="font-size:14.5px;font-weight:700;margin-top:1px">나의 여정에서 착근기 확인하기</div></div><span class="chev">→</span>`;
+  }
+  // 진단 카드
+  const dc=document.getElementById('home-diag');
+  if(state.diag){
+    const focus=state.diag.focus;
+    document.getElementById('home-diag-cap').textContent='자기진단 완료 · '+state.diag.date;
+    document.getElementById('home-diag-t').textContent=`집중 포인트: ${V[focus].label} — 다시 진단하기`;
+  } else {
+    document.getElementById('home-diag-cap').textContent='학습 전 추천';
+    document.getElementById('home-diag-t').textContent='자기진단으로 시작하기';
+  }
+}
+function homeNextGo(){ const nx=nextModule(); nx!==null?openModule(nx):goTo('timeline'); }
+
+/* ============================================================
+   모듈 목록
+   ============================================================ */
+function renderModules(){
+  document.getElementById('mods-count').textContent=`${doneCount()} / 7 완료`;
+  document.getElementById('mods-list').innerHTML=Object.entries(V).map(([vk,v])=>`
+    <div class="vsec">
+      <div class="vsec-head"><div class="vsec-bar" style="background:${v.color}"></div>
+        <span class="h2">${v.label}</span><span class="cap">${v.en}</span>
+        <span style="flex:1"></span><span class="cap">${vDone(vk)}/${v.mods.length}</span></div>
+      ${v.mods.map(i=>{
+        const m=MODS[i],locked=!isUnlocked(i),done=!!state.completed[i];
+        const st=done?`<span style="color:var(--ok)">✓ 완료 · ${state.dates[i]}</span>`
+          :locked?`<span style="color:var(--faint)">🔒 ${MODS[i-1].n} 완료 후 개방</span>`
+          :`<span style="color:${v.color}">학습 가능</span>`;
+        return `<div class="card mod-card ${locked?'locked':''}" onclick="openModule(${i})">
+          <div class="mod-emoji" style="background:${v.bg}">${m.emoji}</div>
+          <div class="mod-meta"><div class="mod-n">${m.n}</div><div class="mod-t">${m.title}</div>
+          <div class="mod-state">${st}</div></div><span class="chev">→</span></div>`;
+      }).join('')}
+    </div>`).join('');
+  const cap=document.getElementById('capstone-state');
+  if(doneCount()===7){ cap.innerHTML='<span style="color:var(--ok)">✓ 인증 완료 · '+(state.certifiedAt||today())+'</span>'; document.getElementById('capstone-card').classList.remove('locked'); }
+  else { cap.textContent='7개 모듈 완료 후 해제'; document.getElementById('capstone-card').classList.add('locked'); }
+}
+
+/* ============================================================
+   모듈 상세 — 학습 / 연습 퀴즈 / 게이트
+   ============================================================ */
+function renderModule(){
+  const m=MODS[cur],v=V[m.v];
+  document.getElementById('md-head-t').textContent=`${m.n} · ${v.label}`;
+  document.getElementById('md-hero').innerHTML=`
+    <div class="md-hero-emoji" style="background:${v.bg}">${m.emoji}</div>
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span class="badge ${v.badge}">${v.label} · ${v.en}</span>
+      ${state.completed[cur]?'<span class="badge" style="background:var(--ok-bg);color:var(--ok)">✓ 완료</span>':''}
+    </div>
+    <div class="h1">${m.title}</div>
+    <div style="font-size:13.5px;color:var(--sub);margin-top:8px;line-height:1.6">${m.desc}</div>`;
+  document.getElementById('md-obj').innerHTML=`
+    <div class="cap" style="letter-spacing:.08em">이 모듈을 마치면</div>
+    ${m.obj.map(o=>`<div class="obj-item"><span class="obj-check" style="color:${v.color}">✓</span>${o}</div>`).join('')}`;
+  switchTab('read');
+  renderRead(); renderPQ(); renderGate();
+}
+
+/* ---- 학습 탭 ---- */
+function renderRead(){
+  const m=MODS[cur],v=V[m.v];
+  const checks=state.checks[cur]||[];
+  document.getElementById('tab-read').innerHTML=`
+    <div class="track" id="cn-track">
+      ${m.cards.map((c,i)=>`<div class="slide"><div class="card cn-card">
+        <div class="cn-no" style="color:${v.color}">CARD ${i+1} / ${m.cards.length}</div>
+        <div class="cn-t">${c.t}</div><div class="cn-b">${c.b}</div></div></div>`).join('')}
+    </div>
+    <div class="dots" id="cn-dots">${m.cards.map((_,i)=>`<div class="dot ${i===0?'on':''}"></div>`).join('')}</div>
+    <div class="card" style="padding:18px;margin-top:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <div class="h2">오늘의 실천 체크</div>
+        <span class="cap" id="ck-count">${checks.length} / ${m.check.length} 완료</span>
+      </div>
+      ${m.check.map((c,i)=>`<div class="ck-item ${checks.includes(i)?'done':''}" onclick="toggleCheck(${i})">
+        <div class="ck-box">${checks.includes(i)?'✓':''}</div><span>${c}</span></div>`).join('')}
+      <div id="ck-cta" style="margin-top:14px"></div>
+    </div>`;
+  syncDots('cn-track','cn-dots');
+  renderCkCta();
+}
+function toggleCheck(i){
+  const arr=state.checks[cur]||[];
+  state.checks[cur]=arr.includes(i)?arr.filter(x=>x!==i):[...arr,i];
+  save(); renderRead();
+}
+function renderCkCta(){
+  const m=MODS[cur],v=V[m.v],n=(state.checks[cur]||[]).length,el=document.getElementById('ck-cta');
+  if(n===0){ el.innerHTML=''; return; }
+  if(n<m.check.length) el.innerHTML=`<button class="btn btn-ghost btn-sm" onclick="switchTab('practice')">연습 퀴즈 시작하기 →</button>`;
+  else el.innerHTML=`<button class="btn ${v.btn} btn-sm" onclick="switchTab('practice')">연습 퀴즈 풀어보기 →</button>`;
+}
+
+/* ---- 연습 퀴즈 탭 ---- */
+let pqAns={};
+function renderPQ(){
+  pqAns={};
+  const m=MODS[cur],v=V[m.v];
+  document.getElementById('tab-practice').innerHTML=`
+    <div class="track" id="pq-track">
+      ${m.pq.map((q,qi)=>`<div class="slide"><div class="card q-card">
+        <div class="q-no"><span class="badge ${v.badge}">연습 ${qi+1} / ${m.pq.length}</span>
+          <span class="cap">즉시 채점</span></div>
+        <div class="q-text">${q.q}</div>
+        <div id="pq-ch-${qi}">${q.opts.map((o,ai)=>`
+          <div class="choice" onclick="pickPQ(${qi},${ai})"><span class="abc">${'ABCD'[ai]}</span><span>${o}</span></div>`).join('')}</div>
+        <div class="exp" id="pq-exp-${qi}"></div>
+        <div id="pq-next-${qi}" style="margin-top:14px;display:none">
+          ${qi<m.pq.length-1
+            ?`<button class="btn btn-ghost btn-sm" onclick="trackGoTo('pq-track',${qi+1})">다음 문항 →</button>`
+            :`<button class="btn ${v.btn} btn-sm" onclick="switchTab('gate')">게이트 도전하기 →</button>
+               <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="retryPQ()">↺ 다시 풀기</button>`}
+        </div></div></div>`).join('')}
+    </div>
+    <div class="dots" id="pq-dots">${m.pq.map((_,i)=>`<div class="dot ${i===0?'on':''}"></div>`).join('')}</div>`;
+  syncDots('pq-track','pq-dots');
+}
+function pickPQ(qi,ai){
+  if(pqAns[qi]!==undefined) return;
+  pqAns[qi]=ai;
+  const q=MODS[cur].pq[qi], box=document.getElementById('pq-ch-'+qi);
+  [...box.children].forEach((c,ci)=>{
+    c.classList.add('dim');
+    if(ci===q.ans) c.classList.replace('dim','correct')||c.classList.add('correct');
+    if(ci===ai && ai!==q.ans) c.classList.remove('dim'),c.classList.add('wrong');
+    if(ci===q.ans) c.classList.remove('dim');
+  });
+  const exp=document.getElementById('pq-exp-'+qi);
+  exp.innerHTML=(ai===q.ans?'<b style="color:var(--ok)">정답이에요!</b> ':'<b style="color:var(--bad)">아쉬워요.</b> 정답은 <b>'+'ABCD'[q.ans]+'</b>. ')+q.exp;
+  exp.classList.add('show');
+  document.getElementById('pq-next-'+qi).style.display='block';
+}
+function retryPQ(){ renderPQ(); trackGoTo('pq-track',0); }
+
+/* ---- 게이트 탭 ---- */
+let gAns={};
+function renderGate(){
+  gAns={};
+  const m=MODS[cur],v=V[m.v];
+  document.getElementById('tab-gate').innerHTML=`
+    <div class="track" id="gq-track">
+      <div class="slide"><div class="card gate-intro">
+        <div style="font-size:34px;margin-bottom:10px">🎯</div>
+        <div class="h2" style="margin-bottom:6px">${m.n} 게이트</div>
+        <div style="font-size:13px;color:var(--sub);margin-bottom:14px">${m.title} 모듈의 이해를 확인합니다</div>
+        <div style="text-align:left;background:var(--wash);border-radius:var(--r-sm);padding:14px 15px">
+          <div class="gate-rule"><b>1</b><span>5문항 전체를 선택한 뒤 한 번에 채점합니다</span></div>
+          <div class="gate-rule"><b>2</b><span>통과 기준은 ${GATE_PASS}문항 정답입니다</span></div>
+          <div class="gate-rule"><b>3</b><span>미통과 시 언제든 다시 도전할 수 있습니다</span></div>
+        </div>
+        <button class="btn ${v.btn} btn-sm" style="margin-top:16px" onclick="trackGoTo('gq-track',1)">첫 문항 풀기 →</button>
+      </div></div>
+      ${m.gq.map((q,qi)=>`<div class="slide"><div class="card q-card">
+        <div class="q-no"><span class="badge ${v.badge}">문항 ${qi+1} / ${m.gq.length}</span>
+          <span class="badge badge-line" id="gq-b-${qi}">선택 전</span></div>
+        <div class="q-text">${q.q}</div>
+        <div id="gq-ch-${qi}">${q.opts.map((o,ai)=>`
+          <div class="choice" onclick="pickGate(${qi},${ai})"><span class="abc">${'ABCD'[ai]}</span><span>${o}</span></div>`).join('')}</div>
+        <div style="margin-top:14px">${qi<m.gq.length-1
+          ?`<button class="btn btn-ghost btn-sm" onclick="trackGoTo('gq-track',${qi+2})">다음 문항 →</button>`
+          :`<div class="cap" style="text-align:center">↓ 아래 버튼으로 채점하세요</div>`}</div>
+      </div></div>`).join('')}
+    </div>
+    <div class="dots" id="gq-dots">${['',...m.gq].map((_,i)=>`<div class="dot ${i===0?'on':''}"></div>`).join('')}</div>
+    <div class="gate-foot"><button class="btn btn-ink" onclick="submitGate()">게이트 채점하기</button></div>`;
+  syncDots('gq-track','gq-dots');
+}
+function pickGate(qi,ai){
+  gAns[qi]=ai;
+  const box=document.getElementById('gq-ch-'+qi);
+  [...box.children].forEach((c,ci)=>c.classList.toggle('selected',ci===ai));
+  const b=document.getElementById('gq-b-'+qi);
+  b.textContent='✓ 선택됨'; b.className='badge'; b.style.background='var(--ok-bg)'; b.style.color='var(--ok)';
+}
+function submitGate(){
+  const m=MODS[cur];
+  const missing=m.gq.findIndex((_,i)=>gAns[i]===undefined);
+  if(missing>=0){ toast(`문항 ${missing+1}번을 선택해주세요`); trackGoTo('gq-track',missing+1); return; }
+  document.getElementById('gate-loading').classList.add('show');
+  const saved={...gAns};
+  setTimeout(()=>{
+    document.getElementById('gate-loading').classList.remove('show');
+    const score=m.gq.filter((q,i)=>saved[i]===q.ans).length;
+    const pass=score>=GATE_PASS; // 어드민 설정 기준 이상이면 통과
+    if(pass) completeModule(cur);
+    showGateSheet(score,m.gq.length,pass,saved);
+  },1500);
+}
+function showGateSheet(score,total,pass,saved){
+  const m=MODS[cur],v=V[m.v],nx=cur+1<MODS.length?cur+1:null;
+  const wrong=m.gq.map((q,i)=>saved[i]!==q.ans
+    ?`<div style="background:var(--bad-bg);border:1px solid #F3C8C8;border-radius:var(--r-sm);padding:11px 13px;margin-top:7px;font-size:12.5px;line-height:1.5">
+       <b>문항 ${i+1}</b> — ${q.q}<br><span style="color:var(--ok);font-weight:700">정답: ${'ABCD'[q.ans]}. ${q.opts[q.ans]}</span></div>`:'').join('');
+  document.getElementById('gate-sheet').innerHTML=`
+    <div class="grab"></div>
+    <div style="text-align:center;padding:6px 0 18px">
+      <div style="font-size:54px;font-weight:900;letter-spacing:-.03em;color:${pass?'var(--ok)':'var(--bad)'};line-height:1">${score}</div>
+      <div style="font-size:15px;color:var(--faint);font-weight:700;margin-top:3px">/ ${total} 정답</div>
+      <div style="font-size:16px;font-weight:800;margin-top:12px">${pass?'모든 개념을 이해했습니다!':'조금 더 확인해볼까요'}</div>
+      ${pass?`<div style="margin-top:13px;padding:14px 16px;background:var(--ok-bg);border:1px solid #BFE8CC;border-radius:var(--r-sm);font-size:13px;color:var(--s-dark);line-height:1.6;text-align:left">
+        ${v.label}을(를) 향한 한 걸음을 내디뎠어요.<br>${m.title} 모듈이 완료 처리되었습니다.</div>`:''}
+    </div>
+    ${!pass&&wrong?`<div style="margin-bottom:16px"><div class="cap" style="letter-spacing:.06em;margin-bottom:2px">틀린 문항</div>${wrong}</div>`:''}
+    <div style="display:flex;flex-direction:column;gap:8px">
+      ${pass
+        ?(nx!==null
+          ?`<button class="btn btn-ink" onclick="closeGateSheet();goBackFromModule();setTimeout(()=>openModule(${nx}),320)">다음 모듈로 →</button>`
+          :`<button class="btn btn-ink" onclick="closeGateSheet();goBackFromModule();goTo('timeline')">나의 여정 보기 →</button>`)
+        :`<button class="btn btn-ink" onclick="closeGateSheet();retryGate()">다시 도전하기</button>`}
+      <button class="btn btn-ghost" onclick="closeGateSheet();switchTab('read')">학습 내용 다시 보기</button>
+    </div>`;
+  document.getElementById('gate-ovl').classList.add('show');
+}
+function closeGateSheet(e){ if(e&&e.target.id!=='gate-ovl'&&e.type==='click'&&e.currentTarget.id==='gate-ovl'&&e.target!==e.currentTarget)return; document.getElementById('gate-ovl').classList.remove('show'); }
+function retryGate(){ renderGate(); trackGoTo('gq-track',0); }
+
+function completeModule(i){
+  state.completed[i]=true; state.dates[i]=today();
+  if(doneCount()===7 && !state.certifiedAt) state.certifiedAt=today();
+  save(); renderAll();
+}
+
+/* ============================================================
+   자기진단
+   ============================================================ */
+let svAns={};
+function renderSurvey(){
+  svAns={};
+  let idx=0;
+  document.getElementById('diag-body').innerHTML=`
+    <div class="sv-banner">
+      <div style="font-size:15px;font-weight:800;margin-bottom:5px">지금의 나를 확인하는 18문항</div>
+      <div style="font-size:12.5px;color:rgba(255,255,255,.6);line-height:1.6">현황 확인 도구입니다. 정답이 없으니 솔직하게 응답해주세요. 결과는 학습 추천에만 사용됩니다.</div>
+    </div>
+    <div class="sv-prog" id="sv-prog">0 / 18 완료</div>
+    ${Object.entries(V).map(([vk,v])=>`
+      <div class="sv-group">
+        <div class="vsec-head"><div class="vsec-bar" style="background:${v.color}"></div>
+          <span class="h2">${v.label}</span><span class="cap">${v.en} · 6문항</span></div>
+        ${SURVEY[vk].map(q=>{
+          const k='q'+(idx++);
+          return `<div class="card sv-item"><div class="sv-q">${q}</div>
+            <div class="sv-opts">${SCALE.map(s=>`
+              <button class="sv-opt" id="${k}-${s.v}" onclick="pickSv('${k}',${s.v},'${vk}')">${s.t}</button>`).join('')}</div></div>`;
+        }).join('')}
+      </div>`).join('')}
+    <button class="btn btn-ink" onclick="submitDiag()">결과 보기</button>`;
+}
+function pickSv(k,val,vk){
+  svAns[k]={val,vk};
+  SCALE.forEach(s=>{
+    const b=document.getElementById(k+'-'+s.v);
+    const on=s.v===val;
+    b.classList.toggle('sel',on);
+    b.style.background=on?V[vk].color:'var(--card)';
+    b.style.borderColor=on?V[vk].color:'var(--line)';
+    b.style.color=on?'#fff':'var(--sub)';
+  });
+  document.getElementById('sv-prog').textContent=Object.keys(svAns).length+' / 18 완료';
+}
+function submitDiag(){
+  const n=Object.keys(svAns).length;
+  if(n<18){ toast(`모든 항목(${n}/18)을 선택해주세요`); return; }
+  const sc={h:0,g:0,s:0};
+  Object.values(svAns).forEach(a=>sc[a.vk]+=a.val);
+  const focus=Object.entries(sc).sort((a,b)=>a[1]-b[1])[0][0];
+  state.diag={...sc,focus,date:today()}; save();
+  renderDiagResult(); renderHome(); window.scrollTo(0,0);
+}
+function renderDiagResult(){
+  const d=state.diag, fv=V[d.focus];
+  const fb=v=>v>=15?'강점으로 자리잡고 있어요':v>=11?'잘 자라고 있어요':'개발할 여지가 큽니다';
+  const recIdx=fv.mods.find(i=>!state.completed[i]);
+  document.getElementById('diag-body').innerHTML=`
+    <div class="card" style="padding:22px 20px">
+      <div class="eyebrow">My Snapshot</div>
+      <div class="h2" style="margin:6px 0 2px">나의 팀플레이어 현황</div>
+      <div class="cap">지금 이 순간의 스냅샷입니다 · ${d.date}</div>
+      ${Object.entries(V).map(([vk,v])=>`
+        <div class="bar-row">
+          <div style="display:flex;justify-content:space-between;font-size:13px;font-weight:700">
+            <span style="color:${v.color}">${v.label}</span><span>${d[vk]} / 18</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:${d[vk]/18*100}%;background:${v.color}"></div></div>
+          <div class="cap" style="margin-top:4px">${fb(d[vk])}</div>
+        </div>`).join('')}
+    </div>
+    <div class="card" style="padding:18px;margin-top:12px;background:${fv.bg};border-color:transparent">
+      <div class="cap" style="color:${fv.dark};letter-spacing:.06em">집중 포인트</div>
+      <div style="font-size:16px;font-weight:800;color:${fv.dark};margin-top:4px">${fv.label}을(를) 먼저 키워보세요</div>
+      <div style="font-size:13px;color:${fv.dark};opacity:.8;margin-top:6px;line-height:1.6">점수가 낮다는 건 부족하다는 뜻이 아니라, 가장 크게 성장할 수 있는 영역이라는 뜻이에요.</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
+      <button class="btn btn-ink" onclick="diagToModule(${recIdx!==undefined?recIdx:'null'})">모듈 학습 시작하기 →</button>
+      <button class="btn btn-ghost" onclick="renderSurvey();window.scrollTo(0,0)">↺ 다시 진단하기</button>
+    </div>`;
+}
+function diagToModule(i){
+  if(i!==null && isUnlocked(i)) openModule(i);
+  else goTo('modules');
+}
+
+/* ============================================================
+   나의 여정 (타임라인)
+   ============================================================ */
+function renderTimeline(){
+  document.getElementById('tl-vrow').innerHTML=Object.entries(V).map(([vk,v])=>{
+    const d=vDone(vk),t=v.mods.length;
+    return `<div class="vstat"><div class="cap" style="color:${v.color}">${v.label}</div>
+      <div class="n">${d}<span style="font-size:13px;color:var(--faint);font-weight:700"> / ${t}</span></div>
+      <div class="bar"><i style="width:${d/t*100}%;background:${v.color}"></i></div></div>`;
+  }).join('');
+
+  const items=[];
+  items.push({t:'여정 시작',done:true,date:state.startDate});
+  Object.entries(V).forEach(([vk,v])=>{
+    v.mods.forEach(i=>items.push({t:`${MODS[i].n} ${MODS[i].title}`,done:!!state.completed[i],date:state.dates[i]}));
+    const vd=v.mods.every(i=>state.completed[i]);
+    items.push({t:`🎯 ${v.label} 완성`,done:vd,date:vd?state.dates[v.mods[v.mods.length-1]]:null,mile:true});
+  });
+  const cap=doneCount()===7;
+  items.push({t:'🏅 캡스톤 인증',done:cap,date:state.certifiedAt,mile:true});
+
+  let html=items.map(it=>`
+    <div class="tl-item ${it.done?'done':''} ${it.mile?'mile':''}">
+      <div class="tl-dot" ${it.mile&&it.done?'style="background:var(--ink)"':''}></div>
+      <div class="tl-text" ${it.mile?'style="font-weight:800"':''}>${it.t}</div>
+      ${it.date?`<div class="tl-date">${it.date}</div>`:''}
+    </div>`).join('');
+
+  // 착근기 — 인증 후 활성 (프로토타입: 즉시 활성, 실서비스: certifiedAt+7/+21 스케줄러)
+  [7,21].forEach(day=>{
+    const done=!!state.recert[day];
+    const ready=cap && (day===7 || !!state.recert[7]);
+    html+=`<div class="tl-item ${done?'done':''} ${!ready&&!done?'wait':''}">
+      <div class="tl-dot" ${!ready&&!done?'style="border-style:dashed"':''}></div>
+      <div class="tl-text">Day+${day} 재인증 <span class="cap">· ${day===7?'1차 확인':'2차 습관 안착'}</span></div>
+      ${done?`<div class="tl-date">${state.recertDates[day]}</div>`
+        :ready?`<div class="card recert-card">
+          <div style="font-size:12.5px;color:var(--sub);margin-bottom:10px">인증 후 ${day}일이 지났어요. 배운 것이 남아있는지 확인해볼까요? <span class="cap">(데모: 즉시 활성화)</span></div>
+          <button class="btn btn-ink btn-sm" onclick="openRecert(${day})">재인증 시작하기 →</button></div>`
+        :`<div class="tl-date">캡스톤 인증 ${day}일 후 활성화</div>`}
+    </div>`;
+  });
+  document.getElementById('tl-list').innerHTML=html;
+}
+
+/* ---- 재인증 바텀시트 ---- */
+let rcAns={},rcChecks=[];
+function openRecert(day){
+  rcAns={};rcChecks=[];
+  const r=RECERT[day];
+  document.getElementById('recert-sheet').innerHTML=`
+    <div class="grab"></div>
+    <div style="padding-bottom:4px">
+      <div class="h2">${r.title}</div>
+      <div class="cap" style="margin:3px 0 16px">${r.sub}</div>
+      ${r.qs.map((q,qi)=>`
+        <div class="card q-card" style="margin-bottom:12px">
+          <div class="q-no"><span class="badge badge-ink">문항 ${qi+1}</span>
+            ${q.ans===null?'<span class="badge badge-line">자기보고</span>':''}</div>
+          <div class="q-text" style="font-size:14px">${q.q}</div>
+          <div id="rc-ch-${qi}">${q.opts.map((o,ai)=>`
+            <div class="choice" onclick="pickRecert(${day},${qi},${ai})"><span class="abc">${'ABCD'[ai]}</span><span>${o}</span></div>`).join('')}</div>
+        </div>`).join('')}
+      <div class="card" style="padding:16px;margin-bottom:16px">
+        <div class="h2" style="font-size:14px;margin-bottom:4px">실천 체크리스트</div>
+        ${r.practice.map((p,i)=>`<div class="ck-item" id="rc-ck-${i}" onclick="toggleRecertCheck(${i})">
+          <div class="ck-box"></div><span>${p}</span></div>`).join('')}
+      </div>
+      <button class="btn btn-ink" onclick="submitRecert(${day})">재인증 완료하기</button>
+    </div>`;
+  document.getElementById('recert-ovl').classList.add('show');
+}
+function pickRecert(day,qi,ai){
+  if(rcAns[qi]!==undefined) return;
+  rcAns[qi]=ai;
+  const q=RECERT[day].qs[qi], box=document.getElementById('rc-ch-'+qi);
+  [...box.children].forEach((c,ci)=>{
+    if(q.ans===null){ c.classList.toggle('selected',ci===ai); c.classList.add('dim'); if(ci===ai)c.classList.remove('dim'); }
+    else{
+      c.classList.add('dim');
+      if(ci===q.ans){c.classList.remove('dim');c.classList.add('correct');}
+      if(ci===ai&&ai!==q.ans){c.classList.remove('dim');c.classList.add('wrong');}
+    }
+  });
+}
+function toggleRecertCheck(i){
+  const el=document.getElementById('rc-ck-'+i);
+  if(rcChecks.includes(i)){rcChecks=rcChecks.filter(x=>x!==i);el.classList.remove('done');el.querySelector('.ck-box').textContent='';}
+  else{rcChecks.push(i);el.classList.add('done');el.querySelector('.ck-box').textContent='✓';}
+}
+function submitRecert(day){
+  const r=RECERT[day];
+  if(Object.keys(rcAns).length<r.qs.length){ toast('모든 문항을 선택해주세요'); return; }
+  state.recert[day]=true; state.recertDates[day]=today(); save();
+  document.getElementById('recert-sheet').innerHTML=`
+    <div class="grab"></div>
+    <div style="text-align:center;padding:28px 0 10px">
+      <div style="font-size:44px;margin-bottom:12px">${day===7?'🌿':'🌳'}</div>
+      <div class="h2">Day+${day} 재인증 완료!</div>
+      <div style="font-size:13px;color:var(--sub);margin:8px 0 22px;line-height:1.6">
+        ${day===7?'배움이 잘 남아있네요. 2주 뒤 마지막 확인에서 만나요.':'세 덕목이 습관으로 자리잡았어요.<br>이제 인증은 출발선이 됩니다.'}</div>
+      <button class="btn btn-ink" onclick="closeRecertSheet();renderTimeline()">여정으로 돌아가기</button>
+    </div>`;
+}
+function closeRecertSheet(e){ if(e&&e.target!==e.currentTarget)return; document.getElementById('recert-ovl').classList.remove('show'); renderTimeline(); }
+
+/* ============================================================
+   init
+   ============================================================ */
+function renderAll(){ renderHome(); renderModules(); renderTimeline(); }
+load();
+renderAll();
+if(state.diag) renderDiagResult(); else renderSurvey();
+</script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1060 680" font-family="Noto Sans CJK KR, Malgun Gothic, sans-serif">
+<rect x="0" y="0" width="1060" height="680" fill="#FFFFFF"/>
+<rect x="0" y="0" width="1060" height="64" fill="#1F3864"/>
+<text x="34" y="41" fill="#FFFFFF" font-size="26" font-weight="700">세 덕목 ↔ 팀의 다섯 가지 함정</text>
+<text x="1026" y="40" fill="#C9D3E6" font-size="14" text-anchor="end">개인 수준의 완성 ↔ 일의 완성</text>
+<polygon points="90.0,600.0 510.0,600.0 483.0,516.0 117.0,516.0" fill="#1F3864" opacity="0.92"/>
+<text x="300" y="563.0" fill="#FFFFFF" font-size="14.5" font-weight="700" text-anchor="middle">1 신뢰의 결여</text>
+<polygon points="117.0,510.0 483.0,510.0 456.0,426.0 144.0,426.0" fill="#2E5A88" opacity="0.92"/>
+<text x="300" y="473.0" fill="#FFFFFF" font-size="14.5" font-weight="700" text-anchor="middle">2 갈등에 대한 두려움</text>
+<polygon points="144.0,420.0 456.0,420.0 429.0,336.0 171.0,336.0" fill="#3C6FA0" opacity="0.92"/>
+<text x="300" y="383.0" fill="#FFFFFF" font-size="14.5" font-weight="700" text-anchor="middle">3 헌신의 결여</text>
+<polygon points="171.0,330.0 429.0,330.0 402.0,246.0 198.0,246.0" fill="#6E8CB0" opacity="0.92"/>
+<text x="300" y="293.0" fill="#FFFFFF" font-size="14.5" font-weight="700" text-anchor="middle">4 책임감의 회피</text>
+<polygon points="198.0,240.0 402.0,240.0 375.0,156.0 225.0,156.0" fill="#B8943F" opacity="0.92"/>
+<text x="300" y="203.0" fill="#FFFFFF" font-size="14.5" font-weight="700" text-anchor="middle">5 결과에 대한 무관심</text>
+<text x="300" y="634" fill="#44546A" font-size="13" font-weight="600" text-anchor="middle">팀의 다섯 가지 함정 (팀 상호작용 = 일의 완성)</text>
+<rect x="620" y="150" width="410" height="120" rx="12" fill="#F2F4F8"/>
+<circle cx="648" cy="184" r="9" fill="#1F3864"/>
+<text x="670" y="190" fill="#222222" font-size="17" font-weight="700" text-anchor="start">겸손 → 신뢰</text>
+<text x="644" y="226" fill="#44546A" font-size="13.5" font-weight="400" text-anchor="start">겸손한 사람은 마음을 열어 신뢰를 쌓는다.</text>
+<text x="644" y="250" fill="#44546A" font-size="12" font-weight="400" text-anchor="start"></text>
+<rect x="620" y="292" width="410" height="120" rx="12" fill="#F2F4F8"/>
+<circle cx="648" cy="326" r="9" fill="#2E5A88"/>
+<text x="670" y="332" fill="#222222" font-size="17" font-weight="700" text-anchor="start">영리함 → 건전한 갈등</text>
+<text x="644" y="368" fill="#44546A" font-size="13.5" font-weight="400" text-anchor="start">타인을 읽고 말·행동을 조정해 갈등에 잘 대처한다.</text>
+<text x="644" y="392" fill="#44546A" font-size="12" font-weight="400" text-anchor="start"></text>
+<rect x="620" y="434" width="410" height="120" rx="12" fill="#F2F4F8"/>
+<circle cx="648" cy="468" r="9" fill="#B8943F"/>
+<text x="670" y="474" fill="#222222" font-size="17" font-weight="700" text-anchor="start">갈망 → 결과</text>
+<text x="644" y="510" fill="#44546A" font-size="13.5" font-weight="400" text-anchor="start">팀 성과에 책임감을 느껴 결과에 집중한다.</text>
+<text x="644" y="534" fill="#44546A" font-size="12" font-weight="400" text-anchor="start"></text>
+<rect x="620" y="576" width="410" height="70" rx="12" fill="#FBF4E6" stroke="#B8943F" stroke-width="1.5"/>
+<text x="644" y="606" fill="#B8943F" font-size="14.5" font-weight="700" text-anchor="start">이상적인 팀 플레이어 모델</text>
+<text x="644" y="630" fill="#222222" font-size="13" font-weight="400" text-anchor="start">= 팀원 개인 수준의 완성. 다섯 함정 극복의 '첨가물'.</text>
+</svg>

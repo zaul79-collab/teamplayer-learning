@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 940 560" font-family="Noto Sans CJK KR, Malgun Gothic, sans-serif">
+<defs><marker id="arr" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+<path d="M0,0 L8,3 L0,6 Z" fill="#44546A"/></marker></defs>
+<rect width="940" height="560" fill="#FFFFFF"/>
+<rect width="940" height="60" fill="#1F3864"/>
+<text x="30" y="38" fill="#FFFFFF" font-size="24" font-weight="700">화면 개념도 — Lists ‘선택(Choice)’ 열 설정</text>
+<text x="910" y="37" fill="#C9D3E6" font-size="13" text-anchor="end">STEP 2: 통제 어휘 잠금</text>
+<text x="30" y="96" fill="#8A93A6" font-size="12" font-weight="400" text-anchor="start">※ 실제 화면이 아니라 위치를 보여주는 개념도입니다. 메뉴 이름은 테넌트에 따라 조금 다를 수 있습니다.</text>
+<rect x="30" y="120" width="560" height="400" rx="12" fill="#FFFFFF" stroke="#D5D9E0" stroke-width="1.5"/>
+<rect x="30" y="120" width="560" height="44" rx="12" fill="#F2F4F8"/>
+<rect x="30" y="148" width="560" height="16" fill="#F2F4F8"/>
+<text x="50" y="148" fill="#1F3864" font-size="15" font-weight="700" text-anchor="start">열 만들기 / 열 편집</text>
+<text x="52" y="185" fill="#44546A" font-size="12.5" font-weight="700" text-anchor="start">이름</text>
+<rect x="150" y="169" width="400" height="28" rx="6" fill="#FAFBFD" stroke="#D5D9E0" stroke-width="1"/>
+<text x="162" y="185" fill="#222222" font-size="12.5" font-weight="400" text-anchor="start">덕목</text>
+<text x="52" y="203" fill="#8A93A6" font-size="11" font-weight="400" text-anchor="start">입력</text>
+<text x="52" y="243" fill="#44546A" font-size="12.5" font-weight="700" text-anchor="start">종류</text>
+<rect x="150" y="227" width="400" height="28" rx="6" fill="#FAFBFD" stroke="#D5D9E0" stroke-width="1"/>
+<text x="162" y="243" fill="#222222" font-size="12.5" font-weight="400" text-anchor="start">선택(Choice)</text>
+<text x="52" y="261" fill="#8A93A6" font-size="11" font-weight="400" text-anchor="start">드롭다운에서 선택</text>
+<text x="52" y="301" fill="#44546A" font-size="12.5" font-weight="700" text-anchor="start">선택 항목</text>
+<rect x="150" y="285" width="400" height="28" rx="6" fill="#FAFBFD" stroke="#D5D9E0" stroke-width="1"/>
+<text x="162" y="301" fill="#222222" font-size="12.5" font-weight="400" text-anchor="start">겸손 / 갈망 / 영리함</text>
+<text x="52" y="319" fill="#8A93A6" font-size="11" font-weight="400" text-anchor="start">한 줄에 하나씩</text>
+<rect x="52" y="359" width="500" height="70" rx="10" fill="#FBEFEF" stroke="#B5343B" stroke-width="1.5"/>
+<text x="70" y="387" fill="#B5343B" font-size="13.5" font-weight="700" text-anchor="start">‘수동으로 값을 추가할 수 있음’  →  반드시 끄기(OFF)</text>
+<text x="70" y="411" fill="#222222" font-size="12" font-weight="400" text-anchor="start">이 토글을 꺼야 통제 어휘가 잠깁니다(아무 값이나 못 넣게).</text>
+<rect x="615" y="120" width="295" height="400" rx="12" fill="#F2F4F8"/>
+<text x="635" y="152" fill="#1F3864" font-size="14.5" font-weight="700" text-anchor="start">이렇게 하는 이유</text>
+<text x="635" y="182" fill="#222222" font-size="12" font-weight="400" text-anchor="start">· 덕목·유형·척도·출처 열은</text>
+<text x="635" y="204" fill="#222222" font-size="12" font-weight="400" text-anchor="start">  반드시 ‘선택(Choice)’ +</text>
+<text x="635" y="226" fill="#222222" font-size="12" font-weight="400" text-anchor="start">  값 추가 허용 OFF.</text>
+<text x="635" y="248" fill="#222222" font-size="12" font-weight="400" text-anchor="start"></text>
+<text x="635" y="270" fill="#222222" font-size="12" font-weight="400" text-anchor="start">· 새 명칭을 못 만들게 해</text>
+<text x="635" y="292" fill="#222222" font-size="12" font-weight="400" text-anchor="start">  통제 어휘를 지킨다.</text>
+<text x="635" y="314" fill="#222222" font-size="12" font-weight="400" text-anchor="start"></text>
+<text x="635" y="336" fill="#222222" font-size="12" font-weight="400" text-anchor="start">· 같은 방식으로 ‘유형’,</text>
+<text x="635" y="358" fill="#222222" font-size="12" font-weight="400" text-anchor="start">  ‘척도’, ‘출처’ 열도 설정.</text>
+<text x="635" y="380" fill="#222222" font-size="12" font-weight="400" text-anchor="start"></text>
+<text x="635" y="402" fill="#222222" font-size="12" font-weight="400" text-anchor="start">· 값 목록은 02 모델</text>
+<text x="635" y="424" fill="#222222" font-size="12" font-weight="400" text-anchor="start">  마스터·스키마 가이드와</text>
+<text x="635" y="446" fill="#222222" font-size="12" font-weight="400" text-anchor="start">  동일하게.</text>
+</svg>

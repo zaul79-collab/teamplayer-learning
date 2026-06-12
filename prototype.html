@@ -90,6 +90,9 @@ body{
   .btn-ink,.btn-h,.btn-g,.btn-s{animation:none}
   .btn-ink::after,.btn-h::after,.btn-g::after,.btn-s::after{animation:none;display:none}
 }
+/* 비활성 CTA — 효과·그림자 제거, 흐리게 */
+.btn:disabled{opacity:.38;cursor:not-allowed;animation:none;box-shadow:none}
+.btn:disabled::after{display:none}
 
 .badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;
   padding:4px 11px;border-radius:999px;letter-spacing:.02em}
@@ -824,7 +827,7 @@ function renderPQ(){
         <div class="exp" id="pq-exp-${qi}"></div>
         <div id="pq-next-${qi}" style="margin-top:14px;display:none">
           ${qi<m.pq.length-1
-            ?`<button class="btn btn-ghost btn-sm" onclick="trackGoTo('pq-track',${qi+1})">다음 문항 →</button>`
+            ?`<button class="btn btn-ink btn-sm" onclick="trackGoTo('pq-track',${qi+1})">다음 문항 →</button>`
             :`<button class="btn ${v.btn} btn-sm" onclick="switchTab('gate')">게이트 도전하기 →</button>
                <button class="btn btn-ghost btn-sm" style="margin-top:8px" onclick="retryPQ()">↺ 다시 풀기</button>`}
         </div></div></div>`).join('')}
@@ -874,12 +877,12 @@ function renderGate(){
         <div id="gq-ch-${qi}">${q.opts.map((o,ai)=>`
           <div class="choice" onclick="pickGate(${qi},${ai})"><span class="abc">${'ABCD'[ai]}</span><span>${o}</span></div>`).join('')}</div>
         <div style="margin-top:14px">${qi<m.gq.length-1
-          ?`<button class="btn btn-ghost btn-sm" onclick="trackGoTo('gq-track',${qi+2})">다음 문항 →</button>`
+          ?`<button class="btn btn-ink btn-sm" id="gq-next-${qi}" disabled onclick="trackGoTo('gq-track',${qi+2})">다음 문항 →</button>`
           :`<div class="cap" style="text-align:center">↓ 아래 버튼으로 채점하세요</div>`}</div>
       </div></div>`).join('')}
     </div>
     <div class="dots" id="gq-dots">${['',...m.gq].map((_,i)=>`<div class="dot ${i===0?'on':''}"></div>`).join('')}</div>
-    <div class="gate-foot"><button class="btn btn-ink" onclick="submitGate()">게이트 채점하기</button></div>`;
+    <div class="gate-foot"><button class="btn btn-ink" id="gq-submit" disabled onclick="submitGate()">게이트 채점하기</button></div>`;
   syncDots('gq-track','gq-dots');
 }
 function pickGate(qi,ai){
@@ -888,6 +891,11 @@ function pickGate(qi,ai){
   [...box.children].forEach((c,ci)=>c.classList.toggle('selected',ci===ai));
   const b=document.getElementById('gq-b-'+qi);
   b.textContent='✓ 선택됨'; b.className='badge'; b.style.background='var(--ok-bg)'; b.style.color='var(--ok)';
+  // 선택 후 해당 문항의 "다음 문항" 활성화
+  const nb=document.getElementById('gq-next-'+qi); if(nb) nb.disabled=false;
+  // 전 문항 응답 완료 시 채점 버튼 활성화
+  const allDone=MODS[cur].gq.every((_,i)=>gAns[i]!==undefined);
+  const sb=document.getElementById('gq-submit'); if(sb) sb.disabled=!allDone;
 }
 function submitGate(){
   const m=MODS[cur];

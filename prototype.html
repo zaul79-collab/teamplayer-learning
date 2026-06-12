@@ -59,7 +59,8 @@ body{
 
 .btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;
   padding:15px 18px;border:none;border-radius:999px;font-family:inherit;
-  font-size:15px;font-weight:700;cursor:pointer;transition:transform .12s ease,opacity .15s}
+  font-size:15px;font-weight:700;cursor:pointer;transition:transform .12s ease,opacity .15s;
+  position:relative;overflow:hidden}
 .btn:active{transform:scale(.97)}
 .btn-ink{background:var(--ink);color:#fff}
 .btn-ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
@@ -67,6 +68,28 @@ body{
 .btn-g{background:var(--g);color:#fff}
 .btn-s{background:var(--s);color:#fff}
 .btn-sm{padding:11px 16px;font-size:13.5px}
+
+/* CTA 시선 유도 — 광택 스윕 + 은은한 호흡 (채워진 버튼에만) */
+.btn-ink,.btn-h,.btn-g,.btn-s{animation:cta-breathe 3.6s ease-in-out infinite}
+.btn-ink::after,.btn-h::after,.btn-g::after,.btn-s::after{
+  content:'';position:absolute;top:0;left:-75%;width:45%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.38),transparent);
+  transform:skewX(-18deg);pointer-events:none;
+  animation:cta-shine 3.6s ease-in-out infinite;
+}
+@keyframes cta-shine{
+  0%{left:-75%}
+  22%{left:130%}
+  100%{left:130%}
+}
+@keyframes cta-breathe{
+  0%,100%{box-shadow:0 4px 14px -6px rgba(32,29,24,.28)}
+  50%{box-shadow:0 6px 22px -6px rgba(32,29,24,.42)}
+}
+@media (prefers-reduced-motion:reduce){
+  .btn-ink,.btn-h,.btn-g,.btn-s{animation:none}
+  .btn-ink::after,.btn-h::after,.btn-g::after,.btn-s::after{animation:none;display:none}
+}
 
 .badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:800;
   padding:4px 11px;border-radius:999px;letter-spacing:.02em}

@@ -573,7 +573,7 @@ const RECERT = {
    상태 — localStorage 영속 (프로토타입 전용, 실서비스 시 서버 API)
    ============================================================ */
 const SKEY='tp2-state';
-let state = {completed:{}, dates:{}, checks:{}, certifiedAt:null, recert:{}, recertDates:{}, diag:null, startDate:null};
+let state = {completed:{}, dates:{}, checks:{}, certifiedAt:null, recert:{}, recertDates:{}, diag:null, startDate:null, gateFails:{}};
 function load(){ try{ const s=localStorage.getItem(SKEY); if(s) state={...state, ...JSON.parse(s)}; }catch(e){} if(!state.startDate){state.startDate=today(); save();} }
 function save(){ try{ localStorage.setItem(SKEY, JSON.stringify(state)); }catch(e){} }
 function today(){ const d=new Date(); return `${d.getFullYear()}.${String(d.getMonth()+1).padStart(2,'0')}.${String(d.getDate()).padStart(2,'0')}`; }
@@ -585,7 +585,7 @@ function nextModule(){ for(let i=0;i<MODS.length;i++){ if(!state.completed[i] &&
 function resetAll(){
   if(!confirm('프로토타입 데이터를 모두 초기화할까요?')) return;
   localStorage.removeItem(SKEY);
-  state={completed:{},dates:{},checks:{},certifiedAt:null,recert:{},recertDates:{},diag:null,startDate:today()};
+  state={completed:{},dates:{},checks:{},certifiedAt:null,recert:{},recertDates:{},diag:null,startDate:today(),gateFails:{}};
   save(); renderAll(); renderSurvey(); goTo('home'); toast('초기화했어요');
 }
 
@@ -849,13 +849,21 @@ function submitGate(){
   setTimeout(()=>{
     document.getElementById('gate-loading').classList.remove('show');
     const score=m.gq.filter((q,i)=>saved[i]===q.ans).length;
-    const pass=score>=GATE_PASS; // 어드민 설정 기준 이상이면 통과
+    const pass=score>=GATE_PASS;
     if(pass) completeModule(cur);
+    else { state.gateFails[cur]=(state.gateFails[cur]||0)+1; save(); }
     showGateSheet(score,m.gq.length,pass,saved);
   },1500);
 }
 function showGateSheet(score,total,pass,saved){
   const m=MODS[cur],v=V[m.v],nx=cur+1<MODS.length?cur+1:null;
+  const failCount=state.gateFails[cur]||0;
+  const failMsgs=[
+    {main:'괜찮습니다. 한번 더 공부하고 다시 도전해봐요.',sub:'3회 실패 시 멘토에게 도움 메시지가 자동 발송될 예정입니다.'},
+    {main:'학습에 어려움이 있으신가요? 자료를 한번 더 읽어보고 재도전 해봐요.',sub:'3회 실패 시 멘토에게 도움 메시지가 자동 발송될 예정입니다.'},
+    {main:'멘토와 함께 이 난관을 해쳐나가 보아요. 멘토에게 도움의 메시지가 자동 발송됩니다.',sub:'3회 실패 시 멘토에게 도움 메시지가 자동 발송될 예정입니다.'},
+  ];
+  const fm=!pass?failMsgs[Math.min(failCount,3)-1]:null;
   const wrong=m.gq.map((q,i)=>saved[i]!==q.ans
     ?`<div style="background:var(--bad-bg);border:1px solid #F3C8C8;border-radius:var(--r-sm);padding:11px 13px;margin-top:7px;font-size:12.5px;line-height:1.5">
        <b>문항 ${i+1}</b> — ${q.q}<br><span style="color:var(--ok);font-weight:700">정답: ${'ABCD'[q.ans]}. ${q.opts[q.ans]}</span></div>`:'').join('');
@@ -867,6 +875,10 @@ function showGateSheet(score,total,pass,saved){
       <div style="font-size:16px;font-weight:800;margin-top:12px">${pass?'모든 개념을 이해했습니다!':'조금 더 확인해볼까요'}</div>
       ${pass?`<div style="margin-top:13px;padding:14px 16px;background:var(--ok-bg);border:1px solid #BFE8CC;border-radius:var(--r-sm);font-size:13px;color:var(--s-dark);line-height:1.6;text-align:left">
         ${v.label}을(를) 향한 한 걸음을 내디뎠어요.<br>${m.title} 모듈이 완료 처리되었습니다.</div>`:''}
+      ${fm?`<div style="margin-top:14px;padding:14px 16px;background:var(--bad-bg);border:1px solid #F3C8C8;border-radius:var(--r-sm);text-align:left;line-height:1.65">
+        <div style="font-size:14px;font-weight:700;color:var(--ink)">${fm.main}</div>
+        <div style="font-size:11.5px;color:var(--faint);margin-top:6px">(${fm.sub})</div>
+      </div>`:''}
     </div>
     ${!pass&&wrong?`<div style="margin-bottom:16px"><div class="cap" style="letter-spacing:.06em;margin-bottom:2px">틀린 문항</div>${wrong}</div>`:''}
     <div style="display:flex;flex-direction:column;gap:8px">
